@@ -134,10 +134,19 @@ ui <- fluidPage(
                   p("Below, you will find the methods for the indicators you have selected."),
                   br(),
                   tags$hr(style = "border-top: .5px solid #000000;"),
+                  #output---------------------------
                   fluidRow(uiOutput("uo_text_p")),
                   fluidRow(uiOutput("uo_text_p_frac")),
                   fluidRow(uiOutput("uo_text_harmonic")),
                   fluidRow(uiOutput("uo_text_arith")),
+                  #collab------------------------------
+                  fluidRow(uiOutput("uo_text_collab")),
+                  fluidRow(uiOutput("uo_text_collab_Inst")),
+                  fluidRow(uiOutput("uo_text_collab_Internat")),
+                  fluidRow(uiOutput("uo_text_collab_Intersect")),
+                  fluidRow(uiOutput("uo_text_collab_NAuth")),
+                  fluidRow(uiOutput("uo_text_collab_NInst")),
+                  fluidRow(uiOutput("uo_text_collab_NCountry")),
                   br()
                   
                 )#closes mainPanel
@@ -159,14 +168,60 @@ server <- function(input, output, session) {
       tags$div(tags$p("This will be information about the P Fractional method"))
     }})#close output
   
+  #checkbox output_harmonic method
+  output$uo_text_harmonic <- renderUI({
+    if(input$output_harmonic == TRUE) {
+      tags$div(tags$p("This will be information about the Harmonic method"))
+    }})#close output
+  
+  #checkbox output_arith method
+  output$uo_text_arith <- renderUI({
+    if(input$output_arith == TRUE) {
+      tags$div(tags$p("This will be information about the Arithmatic method"))
+    }})#close output
+  
+  #checkbox output_arith method
+  output$uo_text_arith <- renderUI({
+    if(input$output_arith == TRUE) {
+      tags$div(tags$p("This will be information about the Arithmatic method"))
+    }})#close output
+  
+  #collab--------------------
+  output$uo_text_collab <- renderUI({
+    if(input$collab == TRUE) {
+      tags$div(tags$p("This will be information about the collaboration indicator"))
+    }})#close output
+  
+  output$uo_text_collab_Inst <- renderUI({
+    if(input$collab_Inst == TRUE) {
+      tags$div(tags$p("This will be information about the inter-institution collaboration indicator"))
+    }})#close output
+  
+  output$uo_text_collab_Internat <- renderUI({
+    if(input$collab_Internat == TRUE) {
+      tags$div(tags$p("This will be information about the international collaboration indicator"))
+    }})#close output
+  
+  output$uo_text_collab_Intersect <- renderUI({
+    if(input$collab_Intersect == TRUE) {
+      tags$div(tags$p("This will be information about the intersectional collaboration indicator"))
+    }})#close output
+  
+  output$uo_text_collab_NAuth <- renderUI({
+    if(input$collab_NAuth == TRUE) {
+      tags$div(tags$p("This will be information about the number of Authors indicator"))
+    }})#close output
+  
+  #create and modify dataframe-------------------------------------------------------
   rawData <- eventReactive(input$file1, {
     req(input$file1)
     df <- read.csv(input$file1$datapath)
     mod_df <- df %>% 
-      #--------------------------------------------------
+      #***************************************************
       # Calculate everything here!
         mutate(Cites = Cites*100) 
-      #---------------------------------------------------
+    
+      #-**************************************************
       }
     )#close eventReactive
   

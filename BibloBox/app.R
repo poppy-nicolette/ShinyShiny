@@ -126,35 +126,39 @@ ui <- fluidPage(
 
                     ),#close sidebarPanel
 
-        # Show a plot of the generated distribution
+        # mainPanel--------------------------------------------------------------
         mainPanel(width = 4,
                   h4("There will be some text here explaining everything"),
                   br(),
                   br(),
-                  p("And yet more text here, possible with some exciting
-                    mathematical expressions!"),
+                  p("Below, you will find the methods for the indicators you have selected."),
                   br(),
-                  p("Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna 
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate velit 
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia 
-                    deserunt mollit anim id est laborum."),
-                  br(),
-                  #the text for the scimet method will print here-------------
-
+                  tags$hr(style = "border-top: .5px solid #000000;"),
+                  fluidRow(uiOutput("uo_text_p")),
+                  fluidRow(uiOutput("uo_text_p_frac")),
+                  fluidRow(uiOutput("uo_text_harmonic")),
+                  fluidRow(uiOutput("uo_text_arith")),
+                  br()
                   
-  
                 )#closes mainPanel
              )#closes sidebarLayout
           )#close fluidPage
 
 # Define server logic----------------------------------------------------------
 #source files; https://stackoverflow.com/questions/68976268/r-shiny-upload-csv-calculate-values-in-table-and-then-download-results-as-a
-server <- function(input, output) {
-
+server <- function(input, output, session) {
+  #checkbox output_p method
+  output$uo_text_p <- renderUI({
+    if(input$output_p == TRUE) {
+      tags$div(tags$p("This will be information about the P method"))
+    }})#close output
+  
+  #checkbox output_p_frac method
+  output$uo_text_p_frac <- renderUI({
+    if(input$output_p_frac == TRUE) {
+      tags$div(tags$p("This will be information about the P Fractional method"))
+    }})#close output
+  
   rawData <- eventReactive(input$file1, {
     req(input$file1)
     df <- read.csv(input$file1$datapath)

@@ -165,6 +165,7 @@ ui <- fluidPage(
 # Define server logic----------------------------------------------------------
 #source files; https://stackoverflow.com/questions/68976268/r-shiny-upload-csv-calculate-values-in-table-and-then-download-results-as-a
 server <- function(input, output, session) {
+  #checkbox output outputs------------------
   #checkbox output_p method
   output$uo_text_p <- renderUI({
     if(input$output_p == TRUE) {

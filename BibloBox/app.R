@@ -147,6 +147,15 @@ ui <- fluidPage(
                   fluidRow(uiOutput("uo_text_collab_NAuth")),
                   fluidRow(uiOutput("uo_text_collab_NInst")),
                   fluidRow(uiOutput("uo_text_collab_NCountry")),
+                  #discipline--------------------------
+                  fluidRow(uiOutput("uo_text_scimet")),
+                  #citations---------------------------
+                  fluidRow(uiOutput("uo_text_citations_n_cit")),
+                  fluidRow(uiOutput("uo_text_citations_norm_cit")),
+                  fluidRow(uiOutput("uo_text_citations_HCP_1")),
+                  fluidRow(uiOutput("uo_text_citations_HCP_5")),
+                  fluidRow(uiOutput("uo_text_citations_HCP_10")),
+                  fluidRow(uiOutput("uo_text_citations_list_cite")),
                   br()
                   
                 )#closes mainPanel
@@ -210,6 +219,53 @@ server <- function(input, output, session) {
   output$uo_text_collab_NAuth <- renderUI({
     if(input$collab_NAuth == TRUE) {
       tags$div(tags$p("This will be information about the number of Authors indicator"))
+    }})#close output
+  
+  output$uo_text_collab_NInst <- renderUI({
+    if(input$collab_NInst == TRUE) {
+      tags$div(tags$p("This will be information about the number of Institutions indicator"))
+    }})#close output
+  
+  output$uo_text_collab_NCountry <- renderUI({
+    if(input$collab_NCountry == TRUE) {
+      tags$div(tags$p("This will be information about the number of Countries indicator"))
+    }})#close output
+  
+  #discipline output-------------------------
+  output$uo_text_scimet <- renderUI({
+    if(input$scimet == TRUE) {
+      tags$div(tags$p("This will be information about the Science Metrixs field classification indicator"))
+    }})#close output
+  
+  #citations output-------------------------
+  output$uo_text_citations_n_cit <- renderUI({
+    if(input$citations_n_cit == TRUE) {
+      tags$div(tags$p("This will be information about the number of citations indicator"))
+    }})#close output
+  
+  output$uo_text_citations_norm_cit <- renderUI({
+    if(input$citations_norm_cit == TRUE) {
+      tags$div(tags$p("This will be information about the normalized citations indicator"))
+    }})#close output
+  
+  output$uo_text_citations_HCP_1 <- renderUI({
+    if(input$citations_HCP_1 == TRUE) {
+      tags$div(tags$p("This will be information about the citations HCP 1% indicator"))
+    }})#close output
+  
+  output$uo_text_citations_HCP_5 <- renderUI({
+    if(input$citations_HCP_5 == TRUE) {
+      tags$div(tags$p("This will be information about the citations HCP 5% indicator"))
+    }})#close output
+  
+  output$uo_text_citations_HCP_10 <- renderUI({
+    if(input$citations_HCP_10 == TRUE) {
+      tags$div(tags$p("This will be information about the citations HCP 10% indicator"))
+    }})#close output
+  
+  output$uo_text_citations_list_cite <- renderUI({
+    if(input$citations_list_cite == TRUE) {
+      tags$div(tags$p("This will be information about the list of cited documents"))
     }})#close output
   
   #create and modify dataframe-------------------------------------------------------

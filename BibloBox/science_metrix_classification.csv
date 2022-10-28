@@ -1,0 +1,176 @@
+domain,field,subfield,sm_code
+Applied Sciences,"Agriculture, Fisheries & Forestry",Agronomy & Agriculture,1
+Applied Sciences,"Agriculture, Fisheries & Forestry",Dairy & Animal Science,2
+Applied Sciences,"Agriculture, Fisheries & Forestry",Fisheries,3
+Applied Sciences,"Agriculture, Fisheries & Forestry",Food Science,4
+Applied Sciences,"Agriculture, Fisheries & Forestry",Forestry,5
+Applied Sciences,"Agriculture, Fisheries & Forestry",Horticulture,6
+Applied Sciences,"Agriculture, Fisheries & Forestry",Veterinary Sciences,7
+Applied Sciences,Built Environment & Design,Architecture,8
+Applied Sciences,Built Environment & Design,Building & Construction,9
+Applied Sciences,Built Environment & Design,Design Practice & Management,10
+Applied Sciences,Built Environment & Design,Urban & Regional Planning,11
+Applied Sciences,Enabling & Strategic Technologies,Bioinformatics,12
+Applied Sciences,Enabling & Strategic Technologies,Biotechnology,13
+Applied Sciences,Enabling & Strategic Technologies,Energy,14
+Applied Sciences,Enabling & Strategic Technologies,Materials,15
+Applied Sciences,Enabling & Strategic Technologies,Nanoscience & Nanotechnology,16
+Applied Sciences,Enabling & Strategic Technologies,Optoelectronics & Photonics,17
+Applied Sciences,Enabling & Strategic Technologies,"Strategic, Defence & Security Studies",18
+article-level classification,article-level classification,article-level classification,0
+Applied Sciences,Engineering,Aerospace & Aeronautics,19
+Applied Sciences,Engineering,Automobile Design & Engineering,20
+Applied Sciences,Engineering,Biomedical Engineering,21
+Applied Sciences,Engineering,Chemical Engineering,22
+Applied Sciences,Engineering,Civil Engineering,23
+Applied Sciences,Engineering,Electrical & Electronic Engineering,24
+Applied Sciences,Engineering,Environmental Engineering,25
+Applied Sciences,Engineering,Geological & Geomatics Engineering,26
+Applied Sciences,Engineering,Industrial Engineering & Automation,27
+Applied Sciences,Engineering,Mechanical Engineering & Transports,28
+Applied Sciences,Engineering,Mining & Metallurgy,29
+Applied Sciences,Engineering,Operations Research,30
+Applied Sciences,Information & Communication Technologies,Artificial Intelligence & Image Processing,31
+Applied Sciences,Information & Communication Technologies,Computation Theory & Mathematics,32
+Applied Sciences,Information & Communication Technologies,Computer Hardware & Architecture,33
+Applied Sciences,Information & Communication Technologies,Distributed Computing,34
+Applied Sciences,Information & Communication Technologies,Information Systems,35
+Applied Sciences,Information & Communication Technologies,Medical Informatics,36
+Applied Sciences,Information & Communication Technologies,Networking & Telecommunications,37
+Applied Sciences,Information & Communication Technologies,Software Engineering,38
+Arts & Humanities,Communication & Textual Studies,Communication & Media Studies,39
+Arts & Humanities,Communication & Textual Studies,Languages & Linguistics,40
+Arts & Humanities,Communication & Textual Studies,Literary Studies,41
+Arts & Humanities,Historical Studies,Anthropology,42
+Arts & Humanities,Historical Studies,Archaeology,43
+Arts & Humanities,Historical Studies,Classics,44
+Arts & Humanities,Historical Studies,History,45
+Arts & Humanities,Historical Studies,"History of Science, Technology & Medicine",46
+Arts & Humanities,Historical Studies,History of Social Sciences,47
+Arts & Humanities,Philosophy & Theology,Applied Ethics,48
+Arts & Humanities,Philosophy & Theology,Philosophy,49
+Arts & Humanities,Philosophy & Theology,Religions & Theology,50
+Arts & Humanities,Visual & Performing Arts,"Art Practice, History & Theory",51
+Arts & Humanities,Visual & Performing Arts,Drama & Theater,52
+Arts & Humanities,Visual & Performing Arts,Folklore,53
+Arts & Humanities,Visual & Performing Arts,Music,54
+Economic & Social Sciences,Economics & Business,Accounting,55
+Economic & Social Sciences,Economics & Business,Agricultural Economics & Policy,56
+Economic & Social Sciences,Economics & Business,Business & Management,57
+Economic & Social Sciences,Economics & Business,Development Studies,58
+Economic & Social Sciences,Economics & Business,Econometrics,59
+Economic & Social Sciences,Economics & Business,Economic Theory,60
+Economic & Social Sciences,Economics & Business,Economics,61
+Economic & Social Sciences,Economics & Business,Finance,62
+Economic & Social Sciences,Economics & Business,Industrial Relations,63
+Economic & Social Sciences,Economics & Business,Logistics & Transportation,64
+Economic & Social Sciences,Economics & Business,Marketing,65
+Economic & Social Sciences,Economics & Business,"Sport, Leisure & Tourism",66
+Economic & Social Sciences,Social Sciences,Criminology,67
+Economic & Social Sciences,Social Sciences,Cultural Studies,68
+Economic & Social Sciences,Social Sciences,Demography,69
+Economic & Social Sciences,Social Sciences,Education,70
+Economic & Social Sciences,Social Sciences,Family Studies,71
+Economic & Social Sciences,Social Sciences,Gender Studies,72
+Economic & Social Sciences,Social Sciences,Geography,73
+Economic & Social Sciences,Social Sciences,Information & Library Sciences,74
+Economic & Social Sciences,Social Sciences,International Relations,75
+Economic & Social Sciences,Social Sciences,Law,76
+Economic & Social Sciences,Social Sciences,Political Science & Public Administration,77
+Economic & Social Sciences,Social Sciences,Science Studies,78
+Economic & Social Sciences,Social Sciences,Social Sciences Methods,79
+Economic & Social Sciences,Social Sciences,Social Work,80
+Economic & Social Sciences,Social Sciences,Sociology,81
+Health Sciences,Biomedical Research,Anatomy & Morphology,82
+Health Sciences,Biomedical Research,Biochemistry & Molecular Biology,83
+Health Sciences,Biomedical Research,Biophysics,84
+Health Sciences,Biomedical Research,Developmental Biology,85
+Health Sciences,Biomedical Research,Genetics & Heredity,86
+Health Sciences,Biomedical Research,Microbiology,87
+Health Sciences,Biomedical Research,Microscopy,88
+Health Sciences,Biomedical Research,Mycology & Parasitology,89
+Health Sciences,Biomedical Research,Nutrition & Dietetics,90
+Health Sciences,Biomedical Research,Physiology,91
+Health Sciences,Biomedical Research,Toxicology,92
+Health Sciences,Biomedical Research,Virology,93
+Health Sciences,Clinical Medicine,Allergy,94
+Health Sciences,Clinical Medicine,Anesthesiology,95
+Health Sciences,Clinical Medicine,Arthritis & Rheumatology,96
+Health Sciences,Clinical Medicine,Cardiovascular System & Hematology,97
+Health Sciences,Clinical Medicine,Complementary & Alternative Medicine,98
+Health Sciences,Clinical Medicine,Dentistry,99
+Health Sciences,Clinical Medicine,Dermatology & Venereal Diseases,100
+Health Sciences,Clinical Medicine,Emergency & Critical Care Medicine,101
+Health Sciences,Clinical Medicine,Endocrinology & Metabolism,102
+Health Sciences,Clinical Medicine,Environmental & Occupational Health,103
+Health Sciences,Clinical Medicine,Gastroenterology & Hepatology,104
+Health Sciences,Clinical Medicine,General & Internal Medicine,105
+Health Sciences,Clinical Medicine,General Clinical Medicine,106
+Health Sciences,Clinical Medicine,Geriatrics,107
+Health Sciences,Clinical Medicine,Immunology,108
+Health Sciences,Clinical Medicine,Legal & Forensic Medicine,109
+Health Sciences,Clinical Medicine,Neurology & Neurosurgery,110
+Health Sciences,Clinical Medicine,Nuclear Medicine & Medical Imaging,111
+Health Sciences,Clinical Medicine,Obstetrics & Reproductive Medicine,112
+Health Sciences,Clinical Medicine,Oncology & Carcinogenesis,113
+Health Sciences,Clinical Medicine,Ophthalmology & Optometry,114
+Health Sciences,Clinical Medicine,Orthopedics,115
+Health Sciences,Clinical Medicine,Otorhinolaryngology,116
+Health Sciences,Clinical Medicine,Pathology,117
+Health Sciences,Clinical Medicine,Pediatrics,118
+Health Sciences,Clinical Medicine,Pharmacology & Pharmacy,119
+Health Sciences,Clinical Medicine,Psychiatry,120
+Health Sciences,Clinical Medicine,Respiratory System,121
+Health Sciences,Clinical Medicine,Sport Sciences,122
+Health Sciences,Clinical Medicine,Surgery,123
+Health Sciences,Clinical Medicine,Tropical Medicine,124
+Health Sciences,Clinical Medicine,Urology & Nephrology,125
+Health Sciences,Psychology & Cognitive Sciences,Behavioral Science & Comparative Psychology,126
+Health Sciences,Psychology & Cognitive Sciences,Clinical Psychology,127
+Health Sciences,Psychology & Cognitive Sciences,Developmental & Child Psychology,128
+Health Sciences,Psychology & Cognitive Sciences,Experimental Psychology,129
+Health Sciences,Psychology & Cognitive Sciences,General Psychology & Cognitive Sciences,130
+Health Sciences,Psychology & Cognitive Sciences,Human Factors,131
+Health Sciences,Psychology & Cognitive Sciences,Psychoanalysis,132
+Health Sciences,Psychology & Cognitive Sciences,Social Psychology,133
+Health Sciences,Public Health & Health Services,Epidemiology,134
+Health Sciences,Public Health & Health Services,Gerontology,135
+Health Sciences,Public Health & Health Services,Health Policy & Services,136
+Health Sciences,Public Health & Health Services,Nursing,137
+Health Sciences,Public Health & Health Services,Public Health,138
+Health Sciences,Public Health & Health Services,Rehabilitation,139
+Health Sciences,Public Health & Health Services,Speech-Language Pathology & Audiology,140
+Health Sciences,Public Health & Health Services,Substance Abuse,141
+Natural Sciences,Biology,Ecology,142
+Natural Sciences,Biology,Entomology,143
+Natural Sciences,Biology,Evolutionary Biology,144
+Natural Sciences,Biology,Marine Biology & Hydrobiology,145
+Natural Sciences,Biology,Ornithology,146
+Natural Sciences,Biology,Plant Biology & Botany,147
+Natural Sciences,Biology,Zoology,148
+Natural Sciences,Chemistry,Analytical Chemistry,149
+Natural Sciences,Chemistry,General Chemistry,150
+Natural Sciences,Chemistry,Inorganic & Nuclear Chemistry,151
+Natural Sciences,Chemistry,Medicinal & Biomolecular Chemistry,152
+Natural Sciences,Chemistry,Organic Chemistry,153
+Natural Sciences,Chemistry,Physical Chemistry,154
+Natural Sciences,Chemistry,Polymers,155
+Natural Sciences,Earth & Environmental Sciences,Environmental Sciences,156
+Natural Sciences,Earth & Environmental Sciences,Geochemistry & Geophysics,157
+Natural Sciences,Earth & Environmental Sciences,Geology,158
+Natural Sciences,Earth & Environmental Sciences,Meteorology & Atmospheric Sciences,159
+Natural Sciences,Earth & Environmental Sciences,Oceanography,160
+Natural Sciences,Earth & Environmental Sciences,Paleontology,161
+Natural Sciences,Mathematics & Statistics,Applied Mathematics,162
+Natural Sciences,Mathematics & Statistics,General Mathematics,163
+Natural Sciences,Mathematics & Statistics,Numerical & Computational Mathematics,164
+Natural Sciences,Mathematics & Statistics,Statistics & Probability,165
+Natural Sciences,Physics & Astronomy,Acoustics,166
+Natural Sciences,Physics & Astronomy,Applied Physics,167
+Natural Sciences,Physics & Astronomy,Astronomy & Astrophysics,168
+Natural Sciences,Physics & Astronomy,Chemical Physics,169
+Natural Sciences,Physics & Astronomy,Fluids & Plasmas,170
+Natural Sciences,Physics & Astronomy,General Physics,171
+Natural Sciences,Physics & Astronomy,Mathematical Physics,172
+Natural Sciences,Physics & Astronomy,Nuclear & Particle Physics,173
+Natural Sciences,Physics & Astronomy,Optics,174

@@ -10,7 +10,7 @@ options(openalexR.mailto = "pmongeon@dal.ca")
 template <- read_excel("template_info6850.xlsx", sheet = 2) %>% 
   mutate(doi = str_sub(doi, str_locate(doi,"10.")[,1])) %>% 
   mutate(openalex_id = str_sub(openalex_id, str_locate(openalex_id,"W")[,1]))
-i = 2
+
 for (i in 1:nrow(template)) {
   
   doi<-""

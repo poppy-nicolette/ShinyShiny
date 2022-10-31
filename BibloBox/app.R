@@ -1,4 +1,4 @@
-
+33be446062eb5fb95e897b23aef48948e95273b
 #BiblioBox - upload csv file to retrieve normalized citation measures
 #
 #authors:  PMongeon, PNRiddle - QSS Lab/MISTS/Dalhousie University
@@ -17,153 +17,153 @@ library(openalexR)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
   
-    # Application title
-    titlePanel("BiblioBox"),
-    h4(" - Normalization is not being normal"),
-
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(width = 6, fluid = TRUE,
-                     
-          # Input: Selector for choosing dataset ------------------------------
-          h4("Step1: Upload your template file"),
-          fileInput("file1", "Choose your Excel Template file",
-                    multiple = TRUE,
-                    accept = c(".csv",
-                               ".xlsx")),#close fileInput
-
-          #enter emai for some APIs that permit it for politeness
-          h4("Step 2: Enter your email"),
-          textInput(inputId = "emailInput", label = "Enter email"),
-          helpText("Your email is used for the politeness pool on the OpenAlex server."),
-          uiOutput("emailInputok"),
-          
-          tags$hr(style = "border-top: 1.5px solid #000000;"),
-          
-          #flluidRow-------------------------------------------------
-          fluidRow(
-          
-            column(6, 
-                    #output-----------------------------------------------------
-                    h3("Output"),
-                    
-                    # Input: Checkbox if file has header ----
-                    checkboxInput("output_p", "P.", FALSE),
-                    
-                    # Input: Checkbox if file for indicator 1 ----
-                    checkboxInput("output_p_frac", "P. Frac.", FALSE),
-                    
-                    # Input: Checkbox if file for indicator 2 ----
-                    checkboxInput("output_harmonic", "Harmonic", FALSE),
-                    
-                    # Input: Checkbox if file for indicator 2 ----
-                    checkboxInput("output_arith", "Arithmatic", FALSE),
-                    
-                    tags$hr(style = "border-top: 1.5px solid #000000;"),
-                    
-                    #Collaboration ---------------------------------------------
-                    h3("Collaboration"),
-                    
-                    # collaboration ----
-                    checkboxInput("collab", "Collaboration", FALSE),
-                    
-                    # collaboration_inst ----
-                    checkboxInput("collab_Inst", "Inter-institutional collaboration", FALSE),
-                    
-                    # collaboratio_internat ----
-                    checkboxInput("collab_Internat", "International collaboration", FALSE),
-                    
-                    # collaboration_Intersect ----
-                    checkboxInput("collab_Intersect", "Intersectional collaboration", FALSE),
-                    
-                    # collaboration_NAuth ----
-                    checkboxInput("collab_NAuth", "Collaboration: N of Authors", FALSE),
-                    
-                    # collaborationNInst ----
-                    checkboxInput("collab_NInst", "Collaboration: N of Institutions", FALSE),
-                    
-                    # collaboratio_NCounttry ----
-                    checkboxInput("collab_NCountry", "Collaboratio: N of Countries", FALSE)
-                    ),#end column
-                  
-            column(6, 
+  
+  # Application title
+  titlePanel("BiblioBox"),
+  h4(" - Normalization is not being normal"),
+  
+  # Sidebar with a slider input for number of bins 
+  sidebarLayout(
+    sidebarPanel(width = 6, fluid = TRUE,
+                 
+                 # Input: Selector for choosing dataset ------------------------------
+                 h4("Step1: Upload your template file"),
+                 fileInput("file1", "Choose your Excel Template file",
+                           multiple = TRUE,
+                           accept = c(".csv",
+                                      ".xlsx")),#close fileInput
+                 
+                 #enter emai for some APIs that permit it for politeness
+                 h4("Step 2: Enter your email"),
+                 textInput(inputId = "emailInput", label = "Enter email"),
+                 helpText("Your email is used for the politeness pool on the OpenAlex server."),
+                 uiOutput("emailInputok"),
+                 
+                 tags$hr(style = "border-top: 1.5px solid #000000;"),
+                 
+                 #flluidRow-------------------------------------------------
+                 fluidRow(
                    
-                   #Disciplines ---------------------------------------------
-                   h3("Discipine/field classification"),
+                   column(6, 
+                          #output-----------------------------------------------------
+                          h3("Output"),
+                          
+                          # Input: Checkbox if file has header ----
+                          checkboxInput("output_p", "P.", FALSE),
+                          
+                          # Input: Checkbox if file for indicator 1 ----
+                          checkboxInput("output_p_frac", "P. Frac.", FALSE),
+                          
+                          # Input: Checkbox if file for indicator 2 ----
+                          checkboxInput("output_harmonic", "Harmonic", FALSE),
+                          
+                          # Input: Checkbox if file for indicator 2 ----
+                          checkboxInput("output_arith", "Arithmatic", FALSE),
+                          
+                          tags$hr(style = "border-top: 1.5px solid #000000;"),
+                          
+                          #Collaboration ---------------------------------------------
+                          h3("Collaboration"),
+                          
+                          # collaboration ----
+                          checkboxInput("collab", "Collaboration", FALSE),
+                          
+                          # collaboration_inst ----
+                          checkboxInput("collab_Inst", "Inter-institutional collaboration", FALSE),
+                          
+                          # collaboratio_internat ----
+                          checkboxInput("collab_Internat", "International collaboration", FALSE),
+                          
+                          # collaboration_Intersect ----
+                          checkboxInput("collab_Intersect", "Intersectional collaboration", FALSE),
+                          
+                          # collaboration_NAuth ----
+                          checkboxInput("collab_NAuth", "Collaboration: N of Authors", FALSE),
+                          
+                          # collaborationNInst ----
+                          checkboxInput("collab_NInst", "Collaboration: N of Institutions", FALSE),
+                          
+                          # collaboratio_NCounttry ----
+                          checkboxInput("collab_NCountry", "Collaboratio: N of Countries", FALSE)
+                   ),#end column
                    
-                   # disciplines ----
-                   checkboxInput("scimet", "Science Metrix codes", FALSE),
-
-                   #Citations -----------------------------------------------
-                   h3("Citations"),
-                   
-                   #citations ----
-                   checkboxInput("citations_n_cit", "N Citations", FALSE),
-                   #citations_norm_cit ----
-                   checkboxInput("citations_norm_cit", "Normalized Citations", FALSE),                  
-                   #citations_HCP_1 ----
-                   checkboxInput("citations_HCP_1", "HCP 1%", FALSE),
-                   #citations_HCP_5 ----
-                   checkboxInput("citations_HCP_5", "HCP 5%", FALSE),
-                   #citations_HCP_10 ----
-                   checkboxInput("citations_HCP_10", "HCP 10%", FALSE),
-                   #citations_list_cited ----
-                   checkboxInput("citations_list_cite", "List of cited documents", FALSE)
-                   
+                   column(6, 
+                          
+                          #Disciplines ---------------------------------------------
+                          h3("Discipine/field classification"),
+                          
+                          # disciplines ----
+                          checkboxInput("scimet", "Science Metrix codes", FALSE),
+                          
+                          #Citations -----------------------------------------------
+                          h3("Citations"),
+                          
+                          #citations ----
+                          checkboxInput("citations_n_cit", "N Citations", FALSE),
+                          #citations_norm_cit ----
+                          checkboxInput("citations_norm_cit", "Normalized Citations", FALSE),                  
+                          #citations_HCP_1 ----
+                          checkboxInput("citations_HCP_1", "HCP 1%", FALSE),
+                          #citations_HCP_5 ----
+                          checkboxInput("citations_HCP_5", "HCP 5%", FALSE),
+                          #citations_HCP_10 ----
+                          checkboxInput("citations_HCP_10", "HCP 10%", FALSE),
+                          #citations_list_cited ----
+                          checkboxInput("citations_list_cite", "List of cited documents", FALSE)
+                          
                    ),#close column
-          
-          tags$hr(style = "border-top: 1.5px solid #000000;")
-                
-                     ),#close fluidRow 
-         
-          # Download Button-------------------------------------------------------------
-          tags$hr(style = "border-top: 1.5px solid #000000;"),
-          
-          radioButtons("downloadType", "Download Type", 
-                       choices = c("CSV" = ".csv",
-                                   "Excel - Not working right now" = ".xlsx")),
-          
-          downloadButton("downloadData", "Compute and download")
-
-                    ),#close sidebarPanel
-
-        # mainPanel--------------------------------------------------------------
-        mainPanel(width = 4,
-                  h4("There will be some text here explaining everything"),
-                  br(),
-                  br(),
-                  p("Below, you will find the methods for the indicators you have selected."),
-                  br(),
-                  tags$hr(style = "border-top: .5px solid #000000;"),
-                  #output---------------------------
-                  fluidRow(uiOutput("uo_text_p")),
-                  fluidRow(uiOutput("uo_text_p_frac")),
-                  fluidRow(uiOutput("uo_text_harmonic")),
-                  fluidRow(uiOutput("uo_text_arith")),
-                  #collab------------------------------
-                  fluidRow(uiOutput("uo_text_collab")),
-                  fluidRow(uiOutput("uo_text_collab_Inst")),
-                  fluidRow(uiOutput("uo_text_collab_Internat")),
-                  fluidRow(uiOutput("uo_text_collab_Intersect")),
-                  fluidRow(uiOutput("uo_text_collab_NAuth")),
-                  fluidRow(uiOutput("uo_text_collab_NInst")),
-                  fluidRow(uiOutput("uo_text_collab_NCountry")),
-                  #discipline--------------------------
-                  fluidRow(uiOutput("uo_text_scimet")),
-                  #citations---------------------------
-                  fluidRow(uiOutput("uo_text_citations_n_cit")),
-                  fluidRow(uiOutput("uo_text_citations_norm_cit")),
-                  fluidRow(uiOutput("uo_text_citations_HCP_1")),
-                  fluidRow(uiOutput("uo_text_citations_HCP_5")),
-                  fluidRow(uiOutput("uo_text_citations_HCP_10")),
-                  fluidRow(uiOutput("uo_text_citations_list_cite")),
-                  br()
-                  
-                )#closes mainPanel
-             )#closes sidebarLayout
-          )#close fluidPage
+                   
+                   tags$hr(style = "border-top: 1.5px solid #000000;")
+                   
+                 ),#close fluidRow 
+                 
+                 # Download Button-------------------------------------------------------------
+                 tags$hr(style = "border-top: 1.5px solid #000000;"),
+                 
+                 radioButtons("downloadType", "Download Type", 
+                              choices = c("CSV" = ".csv",
+                                          "Excel - Not working right now" = ".xlsx")),
+                 
+                 downloadButton("downloadData", "Compute and download")
+                 
+    ),#close sidebarPanel
+    
+    # mainPanel--------------------------------------------------------------
+    mainPanel(width = 4,
+              h4("There will be some text here explaining everything"),
+              br(),
+              br(),
+              p("Below, you will find the methods for the indicators you have selected."),
+              br(),
+              tags$hr(style = "border-top: .5px solid #000000;"),
+              #output---------------------------
+              fluidRow(uiOutput("uo_text_p")),
+              fluidRow(uiOutput("uo_text_p_frac")),
+              fluidRow(uiOutput("uo_text_harmonic")),
+              fluidRow(uiOutput("uo_text_arith")),
+              #collab------------------------------
+              fluidRow(uiOutput("uo_text_collab")),
+              fluidRow(uiOutput("uo_text_collab_Inst")),
+              fluidRow(uiOutput("uo_text_collab_Internat")),
+              fluidRow(uiOutput("uo_text_collab_Intersect")),
+              fluidRow(uiOutput("uo_text_collab_NAuth")),
+              fluidRow(uiOutput("uo_text_collab_NInst")),
+              fluidRow(uiOutput("uo_text_collab_NCountry")),
+              #discipline--------------------------
+              fluidRow(uiOutput("uo_text_scimet")),
+              #citations---------------------------
+              fluidRow(uiOutput("uo_text_citations_n_cit")),
+              fluidRow(uiOutput("uo_text_citations_norm_cit")),
+              fluidRow(uiOutput("uo_text_citations_HCP_1")),
+              fluidRow(uiOutput("uo_text_citations_HCP_5")),
+              fluidRow(uiOutput("uo_text_citations_HCP_10")),
+              fluidRow(uiOutput("uo_text_citations_list_cite")),
+              br()
+              
+    )#closes mainPanel
+  )#closes sidebarLayout
+)#close fluidPage
 
 # Define server logic----------------------------------------------------------
 #source files; https://stackoverflow.com/questions/68976268/r-shiny-upload-csv-calculate-values-in-table-and-then-download-results-as-a
@@ -272,7 +272,7 @@ server <- function(input, output, session) {
       tags$div(tags$p("This will be information about the list of cited documents"))
     }})#close output
   
-
+  
   #assign email to options for polite pool--------------------
   email <- eventReactive(input$emailInput, {
     req(input$emailInput)
@@ -282,9 +282,9 @@ server <- function(input, output, session) {
   #create and modify dataframe-------------------------------------------------------
   rawData <- eventReactive(input$file1, {
     req(input$file1)
-    template <- read.csv(input$file1$datapath) %>% 
-   
-    #template <- read_excel(input$file1$datapath, sheet = 2) %>% 
+    #template <- read.csv(input$file1$datapath)
+    
+    template <- read_excel(input$file1$datapath, sheet = 2) %>% 
       mutate(doi = str_sub(doi, str_locate(doi,"10.")[,1])) %>% 
       mutate(openalex_id = str_sub(openalex_id, str_locate(openalex_id,"W")[,1]))
     
@@ -325,22 +325,22 @@ server <- function(input, output, session) {
         template[i,]$wikidata_concepts <- paste(shQuote(data$concepts[[1]]$display_name), collapse=", ")
       }
     }
-   
-      #-**************************************************
-      }
-    )#close eventReactive
+    #-**************************************************
+  }
+  )#close eventReactive
   
-
+  rawData
   #downloadHandler----------------------------------------------------------
   output$downloadData <- downloadHandler(
     
     filename = function() {paste("modified template_",  Sys.Date(), input$downloadType)},
     content = function(file){
       if(input$downloadType == ".csv") {
-        write.csv(rawData(), file, row.names = FALSE)}
+        write.csv(template, file, row.names = FALSE)}
       
       else if(input$downloadType == ".xlsx") {
-        write.csv(rawData(), file, row.names = FALSE)}
+        
+      }
       
     }#close function
   )#close downloadHandler

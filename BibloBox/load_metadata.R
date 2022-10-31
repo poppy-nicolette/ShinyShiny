@@ -43,7 +43,7 @@ for (i in 1:nrow(template)) {
   #ERROR:Error in if (data$first_page == data$last_page) { : 
   #missing value where TRUE/FALSE needed
   #********************************
-  if(data$first_page == data$last_page) {pages <- data$first_page} else {pages <- paste(data$first_page,"-",data$last_page, sep = "")}
+  if(isTRUE(data$first_page == data$last_page)==TRUE) {pages <- data$first_page} else {pages <- paste(data$first_page,"-",data$last_page, sep = "")}
   template[i,]$pages <- pages
   template[i,]$institutions <- paste(shQuote(unique(data$author[[1]]$institution_display_name)), collapse=", ")
   template[i,]$openalex_institution_ids <- paste(shQuote(unique(data$author[[1]]$institution_id)), collapse=", ")

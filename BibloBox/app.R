@@ -315,7 +315,7 @@ server <- function(input, output) {
         template[i,]$source <- data$so
         template[i,]$volume <- data$volume
         template[i,]$number <- data$issue
-        if(data$first_page == data$last_page) {pages <- data$first_page} else {pages <- paste(data$first_page,"-",data$last_page, sep = "")}
+        if(isTRUE(data$first_page == data$last_page)==TRUE) {pages <- data$first_page} else {pages <- paste(data$first_page,"-",data$last_page, sep = "")}
         template[i,]$pages <- pages
         template[i,]$institutions <- paste(shQuote(unique(data$author[[1]]$institution_display_name)), collapse=", ")
         template[i,]$openalex_institution_ids <- paste(shQuote(unique(data$author[[1]]$institution_id)), collapse=", ")

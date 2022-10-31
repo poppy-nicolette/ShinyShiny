@@ -325,7 +325,7 @@ server <- function(input, output) {
         template[i,]$wikidata_concepts <- paste(shQuote(data$concepts[[1]]$display_name), collapse=", ")
       }
     }
-    template
+    template # this is critial and easily overlooked!
     #-**************************************************
   }
   )#close eventReactive

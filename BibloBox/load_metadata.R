@@ -6,8 +6,8 @@ library(readxl)
 library(openalexR)
 
 options(openalexR.mailto = "pmongeon@dal.ca")
-
-template <- read_excel("template_info6850.xlsx", sheet = 2) %>% 
+file="template_info6850_fail.xlsx"
+template <- read_excel(file, sheet = 2) %>% 
   mutate(doi = str_sub(doi, str_locate(doi,"10.")[,1])) %>% 
   mutate(openalex_id = str_sub(openalex_id, str_locate(openalex_id,"W")[,1]))
 
@@ -38,6 +38,11 @@ for (i in 1:nrow(template)) {
   template[i,]$source <- data$so
   template[i,]$volume <- data$volume
   template[i,]$number <- data$issue
+  #*******************************
+  #source: https://www.statology.org/r-missing-value-where-true-false-needed/
+  #ERROR:Error in if (data$first_page == data$last_page) { : 
+  #missing value where TRUE/FALSE needed
+  #********************************
   if(data$first_page == data$last_page) {pages <- data$first_page} else {pages <- paste(data$first_page,"-",data$last_page, sep = "")}
   template[i,]$pages <- pages
   template[i,]$institutions <- paste(shQuote(unique(data$author[[1]]$institution_display_name)), collapse=", ")

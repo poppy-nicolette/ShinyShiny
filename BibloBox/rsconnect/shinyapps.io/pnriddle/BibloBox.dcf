@@ -5,9 +5,10 @@ account: pnriddle
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7403989
-bundleId: 6443907
+bundleId: 6459597
 url: https://pnriddle.shinyapps.io/BibloBox/
-when: 1666807470.45569
-lastSyncTime: 1666807470.4557
+when: 1667229762.11992
+lastSyncTime: 1667229762.11993
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: load_metadata.R|template_info6850.xlsx

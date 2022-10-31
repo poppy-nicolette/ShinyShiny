@@ -1,4 +1,4 @@
-33be446062eb5fb95e897b23aef48948e95273b
+
 #BiblioBox - upload csv file to retrieve normalized citation measures
 #
 #authors:  PMongeon, PNRiddle - QSS Lab/MISTS/Dalhousie University
@@ -167,7 +167,7 @@ ui <- fluidPage(
 
 # Define server logic----------------------------------------------------------
 #source files; https://stackoverflow.com/questions/68976268/r-shiny-upload-csv-calculate-values-in-table-and-then-download-results-as-a
-server <- function(input, output, session) {
+server <- function(input, output) {
   #checkbox output outputs------------------
   #checkbox output_p method
   output$uo_text_p <- renderUI({
@@ -287,7 +287,7 @@ server <- function(input, output, session) {
     template <- read_excel(input$file1$datapath, sheet = 2) %>% 
       mutate(doi = str_sub(doi, str_locate(doi,"10.")[,1])) %>% 
       mutate(openalex_id = str_sub(openalex_id, str_locate(openalex_id,"W")[,1]))
-    
+
     for (i in 1:nrow(template)) {
       
       doi<-""
@@ -325,6 +325,7 @@ server <- function(input, output, session) {
         template[i,]$wikidata_concepts <- paste(shQuote(data$concepts[[1]]$display_name), collapse=", ")
       }
     }
+    template
     #-**************************************************
   }
   )#close eventReactive
@@ -336,15 +337,15 @@ server <- function(input, output, session) {
     filename = function() {paste("modified template_",  Sys.Date(), input$downloadType)},
     content = function(file){
       if(input$downloadType == ".csv") {
-        write.csv(template, file, row.names = FALSE)}
+        write.csv(rawData(), file, row.names = FALSE)}
       
       else if(input$downloadType == ".xlsx") {
-        
+        writexl::write_xlsx(rawData(), file, row.names = FALSE)
       }
       
     }#close function
   )#close downloadHandler
   
-}
+}#close server
 # Run the application ----------------------------------------------------------
 shinyApp(ui = ui, server = server)

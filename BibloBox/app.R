@@ -282,9 +282,9 @@ server <- function(input, output, session) {
   #create and modify dataframe-------------------------------------------------------
   rawData <- eventReactive(input$file1, {
     req(input$file1)
-    #template <- read.csv(input$file1$datapath)
+    template <- read.csv(input$file1$datapath) %>% 
    
-    template <- read_excel(input$file1$datapath, sheet = 2) %>% 
+    #template <- read_excel(input$file1$datapath, sheet = 2) %>% 
       mutate(doi = str_sub(doi, str_locate(doi,"10.")[,1])) %>% 
       mutate(openalex_id = str_sub(openalex_id, str_locate(openalex_id,"W")[,1]))
     
@@ -325,22 +325,22 @@ server <- function(input, output, session) {
         template[i,]$wikidata_concepts <- paste(shQuote(data$concepts[[1]]$display_name), collapse=", ")
       }
     }
+   
       #-**************************************************
       }
     )#close eventReactive
   
-rawData
+
   #downloadHandler----------------------------------------------------------
   output$downloadData <- downloadHandler(
     
     filename = function() {paste("modified template_",  Sys.Date(), input$downloadType)},
     content = function(file){
       if(input$downloadType == ".csv") {
-        write.csv(template, file, row.names = FALSE)}
+        write.csv(rawData(), file, row.names = FALSE)}
       
       else if(input$downloadType == ".xlsx") {
-        
-        }
+        write.csv(rawData(), file, row.names = FALSE)}
       
     }#close function
   )#close downloadHandler

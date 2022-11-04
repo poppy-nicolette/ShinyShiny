@@ -41,6 +41,32 @@ for (i in 1:nrow(dataset)) {
   }
 }
 #return ab
+for (i in 1:nrow(dataset)) {
+  ab<-""
+  data <- tibble()
+  data_ab <- tibble()
+
+  
+  if(length(ab)>0) { 
+    data <- oa_fetch(doi = doi, entity = "works", verbose = TRUE, abstract = TRUE)}
+  
+  if(length(data)>0){
+    dataset[i,]$abstract <- data$ab
+    
+  }
+}
+
+example <-  oa_fetch(
+  doi = c("10.1016/j.joi.2017.08.007", "https://doi.org/10.1093/bioinformatics/btab727"),
+  entity = "works",
+  verbose = TRUE
+) 
 
 
+# how many of what type has each contributed?
+dataset2 <- pivot_wider(dataset, names_from = doc_type, values_from = source)
 
+#summarize counts of documents
+dataset3 <- dataset2 %>%
+  group_by(full_name) %>% 
+  count(doi)

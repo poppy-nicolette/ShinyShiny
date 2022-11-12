@@ -134,7 +134,7 @@ ui <- fluidPage(
                  
                  radioButtons("downloadType", "Download Type", 
                               choices = c("CSV" = ".csv",
-                                          "Excel - Not working right now" = ".xlsx")),
+                                          "Excel" = ".xlsx")),
                  
                  downloadButton("downloadData", "Compute and download")
                  
@@ -685,7 +685,7 @@ server <- function(input, output) {
         write.csv(rawData(), file, row.names = FALSE)}
       
       else if(input$downloadType == ".xlsx") {
-        writexl::write_xlsx(rawData(), file, row.names = FALSE)
+        writexl::write_xlsx(rawData(), file)
       }
       
     }#close function

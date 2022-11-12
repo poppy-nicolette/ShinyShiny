@@ -13,7 +13,8 @@ library(dplyr)
 library(stringr)
 library(readxl)
 library(openalexR)
-
+library(tidyr)
+library(tibble)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -56,10 +57,13 @@ ui <- fluidPage(
                           checkboxInput("output_p_frac", "P. Frac.", FALSE),
                           
                           # Input: Checkbox if file for indicator 2 ----
-                          checkboxInput("output_harmonic", "Harmonic", FALSE),
+                          checkboxInput("output_harmonic", "P. Harmonic", FALSE),
                           
                           # Input: Checkbox if file for indicator 2 ----
-                          checkboxInput("output_arith", "Arithmatic", FALSE),
+                          checkboxInput("output_p_geometric", "P. Geometric", FALSE),
+                          
+                          # Input: Checkbox if file for indicator 2 ----
+                          checkboxInput("output_arith", "P. Arithmatic", FALSE),
                           
                           tags$hr(style = "border-top: 1.5px solid #000000;"),
                           
@@ -94,7 +98,7 @@ ui <- fluidPage(
                           h3("Discipine/field classification"),
                           
                           # disciplines ----
-                          checkboxInput("scimet", "Science Metrix codes", FALSE),
+                          checkboxInput("scimet", "Science Metrix classification", FALSE),
                           
                           #Citations -----------------------------------------------
                           h3("Citations"),
@@ -104,14 +108,21 @@ ui <- fluidPage(
                           #citations_norm_cit ----
                           checkboxInput("citations_norm_cit", "Normalized Citations", FALSE),                  
                           #citations_HCP_1 ----
-                          checkboxInput("citations_HCP_1", "HCP 1%", FALSE),
+                          checkboxInput("citations_HCP_1", "HCP 1% (upcoming)", FALSE),
                           #citations_HCP_5 ----
-                          checkboxInput("citations_HCP_5", "HCP 5%", FALSE),
+                          checkboxInput("citations_HCP_5", "HCP 5% (upcoming)", FALSE),
                           #citations_HCP_10 ----
-                          checkboxInput("citations_HCP_10", "HCP 10%", FALSE),
+                          checkboxInput("citations_HCP_10", "HCP 10% (upcoming)", FALSE),
                           #citations_list_cited ----
-                          checkboxInput("citations_list_cite", "List of cited documents", FALSE)
+                          checkboxInput("citations_list_cite", "List of cited documents", FALSE),
+                          #citations_list_citing ----
+                          checkboxInput("citations_list_citing", "List of citing documents", FALSE),
                           
+                          #Open Access -----------------------------------------------
+                          h3("Open Access"),
+                          #open_access ----
+                          checkboxInput("oa_status", "Open Access", FALSE),
+
                    ),#close column
                    
                    tags$hr(style = "border-top: 1.5px solid #000000;")
@@ -141,6 +152,7 @@ ui <- fluidPage(
               fluidRow(uiOutput("uo_text_p")),
               fluidRow(uiOutput("uo_text_p_frac")),
               fluidRow(uiOutput("uo_text_harmonic")),
+              fluidRow(uiOutput("uo_text_p_geometric")),
               fluidRow(uiOutput("uo_text_arith")),
               #collab------------------------------
               fluidRow(uiOutput("uo_text_collab")),
@@ -159,6 +171,9 @@ ui <- fluidPage(
               fluidRow(uiOutput("uo_text_citations_HCP_5")),
               fluidRow(uiOutput("uo_text_citations_HCP_10")),
               fluidRow(uiOutput("uo_text_citations_list_cite")),
+              fluidRow(uiOutput("uo_text_citations_list_citing")),
+              #open access---------------------------
+              fluidRow(uiOutput("uo_text_oa_status")),
               br()
               
     )#closes mainPanel
@@ -272,6 +287,15 @@ server <- function(input, output) {
       tags$div(tags$p("This will be information about the list of cited documents"))
     }})#close output
   
+  output$uo_text_citations_list_citing <- renderUI({
+    if(input$citations_list_citing == TRUE) {
+      tags$div(tags$p("This will be information about the list of citing documents"))
+    }})#close output
+  
+  output$uo_text_oa_status <- renderUI({
+    if(input$oa_status == TRUE) {
+      tags$div(tags$p("This will be information about the list of citing documents"))
+    }})#close output
   
   #assign email to options for polite pool--------------------
   email <- eventReactive(input$emailInput, {
@@ -286,8 +310,10 @@ server <- function(input, output) {
     
     template <- read_excel(input$file1$datapath, sheet = 2) %>% 
       mutate(doi = str_sub(doi, str_locate(doi,"10.")[,1])) %>% 
-      mutate(openalex_id = str_sub(openalex_id, str_locate(openalex_id,"W")[,1]))
-
+      mutate(openalex_id = str_sub(openalex_id, str_locate(openalex_id,"W")[,1])) %>% 
+      rownames_to_column("temp_id")
+    
+    full_data<-tibble()
     for (i in 1:nrow(template)) {
       
       doi<-""
@@ -324,7 +350,326 @@ server <- function(input, output) {
         template[i,]$abstract <- data$ab
         template[i,]$wikidata_concepts <- paste(shQuote(data$concepts[[1]]$display_name), collapse=", ")
       }
+      full_data<-bind_rows(full_data,data)
     }
+    # Calculate indicators
+    
+    # P ----
+    if(input$output_p == TRUE) {
+    p <- template %>%
+      separate_rows(authors, sep =", ") %>% 
+      select(temp_id, authors) %>%
+      group_by(temp_id) %>% 
+      mutate(p = 1) %>% 
+      mutate(p = paste(str_c(authors," [",round(p,0),"]"), collapse = ", ")) %>% 
+      select(temp_id, p) %>% 
+      unique() 
+    template <- template %>% 
+      left_join(p, by = "temp_id")
+    }
+    
+    # P_frac ----
+    if(input$output_p_frac == TRUE) {
+      p_frac <- template %>% 
+        separate_rows(authors, sep =", ") %>% 
+        select(temp_id, authors) %>%
+        group_by(temp_id) %>% 
+        mutate(p_frac = 1/n()) %>% 
+        mutate(p_frac = paste(str_c(authors," [",round(p_frac,3),"]"), collapse = ", ")) %>% 
+        select(temp_id, p_frac) %>% 
+        unique() 
+      template <- template %>% 
+        left_join(p_frac, by = "temp_id")
+    }
+    # p_harmonic ----
+    if(input$output_harmonic == TRUE) {
+    a <- template %>% 
+      separate_rows(authors, sep =", ") %>% 
+      select(temp_id, authors) %>%
+      group_by(temp_id) %>% 
+      summarize(p = n())
+    
+    p_harmonic<-tibble()  
+    
+    num <- template %>% 
+      separate_rows(authors, sep =", ") %>% 
+      select(temp_id, authors) %>%
+      group_by(temp_id) %>%
+      mutate(rank = row_number()) %>% 
+      filter(!is.na(authors)) %>% 
+      mutate(num = 1/rank)
+    
+    i=1
+    for(i in 1:max(num$temp_id)){
+      a<-num %>% 
+        filter(temp_id == i)
+      b<-0
+      for(j in 1:nrow(a)) {
+        b <- b+1/j
+      } 
+      
+      c<- a %>% 
+        mutate(p_harmonic = num/b)
+      p_harmonic <- bind_rows(p_harmonic, c)
+      
+    }
+    
+    p_harmonic <- p_harmonic %>%
+      group_by(temp_id) %>% 
+      mutate(p_harmonic = paste(str_c(authors," [",round(p_harmonic,3),"]"), collapse = ", ")) %>% 
+      select(temp_id, p_harmonic) %>% 
+      unique() 
+    
+    template <- template %>% 
+      left_join(p_harmonic, by="temp_id")
+    }
+    
+    # p_geometric ---- 
+    if(input$output_p_geometric == TRUE) {
+    a <- template %>% 
+      separate_rows(authors, sep =", ") %>% 
+      select(temp_id, authors) %>%
+      group_by(temp_id) %>% 
+      summarize(p = n())
+    
+    p_geometric <- template %>% 
+      separate_rows(authors, sep =", ") %>% 
+      select(temp_id, authors) %>%
+      group_by(temp_id) %>%
+      mutate(rank = row_number()) %>% 
+      filter(!is.na(authors)) %>% 
+      mutate(N=n()) %>% 
+      mutate(p_geometric = (2^(N-rank))/(2^N-1)) %>% 
+      mutate(p_geometric = paste(str_c(authors," [",round(p_geometric,3),"]"), collapse = ", ")) %>% 
+      select(temp_id, p_geometric) %>% 
+      unique() 
+    
+    template <- template %>% 
+      left_join(p_geometric, by="temp_id")
+    }
+    
+    # p_arithmetic ----
+    if(input$output_arith == TRUE) {
+    
+      a <- template %>% 
+        separate_rows(authors, sep =", ") %>% 
+        select(temp_id, authors) %>%
+        group_by(temp_id) %>% 
+        summarize(p = n())
+      
+      p_arithmetic <- template %>% 
+        separate_rows(authors, sep =", ") %>% 
+        select(temp_id, authors) %>%
+        group_by(temp_id) %>%
+        mutate(rank = row_number()) %>% 
+        filter(!is.na(authors)) %>% 
+        mutate(N=n()) %>%  
+        mutate(den = max(cumsum(rank))) %>% 
+        mutate(p_arithmetic = (N + 1 - rank)/den) %>% 
+        mutate(p_arithmetic = paste(str_c(authors," [",round(p_arithmetic,3),"]"), collapse = ", ")) %>% 
+        select(temp_id, p_arithmetic) %>% 
+        unique() 
+      
+      template <- template %>% 
+        left_join(p_arithmetic, by="temp_id")
+    }
+    # collaboration ----
+    
+    if(input$collab == TRUE) {
+     
+      collaboration <- template %>%
+        separate_rows(authors, sep =", ") %>% 
+        select(temp_id, authors) %>%
+        group_by(temp_id) %>% 
+        summarize(collaboration = n()) %>% 
+        mutate(collaboration = if_else(collaboration > 1,1,0))
+      
+      template <- template %>% 
+        left_join(collaboration, by = "temp_id")
+    }
+    # interinstutional collab ----
+    
+    if(input$collab_Inst == TRUE) {
+      
+      interinstitutional_collaboration <- template %>%
+        separate_rows(institutions, sep =", ") %>% 
+        select(temp_id, institutions) %>%
+        group_by(temp_id) %>% 
+        summarize(interinstitutional_collaboration = n()) %>% 
+        mutate(interinstitutional_collaboration = if_else(interinstitutional_collaboration > 1,1,0))
+     template <- template %>% 
+        left_join(interinstitutional_collaboration, by = "temp_id")
+    }
+    # international collab ----
+    
+    if(input$collab_Internat == TRUE) {
+    
+      international_collaboration <- template %>%
+        separate_rows(countries, sep =", ") %>% 
+        select(temp_id, countries) %>%
+        group_by(temp_id) %>% 
+        summarize(international_collaboration = n()) %>% 
+        mutate(international_collaboration = if_else(international_collaboration > 1,1,0))
+      template <- template %>% 
+        left_join(international_collaboration, by = "temp_id")
+    } 
+
+      # Teamsize (authors) ----
+    if(input$collab_NAuth == TRUE) {
+    
+      n_authors <- template %>%
+        separate_rows(authors, sep =", ") %>% 
+        select(temp_id, authors) %>%
+        group_by(temp_id) %>% 
+        summarize(n_authors = n())
+      
+      template <- template %>% 
+        left_join(n_authors, by = "temp_id")
+    }  
+    # Teamsize (institutions) ----
+    
+    if(input$collab_NInst == TRUE) {
+    
+      n_institutions <- template %>%
+        separate_rows(institutions, sep =", ") %>% 
+        select(temp_id, institutions) %>%
+        group_by(temp_id) %>% 
+        summarize(n_institutions = n())
+      template <- template %>% 
+        left_join(n_institutions, by = "temp_id")
+    }
+    
+    # Teamsize (countries) ----
+    
+    if(input$collab_NCountry == TRUE) {
+    
+      n_countries <- template %>%
+        separate_rows(countries, sep =", ") %>% 
+        select(temp_id, countries) %>%
+        group_by(temp_id) %>% 
+        summarize(n_countries = n())
+      template <- template %>% 
+        left_join(n_countries, by = "temp_id")
+    }
+    
+    # Discipline ----
+    
+    if(input$scimet == TRUE) {
+      
+      disc<-read.csv("venues_sm_classification.csv")
+      sm <-read.csv("science_metrix_classification.csv")
+      
+      for(i in 1:nrow(template)) {
+        
+        sm_class<-tibble()
+        sm_class<-template[i,] %>% 
+          inner_join(select(full_data, openalex_id = id, venue_id = so_id)) %>% 
+          select(venue_id) %>% 
+          inner_join(disc, by="venue_id") %>% 
+          inner_join(sm, by="sm_code") %>% 
+          select(venue_id, domain, field, subfield, sm_code) %>% 
+          mutate(domain = ifelse(sm_code>0,domain,as.character(NA)),
+                 field = ifelse(sm_code>0,field,as.character(NA)),
+                 subfield = ifelse(sm_code>0,subfield,as.character(NA)),
+                 sm_code = ifelse(sm_code>0,sm_code,as.character(NA))) %>% 
+          group_by(venue_id) %>% 
+          mutate(domain = paste(domain, collapse = ", "),
+                 field = paste(field, collapse = ", "),
+                 subfield = paste(subfield, collapse = ", "),
+                 sm_code = paste(sm_code, collapse = ", ")) %>% 
+          unique()
+        
+        if(nrow(sm_class)>0){
+          template[i,]$sm_code <- sm_class$sm_code
+          template[i,]$sm_domain <- sm_class$domain
+          template[i,]$sm_field <- sm_class$field
+          template[i,]$sm_subfield <- sm_class$subfield
+        }
+      }
+    }
+    
+    # CS ----
+    if(input$citations_n_cit == TRUE) {
+      n_citations <- template %>% 
+        inner_join(full_data, by=c("openalex_id"="id")) %>% 
+        select(temp_id, citations = cited_by_count) 
+      
+      template <- template %>% 
+        left_join(n_citations, by = "temp_id")
+    }
+    # NCS ----
+    if(input$citations_norm_cit == TRUE) {
+    
+      norm<-read.csv("normalization_denominators.csv")
+      disc<-read.csv("venues_sm_classification.csv")
+    
+      ncs<- template %>% 
+        select(temp_id, openalex_id) %>% 
+        inner_join(full_data %>% 
+                     select(openalex_id = id, type, publication_year, cited_by_count, venue_id = so_id),
+                   by=c("openalex_id")) %>% 
+        inner_join(disc, by="venue_id") %>% 
+        inner_join(norm, by=c("sm_code","publication_year","type")) %>% 
+        mutate(normalized_citations = cited_by_count/(n_cits/count)) %>% 
+        select(temp_id, normalized_citations)
+      
+      template <- template %>% 
+        left_join(ncs, by = "temp_id")
+    }
+    
+    # cited documents ----
+    if(input$citations_list_cite == TRUE) {
+    
+      cited <- full_data %>% 
+        group_by(id) %>% 
+        mutate(cited_ids = as.character(paste(referenced_works, collapse=", "))) %>%
+        mutate(cited_ids = str_remove_all(cited_ids,"c\\(")) %>% 
+        mutate(cited_ids = str_remove_all(cited_ids,"\\)")) %>%
+        mutate(cited_ids = str_remove_all(cited_ids,'"')) %>%
+        select(openalex_id = id, cited_ids)
+      
+      template <- template %>% 
+        left_join(cited, by = "openalex_id")
+    }   
+      # citing documents ----
+      
+    if(input$citations_list_citing == TRUE) {
+        
+          citing<-tibble()
+      for(i in 1:nrow(full_data)){
+        
+        a<-oa_request(full_data[i,]$cited_by_api_url)
+        a<-oa2df(a, entity = "works")
+        a<- bind_cols(full_data[i,] %>% 
+                        select(openalex_id = id),a)
+        citing<-bind_rows(citing,a)
+      }
+      
+      citing <- citing %>%
+        group_by(openalex_id) %>% 
+        mutate(citing_ids = paste(id, collapse = ", ")) %>%
+        select(openalex_id, citing_ids) %>% 
+        ungroup() %>% 
+        unique()
+      
+      template <- template %>% 
+        left_join(citing, by = "openalex_id")
+    }
+    
+    # oa_status ----
+    if(input$oa_status == TRUE) {
+      
+      oa_status <- full_data %>%
+        select(openalex_id = id, is_oa) %>%
+        mutate(is_oa = case_when(is_oa == TRUE ~ 1,
+                                 is_oa == FALSE ~ 0,
+                                 is.na(is_oa) ~ as.numeric(NA)))
+      
+      template<-template %>% 
+        left_join(oa_status, by="openalex_id")
+      
+    }  
+    
     template # this is critial and easily overlooked!
     #-**************************************************
   }

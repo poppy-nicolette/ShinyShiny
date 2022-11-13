@@ -16,7 +16,7 @@ library(openalexR)
 library(tidyr)
 library(tibble)
 
-# Define UI for application that draws a histogram
+# Define UI for application that draws a histogram_____________________________________
 ui <- fluidPage(
   
   
@@ -305,16 +305,27 @@ server <- function(input, output) {
   
   #create and modify dataframe-------------------------------------------------------
   rawData <- eventReactive(input$file1, {
-    req(input$file1)
-    #template <- read.csv(input$file1$datapath)
-    
+    req(input$file1) #required input
+ 
+    #reads template from file1 input
     template <- read_excel(input$file1$datapath, sheet = 2) %>% 
       mutate(doi = str_sub(doi, str_locate(doi,"10.")[,1])) %>% 
       mutate(openalex_id = str_sub(openalex_id, str_locate(openalex_id,"W")[,1])) %>% 
       rownames_to_column("temp_id")
     
     full_data<-tibble()
+    
+    #open withProgress function which includes all the data gathering
+    #BUT NOT the additional operations....yet.
+    withProgress(message = "Making science and stuff happen...Selected functions will run after data gathering.", {
+      
     for (i in 1:nrow(template)) {
+      
+      #slow down to reduce change of 429 error
+      Sys.sleep(0.5)
+      
+      #finds length of tempate for progress bar
+      incProgress(1 /1:nrow(template))#withProgress function
       
       doi<-""
       id<-""
@@ -326,10 +337,12 @@ server <- function(input, output) {
       data_id <- tibble()
       
       if(length(doi)>0) { 
+
         data <- oa_fetch(doi = doi,entity = "works", verbose = TRUE, abstract = TRUE)
       } else if (length(id)>0) {
         data <- oa_fetch(identifier = id, entity = "works", verbose = TRUE, abstract = TRUE)
       }
+      runif(1)#withProgress function
       
       if(length(data)>0){
         template[i,]$doi <- data$doi
@@ -351,7 +364,9 @@ server <- function(input, output) {
         template[i,]$wikidata_concepts <- paste(shQuote(data$concepts[[1]]$display_name), collapse=", ")
       }
       full_data<-bind_rows(full_data,data)
-    }
+    } #close for loop
+      
+    
     # Calculate indicators
     
     # P ----
@@ -668,11 +683,15 @@ server <- function(input, output) {
       template<-template %>% 
         left_join(oa_status, by="openalex_id")
       
-    }  
+    }#close oa status  
     
     template # this is critial and easily overlooked!
     #-**************************************************
-  }
+ 
+    
+    })#close withProgress()
+    }#close evenReactive functoin
+  
   )#close eventReactive
   
   rawData

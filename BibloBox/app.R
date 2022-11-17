@@ -48,7 +48,7 @@ ui <- fluidPage(
                    
                    column(6, 
                           #output-----------------------------------------------------
-                          h3("Output"),
+                          h3("Output: Authors"),
                           
                           # Input: Checkbox if file has header ----
                           checkboxInput("output_p", "P.", FALSE),
@@ -90,6 +90,7 @@ ui <- fluidPage(
                           
                           # collaboratio_NCounttry ----
                           checkboxInput("collab_NCountry", "Collaboratio: N of Countries", FALSE)
+                          
                    ),#end column
                    
                    column(6, 
@@ -99,6 +100,8 @@ ui <- fluidPage(
                           
                           # disciplines ----
                           checkboxInput("scimet", "Science Metrix classification", FALSE),
+                          
+                          tags$hr(style = "border-top: 1.5px solid #000000;"),
                           
                           #Citations -----------------------------------------------
                           h3("Citations"),
@@ -118,6 +121,7 @@ ui <- fluidPage(
                           #citations_list_citing ----
                           checkboxInput("citations_list_citing", "List of citing documents", FALSE),
                           
+                          tags$hr(style = "border-top: 1.5px solid #000000;"),
                           #Open Access -----------------------------------------------
                           h3("Open Access"),
                           #open_access ----
@@ -142,11 +146,21 @@ ui <- fluidPage(
     
     # mainPanel--------------------------------------------------------------
     mainPanel(width = 4,
-              h4("There will be some text here explaining everything"),
+              h4("This tool for the bibliometrician collects data from the OpenAlex database
+                 and calculates measures as selected below in the left-hand column. 
+                 You must use the template with the DOI's or OpenAlex identifiers, or a mix of both to perform
+                 the search of OpenAlex."),
+              tags$h6(""),
+              "The template",
+              tags$a(href="https://github.com/poppy-nicolette/ShinyShiny/blob/main/BibloBox/template_info6850.xlsx", 
+                     "is here."),
+              
               br(),
               br(),
               p("Below, you will find the methods for the indicators you have selected."),
               br(),
+              p("References:"),
+              p("Wildgaard, L., Schneider, J. W., & Larsen, B. (2014). A review of the characteristics of 108 author-level bibliometric indicators. Scientometrics, 101(1), 125–158. https://doi.org/10.1007/s11192-014-1423-3"),
               tags$hr(style = "border-top: .5px solid #000000;"),
               #output---------------------------
               fluidRow(uiOutput("uo_text_p")),
@@ -187,31 +201,31 @@ server <- function(input, output) {
   #checkbox output_p method
   output$uo_text_p <- renderUI({
     if(input$output_p == TRUE) {
-      tags$div(tags$p("This will be information about the P method"))
+      tags$div(tags$p("In this method, P represents a whole integer count for each author. For example, if there are 3 authors, each author is assigned a full count of P=1."))
     }})#close output
   
   #checkbox output_p_frac method
   output$uo_text_p_frac <- renderUI({
     if(input$output_p_frac == TRUE) {
-      tags$div(tags$p("This will be information about the P Fractional method"))
+      tags$div(tags$p("The P Fractional method shares the authorship over n-authors. For example, for n authors, p_frac = 1/n. This method gives less weight to collaborative works than non-collaborative works.(Wildgaard et al., 2014)"))
     }})#close output
   
   #checkbox output_harmonic method
   output$uo_text_harmonic <- renderUI({
     if(input$output_harmonic == TRUE) {
-      tags$div(tags$p("This will be information about the Harmonic method"))
+      tags$div(tags$p("The Harmonic method ranks authors according to their position in the by-line and the number of co-authors. It is assumed that the position of the author is reflective of their contribution. (Wildgaard et al., 2014)"))
+    }})#close output
+  
+  #checkbox output_geometric method
+  output$uo_text_p_geometric <- renderUI({
+    if(input$output_p_geometric == TRUE) {
+      tags$div(tags$p("The Geometric method distributes authorship with the 1st author credited with twice that as the 2nd, the second gets 1.5 more credit than the 3rd, the 3rd gets 1.33 more than the 4th etc. (Wildgaard et al., 2014 citing Hagen 2010)"))
     }})#close output
   
   #checkbox output_arith method
   output$uo_text_arith <- renderUI({
     if(input$output_arith == TRUE) {
-      tags$div(tags$p("This will be information about the Arithmatic method"))
-    }})#close output
-  
-  #checkbox output_arith method
-  output$uo_text_arith <- renderUI({
-    if(input$output_arith == TRUE) {
-      tags$div(tags$p("This will be information about the Arithmatic method"))
+      tags$div(tags$p("The Arithmatic method counts authorship by weighting contribution of first author highest and last lowest. (Wildgaard et al., 2014)"))
     }})#close output
   
   #collab--------------------

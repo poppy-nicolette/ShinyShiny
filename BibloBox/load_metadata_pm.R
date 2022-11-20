@@ -315,11 +315,19 @@ template <- template %>%
 citing<-tibble()
 for(i in 1:nrow(full_data)){
   
+  citing_works <- c()
   a<-oa_request(full_data[i,]$cited_by_api_url)
-  a<-oa2df(a, entity = "works")
+  for(w in 1:length(a)) {
+    
+    temp <- a[[1]]$id
+    citing_works <- append(citing_works, temp)
+    
+  }
   a<- bind_cols(full_data[i,] %>% 
-                  select(openalex_id = id),a)
+                  select(openalex_id = id),citing_works)
+  
   citing<-bind_rows(citing,a)
+
 }
 
 citing <- citing %>%

@@ -8,21 +8,24 @@ library(bslib) #themes
 library(magrittr)
 
 #import data and adds to a df
-import_1 <- read.csv("data/derivative_works.csv", header = TRUE, sep = ",")
+import_1 <- read.csv("www/derivative_works.csv", header = TRUE, sep = ",")
 
-import_2 <- read.csv("data/dataset2.csv", header = TRUE, sep = ",")
+import_2 <- read.csv("www/dataset2.csv", header = TRUE, sep = ",")
 
 
 
 #define page layout************************************************************
 ui<- fluidPage(
   
-  theme = bs_theme(version = 4, bootswatch = "simplex"),
+  #theme = bs_theme(version = 4, bootswatch = "simplex"),
 
   
   #define type of layout----------------------
-  h2("We made y'all a table", align = "center"),
+  h2("Information Science Database Explorer", align = "center"),
+   h3(" ", align = "center"),
   
+  #theme selector
+  shinythemes::themeSelector(),  # <--- Add this somewhere in the UI
      
  # background color and font color
 #  verbatimTextOutput("filtered_row"),
@@ -31,20 +34,48 @@ ui<- fluidPage(
     column(12, #width based out of 12 units for fluidPage
            tabsetPanel(
              tabPanel("Home text",
-               fluidRow(column(12, style = "margin-top:0px;")
-                 
-               ),#closes fluidRow
-               h2("Welcome to our thingy", align = "center"),
-               p("Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                 sed do eiusmod tempor incididunt ut labore et dolore magna 
-                 aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                 ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                 Duis aute irure dolor in reprehenderit in voluptate velit 
-                 esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
-                 occaecat cupidatat non proident, sunt in culpa qui officia 
-                 deserunt mollit anim id est laborum."),
+               fluidRow(column(6, style = "margin-top:0px;",
+                          
+               h3("Welcome to our Information Science database explorer", align = "center"),
                br(),
-               img(src="data/qss_logo.png", align = "center")
+               p("The database was developed by a collaboration between Dalhousie University and 
+                 the University of Montréal to investigate the lack of interaction and cross-polination
+                 between researchers and librarians within Information Science.
+                 As part of a larger SSHRC funded project of workshops and conferences, this website 
+                 provides a means to explore a database of publications from the information science 
+                 community in Canada."),
+               br(),
+               p("You can use the tabs above to access the two datasets. Each dataset..."),
+               br(),
+               p("You can find the datasets on Zenodo as well as our presentations to learn more about this
+                 project and its purpose."),
+               ),#closes column
+               
+               column(6, style = "margin-top:0px;",
+                      h3("Bienvenue dans notre explorateur de bases de données en sciences de l'information", align = "center"),
+                      br(),
+                      p("La base de données a été développée par une collaboration entre l'Université Dalhousie et
+                  l'Université de Montréal pour enquêter sur le manque d'interaction et de pollinisation croisée
+                  entre chercheurs et bibliothécaires au sein des sciences de l'information.
+                        Dans le cadre d'un vaste projet d'ateliers et de conférences financé par le CRSH, ce site Web
+                        fournit un moyen d'explorer une base de données de publications de la science de l'information
+                        communauté au Canada."),
+                      br(),
+                      p("Vous pouvez utiliser les onglets ci-dessus pour accéder aux deux ensembles de données. Chaque ensemble de données..."),
+                      br(),
+                      p("Vous pouvez retrouver les jeux de données sur Zenodo ainsi que nos présentations pour en savoir plus à ce sujet
+                  projet et sa finalité."),
+                      ),#closes column
+  
+               column(2, style = "margin-top:200px;",
+               img(src="logo_final__small bw.png", align = "center", height='100px',width='150px')),
+               column(3, style = "margin-top:200px;",
+               img(src="dalhousie.png", align = "center", height= "100px", width = "300px")),
+               column(3, style = "margin-top:200px;",
+               img(src="logo_udem_ebsi.jpg", align = "center", height = "100px", width = "300px")),
+               column(3, style = "margin-top:200px;",
+               img(src= "sshrc_logo_fr.png", align = "center", height = "100px", width = "300px"))#close column
+               )#close fuildRow
                
              ),#closes tabPanel
 

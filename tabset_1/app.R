@@ -33,7 +33,7 @@ ui<- fluidPage(
   mainPanel(
     column(12, #width based out of 12 units for fluidPage
            tabsetPanel(
-             tabPanel("Home text",
+             tabPanel("Introduction",
                fluidRow(column(6, style = "margin-top:0px;",
                           
                h3("Welcome to our Information Science database explorer", align = "center"),
@@ -48,7 +48,9 @@ ui<- fluidPage(
                p("You can use the tabs above to access the two datasets. Each dataset..."),
                br(),
                p("You can find the datasets on Zenodo as well as our presentations to learn more about this
-                 project and its purpose."),
+                 project and its purpose. The source code will be located on GitHub at our respository here. 
+                 For those interested in contributing to this project, you may submit contributions through our GitHub repository 
+                or by email. Our database will be updated annually with new publications."),
                ),#closes column
                
                column(6, style = "margin-top:0px;",
@@ -63,18 +65,14 @@ ui<- fluidPage(
                       br(),
                       p("Vous pouvez utiliser les onglets ci-dessus pour accéder aux deux ensembles de données. Chaque ensemble de données..."),
                       br(),
-                      p("Vous pouvez retrouver les jeux de données sur Zenodo ainsi que nos présentations pour en savoir plus à ce sujet
-                  projet et sa finalité."),
+                      p("Vous pouvez retrouver les jeux de données sur Zenodo ainsi que nos présentations pour en savoir plus
+                    projet et sa finalité. Le code source sera situé sur GitHub dans notre référentiel ici.
+                    Pour ceux qui souhaitent contribuer à ce projet, vous pouvez soumettre des contributions via notre référentiel GitHub
+                   ou par e-mail. Notre base de données sera mise à jour chaque année avec de nouvelles publications."),
                       ),#closes column
   
-               column(2, style = "margin-top:200px;",
-               img(src="logo_final__small bw.png", align = "center", height='100px',width='150px')),
-               column(3, style = "margin-top:200px;",
-               img(src="dalhousie.png", align = "center", height= "100px", width = "300px")),
-               column(3, style = "margin-top:200px;",
-               img(src="logo_udem_ebsi.jpg", align = "center", height = "100px", width = "300px")),
-               column(3, style = "margin-top:200px;",
-               img(src= "sshrc_logo_fr.png", align = "center", height = "100px", width = "300px"))#close column
+               column(12, style = "margin-top:200px;",
+               img(src="logo_collection.png", align = "left", width = "100%")),
                )#close fuildRow
                
              ),#closes tabPanel

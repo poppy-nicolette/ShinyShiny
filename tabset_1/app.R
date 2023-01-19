@@ -6,11 +6,18 @@ library(shiny)
 library(DT) # creates the datatable
 library(bslib) #themes
 library(magrittr)
+library(tidyverse)
 
 #import data and adds to a df
-import_1 <- read.csv("www/derivative_works.csv", header = TRUE, sep = ",")
+import_1 <- read.csv("www/authors.csv", 
+                     header = TRUE, sep = ",")
+import_1 <- import_1 %>% 
+  rename(First_name = first_name, Last_name = last_name, Last_known_institution = last_known_institution)
 
-import_2 <- read.csv("www/dataset2.csv", header = TRUE, sep = ",")
+import_2 <- read.csv("www/publications.csv", 
+                     header = TRUE, sep = ",")  
+import_2 <-import_2 %>% 
+  rename(Authors = authors, Year =  pub_year, Title =  title,  Venue = source) 
 
 
 
@@ -77,13 +84,14 @@ ui<- fluidPage(
                
              ),#closes tabPanel
 
-             tabPanel("Dataset_1", 
+             tabPanel("Authors", 
                       fluidRow(column(3, style = "margin-top: 1px;",
                                 downloadButton(outputId = "download_filtered_1",
                                                   label = "Download",
                                                   icon =  shiny::icon("download"),
                                                   class = "button"),
                                 # Using the class parameter in download button and tags() to define the style
+                                #it sets the style for all tabs unless reverted - can also comment out  and let  the theme  determine
                                 tags$head(tags$style(".button{background-color:#fe0a8c;} .button{color: white;}")),
                                       ),#close column
                                column(10, DT::dataTableOutput("dataset1")),
@@ -92,7 +100,7 @@ ui<- fluidPage(
 
                       ),#closes tabPanel
              
-             tabPanel("Dataset_2", 
+             tabPanel("Publications", 
                       fluidRow(column(3, style = "margin-top: 1px;",
                                 downloadButton(outputId = "download_filtered_2",
                                                  label = "Download",
@@ -116,7 +124,7 @@ ui<- fluidPage(
 server <- function(input, output) {
 
   
-  #output for dataset1--------------------------------------------------------
+  #output for dataset1 Authors--------------------------------------------------------
     output$dataset1 <- 
       DT::renderDataTable(
         datatable(import_1,
@@ -128,22 +136,23 @@ server <- function(input, output) {
                     colReorder = TRUE,
                     #columnDefs see https://rstudio.github.io/DT/options.html--
                     columnDefs = list(
-                                    list(targets = c(1,2,7,8,10), #hides these columns
+                                    list(targets = c(1,4,6,7,8), #hides these columns
                                          visible = FALSE, 
                                          searchable = TRUE),#close list
-                                    list(targets=c(4,5,6,9,11), #limits char length and mouseover
+                                    list(targets=c(2,3,5), #limits char length and mouseover
                                          render = JS(
                                            "function(data, type, row, meta) {",
                                            "return type === 'display' && data.length > 30 ?",
                                            "'<span title=\"' + data + '\">' + data.substr(0, 30) + '...</span>' : data;",
                                            "}")),#close list
-                                    list(targets = c(4,5,6),
+                                    list(targets = c(2,3,5),
                                          width = '500px'
                                          )#close list
                                   )#close list
                            ),#close options
                   ),#closes datatable
-        server = FALSE #this makes it client side processing
+        server = FALSE#this makes it client side processing
+
       )
     
     output$filtered_row <- 
@@ -154,51 +163,54 @@ server <- function(input, output) {
     
     output$download_filtered_1 <- 
       downloadHandler(
-        filename = "Filtered Data from Dataset 1.csv",
+        filename = "Filtered Data from authors.csv",
         content = function(file){
           write.csv(import_1[input[["dataset1_rows_all"]], ],
                     file)
       })
-    #output for the dataset2 -------------------------------------------------
+    #output for the dataset2 Publications------------------------------------------------
+    
     output$dataset2 <- 
+
+    
       DT::renderDataTable(
+        
         datatable(import_2,
                   filter = "top",
                   #creates reorderable columns------------------
                   extensions = 'ColReorder', options = list(
                     colReorder = TRUE,
                     columnDefs = list(
-                                    list(targets = c(1,2,4,8,9),
+                                    list(targets = c(1,2,3,4,6,10,11,12,13,14,15,16,17,18),#hides columns
                                          visible = FALSE, 
-                                         searchable = TRUE),
-                                    list(targets=7,
-                                         render = JS(
-                                           "function(data, type, row, meta) {",
-                                           "return type === 'display' && data.length > 6 ?",
-                                           "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
-                                           "}"))
+                                         searchable = TRUE),#close list
+                                    list(targets = c(5,8,9),
+                                         width = '600px'),
+                                    list(targets = c(7),
+                                         width = '150px')
                                     )#close list
                       )#close options list
                   ),#closes dataTable
         
         server = FALSE #this makes it client side processing
-      )#closes renderDAtaTable
+
+      )#closes renderDataTable
     
     output$filtered_row <- 
       renderPrint({
         input[["dataset2_rows_all"]]
-      })
+      })#close renderPrint
     
     
     output$download_filtered_2 <- 
       downloadHandler(
-        filename = "Filtered Data from Dataset 2.csv",
+        filename = "Filtered Data from publications.csv",
         content = function(file){
           write.csv(import_2[input[["dataset2_rows_all"]], ],
                     file)
-        })
+        })#close downloadHandler
 
-}
+}#close server function
 
 
 #run the app

@@ -12,13 +12,17 @@ library(tidyverse)
 import_1 <- read.csv("www/authors.csv", 
                      header = TRUE, sep = ",")
 import_1 <- import_1 %>% 
-  rename(First_name = first_name, Last_name = last_name, Last_known_institution = last_known_institution)
+  rename("First name / Prénom" = first_name, 
+         "Last name / Nom de famille" = last_name, 
+         "Last known institution / Dernière institution connue" = last_known_institution)
 
 import_2 <- read.csv("www/publications.csv", 
                      header = TRUE, sep = ",")  
 import_2 <-import_2 %>% 
-  rename(Authors = authors, Year =  pub_year, Title =  title,  Venue = source) 
-
+  rename("Authors / Auteurs, Auteures" = authors, 
+         "Year / Année" =  pub_year, 
+         "Title / Titre" =  title,  
+         "Venue / Lieu" = source) 
 
 
 #define page layout************************************************************
@@ -29,6 +33,7 @@ ui<- fluidPage(
   
   #define type of layout----------------------
   h2("Information Science Database Explorer", align = "center"),
+  h2("Explorateur de bases de données en sciences de l'information",  align = "center"),
    h3(" ", align = "center"),
   
   #theme selector
@@ -84,7 +89,7 @@ ui<- fluidPage(
                
              ),#closes tabPanel
 
-             tabPanel("Authors", 
+             tabPanel("Authors  /  Auteurs, Auteures", 
                       fluidRow(column(3, style = "margin-top: 1px;",
                                 downloadButton(outputId = "download_filtered_1",
                                                   label = "Download",
@@ -100,7 +105,7 @@ ui<- fluidPage(
 
                       ),#closes tabPanel
              
-             tabPanel("Publications", 
+             tabPanel("Publications / Ouvrages", 
                       fluidRow(column(3, style = "margin-top: 1px;",
                                 downloadButton(outputId = "download_filtered_2",
                                                  label = "Download",

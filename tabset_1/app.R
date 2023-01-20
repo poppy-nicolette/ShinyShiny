@@ -60,7 +60,9 @@ ui<- fluidPage(
                  provides a means to explore a database of publications from the information science 
                  community in Canada."),
                br(),
-               p("You can use the tabs above to access the two datasets. Each dataset..."),
+               p("You can use the tabs above to access the two datasets. You may filter each column to search 
+                 for specific people, restrict date ranges, or by source. When you download, it willl download your 
+                 filtered dataset."),
                br(),
                p("You can find the datasets on Zenodo as well as our presentations to learn more about this
                  project and its purpose. The source code will be located on GitHub at our respository here. 
@@ -78,7 +80,9 @@ ui<- fluidPage(
                         fournit un moyen d'explorer une base de données de publications de la science de l'information
                         communauté au Canada."),
                       br(),
-                      p("Vous pouvez utiliser les onglets ci-dessus pour accéder aux deux ensembles de données. Chaque ensemble de données..."),
+                      p("Vous pouvez utiliser les onglets ci-dessus pour accéder aux deux ensembles de données. Vous pouvez filtrer chaque colonne pour rechercher
+                  pour des personnes spécifiques, restreindre les plages de dates ou par source. Lorsque vous téléchargez, il téléchargera votre
+                  ensemble de données filtré."),
                       br(),
                       p("Vous pouvez retrouver les jeux de données sur Zenodo ainsi que nos présentations pour en savoir plus
                     projet et sa finalité. Le code source sera situé sur GitHub dans notre référentiel ici.

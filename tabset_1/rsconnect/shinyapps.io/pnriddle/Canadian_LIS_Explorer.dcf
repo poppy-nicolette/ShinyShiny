@@ -5,10 +5,10 @@ account: pnriddle
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8076351
-bundleId: 6755405
+bundleId: 6755789
 url: https://pnriddle.shinyapps.io/Canadian_LIS_Explorer/
-when: 1674223917.05571
-lastSyncTime: 1674223917.05572
+when: 1674230113.41139
+lastSyncTime: 1674230113.4114
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: basic_data.R

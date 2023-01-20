@@ -192,9 +192,9 @@ server <- function(input, output) {
                                     list(targets = c(1,2,3,4,9,10,11,12,13,14,15,16,17),#hides columns
                                          visible = FALSE, 
                                          searchable = TRUE),#close list
-                                    list(targets = c(5,6,7,8),
+                                    list(targets = c(5,7,8),
                                          width = '600px'),
-                                    list(targets = c(7),
+                                    list(targets = c(6),
                                          width = '150px')
                                     )#close list
                       )#close options list

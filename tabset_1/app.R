@@ -7,37 +7,40 @@ library(DT) # creates the datatable
 library(bslib) #themes
 library(magrittr)
 library(tidyverse)
+library(RCurl)
 
 #import data and adds to a df
-import_1 <- read.csv("www/authors.csv", 
+x <- getURL("https://raw.githubusercontent.com/pmongeon/lis_canada/main/data/authors.csv")
+import_1 <- read.csv(text = x, 
                      header = TRUE, sep = ",")
 import_1 <- import_1 %>% 
   rename("First name / Prénom" = first_name, 
          "Last name / Nom de famille" = last_name, 
          "Last known institution / Dernière institution connue" = last_known_institution)
 
-import_2 <- read.csv("www/publications.csv", 
+y <- getURL("https://raw.githubusercontent.com/pmongeon/lis_canada/main/data/publications.csv")
+import_2 <- read.csv(text = y, 
                      header = TRUE, sep = ",")  
 import_2 <-import_2 %>% 
   rename("Authors / Auteurs, Auteures" = authors, 
          "Year / Année" =  pub_year, 
          "Title / Titre" =  title,  
-         "Venue / Lieu" = source) 
+         "Source" = source) 
 
 
 #define page layout************************************************************
 ui<- fluidPage(
   
-  #theme = bs_theme(version = 4, bootswatch = "simplex"),
+  theme = bs_theme(version = 4, bootswatch = "simplex"),
 
   
   #define type of layout----------------------
   h2("Information Science Database Explorer", align = "center"),
   h2("Explorateur de bases de données en sciences de l'information",  align = "center"),
-   h3(" ", align = "center"),
+   #h3(" ", align = "center"),
   
   #theme selector
-  shinythemes::themeSelector(),  # <--- Add this somewhere in the UI
+  #shinythemes::themeSelector(),  # <--- Add this somewhere in the UI
      
  # background color and font color
 #  verbatimTextOutput("filtered_row"),
@@ -83,7 +86,7 @@ ui<- fluidPage(
                    ou par e-mail. Notre base de données sera mise à jour chaque année avec de nouvelles publications."),
                       ),#closes column
   
-               column(12, style = "margin-top:200px;",
+               column(12, style = "margin-top:100px;",
                img(src="logo_collection.png", align = "left", width = "100%")),
                )#close fuildRow
                
@@ -105,7 +108,7 @@ ui<- fluidPage(
 
                       ),#closes tabPanel
              
-             tabPanel("Publications / Ouvrages", 
+             tabPanel("Publications", 
                       fluidRow(column(3, style = "margin-top: 1px;",
                                 downloadButton(outputId = "download_filtered_2",
                                                  label = "Download",

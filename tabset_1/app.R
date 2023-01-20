@@ -189,10 +189,10 @@ server <- function(input, output) {
                   extensions = 'ColReorder', options = list(
                     colReorder = TRUE,
                     columnDefs = list(
-                                    list(targets = c(1,2,3,4,6,10,11,12,13,14,15,16,17,18),#hides columns
+                                    list(targets = c(1,2,3,4,9,10,11,12,13,14,15,16,17),#hides columns
                                          visible = FALSE, 
                                          searchable = TRUE),#close list
-                                    list(targets = c(5,8,9),
+                                    list(targets = c(5,6,7,8),
                                          width = '600px'),
                                     list(targets = c(7),
                                          width = '150px')

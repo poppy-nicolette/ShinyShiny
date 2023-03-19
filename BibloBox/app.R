@@ -682,7 +682,8 @@ server <- function(input, output) {
         unique()
       
       template <- template %>% 
-        left_join(citing, by = "openalex_id")
+        left_join(citing, by = "openalex_id") %>% 
+        unique()
     }
     
     # oa_status ----
@@ -695,7 +696,8 @@ server <- function(input, output) {
                                  is.na(is_oa) ~ as.numeric(NA)))
       
       template<-template %>% 
-        left_join(oa_status, by="openalex_id")
+        left_join(oa_status, by="openalex_id") %>% 
+        unique()
       
     }#close oa status  
     

@@ -1,4 +1,3 @@
-import plotly.express as px
 from shiny.express import input, render, ui
 from shinywidgets import render_widget, render_plotly
 from faicons import icon_svg as icon

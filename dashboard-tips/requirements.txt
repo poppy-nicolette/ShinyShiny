@@ -1,4 +1,4 @@
-plotly
 shiny
 shinywidgets
 faicons
+numpy

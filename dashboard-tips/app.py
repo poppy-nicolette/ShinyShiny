@@ -1,58 +1,37 @@
-from shiny.express import input, render, ui
-from shiny import reactive
-from shinywidgets import render_widget, render_plotly
-from faicons import icon_svg as icon
+from shiny import App, ui
+import plotly.express as px
+import plotly.graph_objects as go
+from shinywidgets import output_widget, render_widget
+import pandas as pd
 
 
-ui.page_opts(title="here is a title and a ✨ ")
-ui.page_opts(fillable = False)
-ui.input_text("text", label="Some text up here")
+app_ui = ui.page_fluid( 
+                ui.panel_well(
+                ui.panel_title("hello there"),
+                ui.card("card 1",
+                output_widget("map")),
+                ui.card("card 2"),
+        ),
+        )
 
-with ui.sidebar():
-    "Sidebar action"
-    with ui.card(height="200px"):
-        "a main filter feature"
-        @reactive.effect
-        def _():
-            print(input.text())
-        
-        @render.text
-        def text_out():
-            return f"input text: {input.text()}"
+def server(input, output, session):
+    @render_widget
+    def map():
+        """
+        More info on plotly maps: https://plotly.com/python/tile-scatter-maps/
+        and here:https://plotly.com/python-api-reference/generated/plotly.express.scatter_map.html
+        """
+        # import data for map
+        df = pd.read_csv("www/org_locations_ns.csv")
+        site_lat = df.lat
+        site_lng = df.lng
+        locations = df.organization
+        address = df.address
+        fig = px.scatter_map(df,lat=site_lat, lon=site_lng, zoom=6, hover_data=[locations,address])
+        fig.update_layout(
+            title="A map of organizations in NS",
+            hovermode='closest',
+        )
+        return fig
 
-
-# add icons as dictionary
-
-variable_one = "oh my gawd"
-with ui.layout_columns(col_widths=[2, 2, 8],height="200px"):
-    with ui.card():
-        @render.text
-        def good():
-            return "This output is fine"
-        "Card 1"
-    with ui.card():
-        @render.text
-        def nicht_so_gut():
-            return (f"here's the text: {variable_one}")
-
-        "Card 2"
-    with ui.card():
-        "Card 3"
-
-with ui.layout_columns(height="300px"):
-    with ui.card():
-        ui.markdown("Another card with some _markdown_.\n or some **markdown**")
-        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos."
-    with ui.card():
-        "some lorem ipsum"
-        with ui.card():
-            ui.markdown("**Lorem ipsum dolor sit amet...**")
-
-    with ui.value_box(showcase=icon("cat")):
-        "total chonks:"
-        "16"
-        with ui.value_box(showcase=icon("paw"),height="120px",align="left"):
-            "Total customers"
-            @render.ui
-            def customers():
-                return f"{1000:,}"
+app = App(app_ui,server)

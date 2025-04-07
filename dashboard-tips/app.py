@@ -3,11 +3,11 @@ from shinywidgets import render_widget, render_plotly
 from faicons import icon_svg as icon
 
 
-ui.page_opts(title="here is a title")
+ui.page_opts(title="here is a title and a ✨ ")
 ui.page_opts(fillable = False)
 
 with ui.sidebar():
-    "sidebar input"
+    "Sidebar action"
 
 # add icons as dictionary
 

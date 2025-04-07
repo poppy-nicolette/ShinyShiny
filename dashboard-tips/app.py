@@ -1,13 +1,25 @@
 from shiny.express import input, render, ui
+from shiny import reactive
 from shinywidgets import render_widget, render_plotly
 from faicons import icon_svg as icon
 
 
 ui.page_opts(title="here is a title and a ✨ ")
 ui.page_opts(fillable = False)
+ui.input_text("text", label="Some text up here")
 
 with ui.sidebar():
     "Sidebar action"
+    with ui.card(height="200px"):
+        "a main filter feature"
+        @reactive.effect
+        def _():
+            print(input.text())
+        
+        @render.text
+        def text_out():
+            return f"input text: {input.text()}"
+
 
 # add icons as dictionary
 

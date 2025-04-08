@@ -3,3 +3,4 @@ shinywidgets
 faicons
 numpy
 plotly
+pandas

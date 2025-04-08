@@ -2,3 +2,4 @@ shiny
 shinywidgets
 faicons
 numpy
+plotly

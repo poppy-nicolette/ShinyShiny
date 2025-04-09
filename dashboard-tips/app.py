@@ -18,6 +18,8 @@ df=pd.read_csv("www/org_locations_ns.csv")
 """
 app_ui = ui.page_navbar(
     ui.nav_spacer(),
+
+#main page info
     ui.nav_panel(
         "Main Page info",
         ui.layout_sidebar(
@@ -30,7 +32,7 @@ app_ui = ui.page_navbar(
             ui.card("Some more room if you need it"),
         ),#close layout_sidebar
 
-    # Map of resources nav_panel
+# Map of resources nav_panel
     ui.nav_panel(
         "Map of resources",
         ui.layout_columns(
@@ -58,7 +60,21 @@ app_ui = ui.page_navbar(
         ),#close layout_columns
     ),#close nav_panel
 
-    #Title bar at top
+# bibliodata nav_panel
+    ui.nav_panel("Biblio-analysis",
+        
+        ui.layout_columns(
+            ui.layout_sidebar(
+                ui.sidebar(
+                    "some text here ",
+                    ui.card("filters here"),
+                    ui.card("options here"),
+                ),#close sidebar
+            ),#close layout_sidebar
+        ),#close layout_columns
+    ),#close nav_panel
+
+#Title bar at top
     fillable="Main Page info",
     id="navbar",
     title=ui.popover(
@@ -71,7 +87,6 @@ app_ui = ui.page_navbar(
 
 )#close page_navbar
 
-#output_widget("map")
 
 
 def server(input, output, session):

@@ -1,1 +1,10 @@
-This template gives you a more "complete" dashboard for exploring the tips dataset. For an overview of what's here, visit [this article](https://shiny.posit.co/py/docs/user-interfaces.html).
+# Test Dashboard for LNS
+This dashboard uses Shiny Python for an interactive and reactive webpage. 
+Authored in Python. 
+Author: Poppy Riddle
+Date: April 2025
+
+## todo:
+- [ ] add all tabs
+- [ ] outline contents for each tab
+- [ ] main page - itemize design goals

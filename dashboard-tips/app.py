@@ -23,6 +23,10 @@ from shiny import App, Inputs, Outputs, Session, reactive, render, ui
     - table for literature table
     - tab for demographics
 """
+# for favicon but this doesn't seem to work
+ui.head_content(
+    ui.HTML("<link rel='shortcut icon' href='www/icon.png'")
+)
 app_ui = ui.page_navbar(
     ui.nav_spacer(),
 
@@ -49,9 +53,26 @@ app_ui = ui.page_navbar(
                 ui.p("- can easily be updated by uploading new data"),
                 ui.p("- can be easily maintained and hosted")
             ),
+            #sidebar links to references for data 
             ui.layout_sidebar(
             ui.sidebar(
-                "some placeholder text",
+                ui.a("Statistics Canada", href="https://www150.statcan.gc.ca/n1/en/type/data?HPA=1"),
+                ui.a("LNS Resource Hub",href="https://resourcehub.literacyns.ca/activity?check_logged_in=1"),
+                ui.a("Education Indicators in Canada",href="https://www150.statcan.gc.ca/n1/en/catalogue/81-582-X"),
+                ui.a("Adult education centres in Nova Scotia",href="https://novascotia.ca/adult-learning/community-learning-organizations.pdf"),
+                ui.a("PIACC report",href="https://piaac.ca/en/"),
+                ui.a("CAMET report",href="https://www.cmec.ca/259/Pan-Canadian_Indicators.html"),
+                ui.a("ASTS final report",href="https://immediac.blob.core.windows.net/camet-camef/pdfs/ASTS%20Final%20Report%20May%202024%20English.pdf"),
+                ui.a("Funding opportunities: IONS",href="https://ions.ca/funding-opportunities/"),
+                ui.a("Office of Literacy and Essential Skills data",href="https://oles.esdc.gc.ca/bace-oles/pr.4j.2cts.2.1rch@-eng.jsp;jsessionid=VYpD4zJ6m5PmW-zeAkt9PLr2IzwQCJqYg9eNkbqp7btsCUugqo2F!-452838142"),
+                ui.a("Public Health Agency of Canada, funding",href="https://www.canada.ca/en/public-health/services/funding-opportunities/grant-contribution-funding-opportunities.html"),
+                ui.a("SRDC reports and pubs",href="https://www.srdc.org/latest-research/"),
+                ui.a("United for Literacy reports",href="https://www.unitedforliteracy.ca/Literacy/Reports"),
+                ui.a("UNESCO data portal",href="https://core.unesco.org/en/home"),
+                ui.a("Environics Institute Social Capital Survey 2022",href="https://www.environicsinstitute.org/docs/default-source/default-document-library/environics-social-capital-2022-10-28a5abb9e91fef47cf981f39462ccbe375.pdf?sfvrsn=8344fe53_0"),
+                ui.a("Vital Signs 2017 report",href="https://communityfoundations.ca/wp-content/uploads/2019/08/2017_CFNS-Colchester-Vital-Signs-FINAL-UPDATED.pdf"),
+                ui.a("Vital Signs 2016 report",href="https://communityfoundations.ca/wp-content/uploads/2019/08/2016_Cumberland-County.pdf"),
+
                 position="right",
                 width=300,
                 title="References"),
@@ -116,18 +137,20 @@ app_ui = ui.page_navbar(
                     ui.card("options here"),
                 ),#close sidebar
             ),#close layout_sidebar
+            ui.card("insert searchable table"),
+            ui.card("insert quick stats",
+                ui.card(),
+                ui.card(),
+                ui.card(),),
+            col_widths=[2,6,4],
         ),#close layout_columns
     ),#close nav_panel
 
 #Title bar at top
     fillable="Main Page info",
     id="navbar",
-    title=ui.popover(
-        ["Literacy Nova Scotia Dashboard"],
-        ui.markdown("This project aims to make results from literacy studies available to those in the LNS community."),
-        placement="right",
-    ),
-    window_title="Literacy NS Dashboard",
+    title=[ui.HTML("<img src='www/icon.png' width='32' height='32'>Literacy NS Dashboard")],
+    window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python by posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),
 

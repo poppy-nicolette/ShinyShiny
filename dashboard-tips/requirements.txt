@@ -4,3 +4,5 @@ faicons
 numpy
 plotly
 pandas
+ipyleaflet
+ipywidgets

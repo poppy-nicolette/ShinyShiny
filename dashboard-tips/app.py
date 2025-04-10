@@ -11,6 +11,7 @@ import plotly.graph_objects as go
 from shinywidgets import output_widget, render_widget
 import pandas as pd
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
+from shiny.ui import tags
 # for the map
 from ipyleaflet import Map, Marker,display, LayersControl, Popup, Icon
 import ipywidgets as widgets
@@ -24,15 +25,15 @@ def read_file(filename):
     df = pd.read_csv(filename)
     return df
 
-"""
- - add tabs for each thing
-    - tab for map of organizations
-    - table for literature table
-    - tab for demographics
-"""
+#styling
+ui.tags.style(
+    ".card-header { color:white; background:#746e6e !important; }"
+)
+
+
 # for favicon but this doesn't seem to work
 ui.head_content(
-    ui.HTML("<link rel='shortcut icon' href='www/icon.png'")
+    ui.HTML("<link rel='shortcut icon' href='icon.png'")
 )
 app_ui = ui.page_navbar(
     ui.nav_spacer(),
@@ -83,9 +84,9 @@ app_ui = ui.page_navbar(
                 position="right",
                 width=300,
                 title="References"),
-            ),#close sidebar
-        ),#close layout_columns
 
+            ),#close layout_sidebar
+        ),#close layout_columns
         ui.layout_columns(
             ui.card(
                 ui.p("This report is a brief overview of the scoping review conducted in 2024-2025."),
@@ -97,12 +98,12 @@ app_ui = ui.page_navbar(
                 ui.p("The second scoping review was conducted in 2024-2025 to update the findings of the original review. The updated review aimed to capture new developments in literacy research and practice in Nova Scotia."),
                 ui.markdown("**The Dashboard Project**"),
                 ui.p("The dashboard project was initiated to visualize the findings of the scoping review and provide an interactive platform for stakeholders to explore the data. The dashboard includes visualizations of funding, locations, literacy types, and key findings from the review."),
-                ),#close cardcol_widths=[1],
+                id="text_card"),
             min_height="200px",
             max_height="auto",
-            
-
+            col_widths=[9],
             ),#close layout_columns
+        
     ),#close nav_panel
 
 # Map of resources nav_panel
@@ -156,7 +157,7 @@ app_ui = ui.page_navbar(
 #Title bar at top
     fillable="Main Page info",
     id="navbar",
-    title=[ui.HTML("<h1><img src='kitten.png' width='32' height='32'> Literacy NS Dashboard</h1>")],
+    title=[ui.HTML("<h1>Literacy NS Dashboard</h1>")],
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python by posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),
@@ -195,5 +196,7 @@ def server(input, output, session):
             editable=False,
             #selection_mode=input.selection_mode(),
         )
+
+
 
 app = App(app_ui,server)

@@ -11,11 +11,18 @@ import plotly.graph_objects as go
 from shinywidgets import output_widget, render_widget
 import pandas as pd
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
-
+# for the map
+from ipyleaflet import Map, Marker,display, LayersControl, Popup, Icon
+import ipywidgets as widgets
 
 
 #load data for table
 #df_org_loc=pd.read_csv("www/org_locations_ns.csv")
+
+# read in file for map locations
+def read_file(filename):
+    df = pd.read_csv(filename)
+    return df
 
 """
  - add tabs for each thing
@@ -149,7 +156,7 @@ app_ui = ui.page_navbar(
 #Title bar at top
     fillable="Main Page info",
     id="navbar",
-    title=[ui.HTML("<img src='www/icon.png' width='32' height='32'>Literacy NS Dashboard")],
+    title=[ui.HTML("<h1><img src='kitten.png' width='32' height='32'> Literacy NS Dashboard</h1>")],
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python by posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),
@@ -160,30 +167,25 @@ app_ui = ui.page_navbar(
 
 
 def server(input, output, session):
-    @render_widget
+
+#render map of resource centres
+    @render_widget  
     def map():
         """
-        More info on plotly maps: https://plotly.com/python/tile-scatter-maps/
-        and here:https://plotly.com/python-api-reference/generated/plotly.express.scatter_map.html
+        See documentation for ipyleaflet here:https://ipyleaflet.readthedocs.io/en/latest/controls/layers_control.html
         """
-        # import data for map
-        df = pd.read_csv("www/org_locations_ns.csv")
-        site_lat = df.lat
-        site_lng = df.lng
-        locations = df.organization
-        address = df.address
-        fig = px.scatter_map(df,
-                            lat=site_lat,
-                            lon=site_lng,
-                            zoom=6,
-                            hover_data=[locations,address],
-                            map_style='open-street-map',
-                            subtitle="copyright OpenStreetMaps")
-        fig.update_layout(
-            title="A map of organizations in NS",
-            hovermode='closest',
-        )
-        return fig
+        center = (44.68198660,-63.74431100)
+
+        m = Map(center=center, zoom=7)
+        df = read_file("www/org_locations_ns.csv")
+        for index,row in df.iterrows():
+            icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
+            marker = Marker(location=(row['lat'],row['lng']), draggable=True, )
+            popup_content = f"Organization: {row['organization']} <br> Address: {row['address']}"
+            marker.popup = widgets.HTML(value=popup_content)
+            m.add(marker)
+
+        return m 
 
     @render.data_frame
     def table()->None:

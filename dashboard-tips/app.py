@@ -15,10 +15,10 @@ from shiny.ui import tags
 # for the map
 from ipyleaflet import Map, Marker,display, LayersControl, Popup, Icon
 import ipywidgets as widgets
+import openpyxl
+import faicons
 
 
-#load data for table
-#df_org_loc=pd.read_csv("www/org_locations_ns.csv")
 
 # read in file for map locations
 def read_file(filename):
@@ -31,10 +31,6 @@ ui.tags.style(
 )
 
 
-# for favicon but this doesn't seem to work
-ui.head_content(
-    ui.HTML("<link rel='shortcut icon' href='icon.png'")
-)
 app_ui = ui.page_navbar(
     ui.nav_spacer(),
 
@@ -80,6 +76,7 @@ app_ui = ui.page_navbar(
                 ui.a("Environics Institute Social Capital Survey 2022",href="https://www.environicsinstitute.org/docs/default-source/default-document-library/environics-social-capital-2022-10-28a5abb9e91fef47cf981f39462ccbe375.pdf?sfvrsn=8344fe53_0"),
                 ui.a("Vital Signs 2017 report",href="https://communityfoundations.ca/wp-content/uploads/2019/08/2017_CFNS-Colchester-Vital-Signs-FINAL-UPDATED.pdf"),
                 ui.a("Vital Signs 2016 report",href="https://communityfoundations.ca/wp-content/uploads/2019/08/2016_Cumberland-County.pdf"),
+                ui.a("Census Program Dashboard",href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/dv-vd/cpdv-vdpr/index-eng.cfm"),
 
                 position="right",
                 width=300,
@@ -145,19 +142,65 @@ app_ui = ui.page_navbar(
                     ui.card("options here"),
                 ),#close sidebar
             ),#close layout_sidebar
-            ui.card("insert searchable table"),
+            ui.card(ui.h2("Table of scan literature"),
+            ui.output_data_frame("lns_metadata")),
             ui.card("insert quick stats",
-                ui.card(),
+                ui.value_box(
+                "Percent change in population in NS from 2016-2021",
+                ui.output_ui("population"),
+                showcase=faicons.icon_svg("arrow-up-right-dots", width="50px"),
+                theme="bg-gradient-cyan-teal",
+                style="height:150px;",),
                 ui.card(),
                 ui.card(),),
             col_widths=[2,6,4],
+        ),#close layout_columns
+        ui.layout_columns(
+            ui.card("map of author affiliations - see ipnyb MAG_geolocation_of_author_affiliations_v10.ipynb"),
+            ui.card(),
+            col_widths=[6,6]
+        ),#close layout_columns
+    ),#close nav_panel
+    
+#nav_panel for demographics
+    ui.nav_panel(
+        "Demographics",
+        ui.layout_columns(
+            ui.card("population"),
+            ui.card("income"),
+            ui.card("education"),
+            col_widths=[6,3,3]
+        ),#close layout_columns
+        ui.layout_columns(
+            ui.card("health"),
+            ui.card("industry"),
+            ui.card("transportation"),
+            col_widths=[6,3,3]
+        ),#close layout_columns
+    ),#close nav_panel
+
+#funding nav_panel
+    ui.nav_panel(
+        "Funding",
+        ui.layout_columns(
+            ui.navset_card_tab(  
+            ui.nav_panel("A", "Panel A content"),
+            ui.nav_panel("B", "Panel B content"),
+            ui.nav_panel("C", "Panel C content"),
+            id="tab",  
+            ),  
+            col_widths=[12]
+        ),#close layout_columns
+        ui.layout_columns(
+            ui.card("big map here with funding overlays"),
+            col_widths=[12]
         ),#close layout_columns
     ),#close nav_panel
 
 #Title bar at top
     fillable="Main Page info",
     id="navbar",
-    title=[ui.HTML("<h1>Literacy NS Dashboard</h1>")],
+    title=[ui.h1("Literacy NS Dashboard")],
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python by posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),
@@ -169,6 +212,17 @@ app_ui = ui.page_navbar(
 
 def server(input, output, session):
 
+#value in value_box on biblio page
+    @render.ui
+    def population():
+        df=pd.read_csv("www/2021_population_ns.csv")
+        return f"+{df.iloc[0,2]}%"
+
+#render image for lns logo - NOT WORKING
+    @render.image
+    def icon():
+        img = {"src":"lns_icon.png","width":"32px"}
+        return img
 #render map of resource centres
     @render_widget  
     def map():
@@ -189,13 +243,21 @@ def server(input, output, session):
         return m 
 
     @render.data_frame
-    def table()->None:
+    def table():
         return render.DataTable(
             data=pd.read_csv("www/org_locations_ns.csv"),
             filters=False,
             editable=False,
             #selection_mode=input.selection_mode(),
-        )
+        )# close datatable
+    
+    @render.data_frame
+    def lns_metadata():
+        return render.DataTable(
+            data=pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2"),
+            filters=True,
+            editable=False,
+            )#close datatable
 
 
 

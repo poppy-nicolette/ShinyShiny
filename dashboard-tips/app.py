@@ -137,7 +137,7 @@ app_ui = ui.page_navbar(
         ui.layout_columns(
             ui.layout_sidebar(
                 ui.sidebar(
-                    "some text here ",
+                    "bm25s search",
                     ui.card("filters here"),
                     ui.card("options here"),
                 ),#close sidebar
@@ -166,8 +166,8 @@ app_ui = ui.page_navbar(
     ui.nav_panel(
         "Demographics",
         ui.layout_columns(
-            ui.card("population"),
-            ui.card("income"),
+            ui.card("population - census subdivisions in NS data: 98-401-X2021018_eng_CSV"),
+            ui.card("income - census subdivisions in NS data: 98-401-X2021018_eng_CSV"),
             ui.card("education"),
             col_widths=[6,3,3]
         ),#close layout_columns

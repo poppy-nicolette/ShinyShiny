@@ -18,7 +18,7 @@ import ipywidgets as widgets
 import openpyxl
 import faicons
 
-
+df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
 
 # read in file for map locations
 def read_file(filename):
@@ -133,33 +133,52 @@ app_ui = ui.page_navbar(
 
 # bibliodata nav_panel
     ui.nav_panel("Biblio-analysis",
+        ui.navset_card_tab(
+            ui.nav_panel("Table",
+                ui.layout_columns(
+                    ui.layout_sidebar(
+                        ui.sidebar(
+                            "bm25s search",
+                            ui.card("filters here",
+                                ui.input_radio_buttons("pub_year","Available filters:", choices=["year","open access","funded","has citations"]),),
+                            ui.card("options here",),
+                        ),#close sidebar
+                    ),#close layout_sidebar
+                    ui.card(ui.h2("Table of scan literature"),
+                    ui.output_data_frame("lns_metadata")),
+                    ui.card("insert quick stats",
+                        ui.value_box(
+                        "Percent change in population in NS from 2016-2021",
+                        ui.output_ui("population"),
+                        showcase=faicons.icon_svg("arrow-up-right-dots", width="50px"),
+                        theme="bg-gradient-cyan-teal",
+                        style="height:150px;",),
+                    
+                        ui.value_box("Number of documents:",
+                            ui.output_ui("doc_count"),
+                            showcase=faicons.icon_svg("cat", width="50px"),
+                            theme="bg-gradient-cyan-teal",
+                            style="height:150px;",),
+                        
+                        ui.value_box("Max citations:",
+                            ui.output_ui("avg_citation"),
+                            showcase=faicons.icon_svg("star", width="50px"),
+                            theme="bg-gradient-cyan-teal",
+                            style="height:150px;",
+                            ),# close value box
+                        ),#close ui.card
+                    col_widths=[2,6,4],
+                ),#close layout_columns
+            ),#close nav_panel
         
-        ui.layout_columns(
-            ui.layout_sidebar(
-                ui.sidebar(
-                    "bm25s search",
-                    ui.card("filters here"),
-                    ui.card("options here"),
-                ),#close sidebar
-            ),#close layout_sidebar
-            ui.card(ui.h2("Table of scan literature"),
-            ui.output_data_frame("lns_metadata")),
-            ui.card("insert quick stats",
-                ui.value_box(
-                "Percent change in population in NS from 2016-2021",
-                ui.output_ui("population"),
-                showcase=faicons.icon_svg("arrow-up-right-dots", width="50px"),
-                theme="bg-gradient-cyan-teal",
-                style="height:150px;",),
-                ui.card(),
-                ui.card(),),
-            col_widths=[2,6,4],
-        ),#close layout_columns
+        ui.nav_panel("Network Maps",
         ui.layout_columns(
             ui.card("map of author affiliations - see ipnyb MAG_geolocation_of_author_affiliations_v10.ipynb"),
             ui.card(),
             col_widths=[6,6]
         ),#close layout_columns
+        ),#close nav_panel
+        ),#close navset_card_tab
     ),#close nav_panel
     
 #nav_panel for demographics
@@ -184,7 +203,9 @@ app_ui = ui.page_navbar(
         "Funding",
         ui.layout_columns(
             ui.navset_card_tab(  
-            ui.nav_panel("A", "Panel A content"),
+            ui.nav_panel("A", "Panel A content",
+                ui.card("Table of grants and institutions from the LNS Corpus"),
+                ),#close nav_panel
             ui.nav_panel("B", "Panel B content"),
             ui.nav_panel("C", "Panel C content"),
             id="tab",  
@@ -198,9 +219,10 @@ app_ui = ui.page_navbar(
     ),#close nav_panel
 
 #Title bar at top
+    ui.head_content(ui.include_css("styles.css")),
     fillable="Main Page info",
     id="navbar",
-    title=[ui.h1("Literacy NS Dashboard")],
+    title=[ui.h1("Literacy Nova Scotia",style="color:teal")],
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python by posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),
@@ -217,6 +239,18 @@ def server(input, output, session):
     def population():
         df=pd.read_csv("www/2021_population_ns.csv")
         return f"+{df.iloc[0,2]}%"
+
+    @render.ui
+    def doc_count():
+        df_doc_count = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
+        count = len(df_doc_count)
+        return f"{count}"
+
+    @render.ui
+    def avg_citation():
+        max_cite = df_lns_full["cited_by_count"].max()
+        return f"{max_cite}"
+
 
 #render image for lns logo - NOT WORKING
     @render.image

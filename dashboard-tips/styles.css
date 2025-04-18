@@ -10,3 +10,12 @@
 .popover .btn-close {
   filter: var(--bs-btn-close-white-filter);
 }
+
+/* new gradient style for h1 */
+.h1-style {
+  background: linear-gradient(to right, #0093E9, #90D0C7);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+
+}

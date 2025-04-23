@@ -6,3 +6,4 @@ plotly
 pandas
 ipyleaflet
 ipywidgets
+openpyxl

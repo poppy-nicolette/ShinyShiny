@@ -173,9 +173,15 @@ app_ui = ui.page_navbar(
         
         ui.nav_panel("Network Maps",
         ui.layout_columns(
-            ui.card("map of author affiliations - see ipnyb MAG_geolocation_of_author_affiliations_v10.ipynb"),
+            ui.card("select type of network",
+                ui.input_radio_buttons("image_select", "Select an network",
+                {"BC":"Bibliographic coupling","CC":"Cocitation","DC":"Direct citation","BC-CC":"BC-CC","BC-DC":"BC-DC","CC-DC":"CC-DC","BC-CC-DC":"BC-CC-DC"}),
+                    ),
+            ui.card("networks",
+                    ui.output_image("image_output", width='200px',height='200px'),
+                    full_screen=True,),
             ui.card(),
-            col_widths=[6,6]
+            col_widths=[2,8,2]
         ),#close layout_columns
         ),#close nav_panel
         ),#close navset_card_tab
@@ -292,6 +298,31 @@ def server(input, output, session):
             filters=True,
             editable=False,
             )#close datatable
+
+#biblio-analysis page - Network Maps tab
+    @render.image
+    def image_output():
+        if input.image_select() =="BC":
+            img = {"src":"www/graph_bc.png","width":"640px"}
+            return img
+        if input.image_select() == "CC":
+            img = {"src":"www/graph_cc.png","width":"640px"}
+            return img
+        if input.image_select() == "DC":
+            img = {"src":"www/graph_dc.png","width":"640px"}
+            return img
+        if input.image_select() == "BC-CC":
+            img = {"src":"www/graph_bc_cc.png","width":"640px"}
+            return img
+        if input.image_select() == "BC-DC":
+            img = {"src":"www/graph_bc_dc.png","width":"640px"}
+            return img
+        if input.image_select() == "CC-DC":
+            img = {"src":"www/graph_cc_dc.png","width":"640px"}
+            return img
+        if input.image_select() == "BC-CC-DC":
+            img = {"src":"www/graph_bc_cc_dc.png","width":"640px"}
+            return img
 
 
 

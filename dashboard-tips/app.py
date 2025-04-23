@@ -230,7 +230,7 @@ app_ui = ui.page_navbar(
     id="navbar",
     title=[ui.h1("Literacy Nova Scotia",style="color:teal")],
     window_title="Literacy Nova Scotia",
-    footer="Authored by Poppy Riddle using Shiny Python by posit.co - copyright 2025",
+    footer="Authored by Poppy Riddle using Shiny Python from posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),
 
 
@@ -294,7 +294,7 @@ def server(input, output, session):
     @render.data_frame
     def lns_metadata():
         return render.DataTable(
-            data=pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2"),
+            data=pd.read_excel("www/LNS_REV_3_limited_metadata.xlsx", sheet_name="Sheet1"),
             filters=True,
             editable=False,
             )#close datatable

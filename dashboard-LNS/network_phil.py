@@ -32,7 +32,7 @@ net_bc = net_bc.merge(citations, left_on='id', right_on='citing_id', how='inner'
 net_bc = net_bc[net_bc['citing_id'].isin(works['id'])]
 net_bc = net_bc[['id', 'cited_id']].rename(columns={'id': 'source', 'cited_id': 'target'})
 net_bc['weight'] = 1
-net_bc['type'] = 'undirected'
+net_bc['type'] = 'undirected' #note undirected
 
 net_bc = net_bc.groupby(['source', 'target']).sum().reset_index()
 net_bc['source'] = net_bc['source'].astype(float)

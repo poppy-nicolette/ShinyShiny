@@ -37,6 +37,31 @@ app_ui = ui.page_navbar(
 #main page info
     ui.nav_panel(
         "Main Page info",
+        ui.layout_sidebar(
+            ui.sidebar(
+                ui.a("Statistics Canada", href="https://www150.statcan.gc.ca/n1/en/type/data?HPA=1"),
+                ui.a("LNS Resource Hub",href="https://resourcehub.literacyns.ca/activity?check_logged_in=1"),
+                ui.a("Education Indicators in Canada",href="https://www150.statcan.gc.ca/n1/en/catalogue/81-582-X"),
+                ui.a("Adult education centres in Nova Scotia",href="https://novascotia.ca/adult-learning/community-learning-organizations.pdf"),
+                ui.a("211 Nova Scotia",href="https://ns.211.ca/needs-data-dashboard/"),
+                ui.a("PIACC report",href="https://piaac.ca/en/"),
+                ui.a("CAMET report",href="https://www.cmec.ca/259/Pan-Canadian_Indicators.html"),
+                ui.a("ASTS final report",href="https://immediac.blob.core.windows.net/camet-camef/pdfs/ASTS%20Final%20Report%20May%202024%20English.pdf"),
+                ui.a("Funding opportunities: IONS",href="https://ions.ca/funding-opportunities/"),
+                ui.a("Office of Literacy and Essential Skills data",href="https://oles.esdc.gc.ca/bace-oles/pr.4j.2cts.2.1rch@-eng.jsp;jsessionid=VYpD4zJ6m5PmW-zeAkt9PLr2IzwQCJqYg9eNkbqp7btsCUugqo2F!-452838142"),
+                ui.a("Public Health Agency of Canada, funding",href="https://www.canada.ca/en/public-health/services/funding-opportunities/grant-contribution-funding-opportunities.html"),
+                ui.a("SRDC reports and pubs",href="https://www.srdc.org/latest-research/"),
+                ui.a("United for Literacy reports",href="https://www.unitedforliteracy.ca/Literacy/Reports"),
+                ui.a("UNESCO data portal",href="https://core.unesco.org/en/home"),
+                ui.a("Environics Institute Social Capital Survey 2022",href="https://www.environicsinstitute.org/docs/default-source/default-document-library/environics-social-capital-2022-10-28a5abb9e91fef47cf981f39462ccbe375.pdf?sfvrsn=8344fe53_0"),
+                ui.a("Vital Signs 2017 report",href="https://communityfoundations.ca/wp-content/uploads/2019/08/2017_CFNS-Colchester-Vital-Signs-FINAL-UPDATED.pdf"),
+                ui.a("Vital Signs 2016 report",href="https://communityfoundations.ca/wp-content/uploads/2019/08/2016_Cumberland-County.pdf"),
+                ui.a("Census Program Dashboard",href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/dv-vd/cpdv-vdpr/index-eng.cfm"),
+
+                position="right",
+                width=300,
+                title="References"),
+
         ui.layout_columns(
             ui.card(
                 ui.card_header("Informative"),
@@ -58,32 +83,9 @@ app_ui = ui.page_navbar(
                 ui.p("- can be easily maintained and hosted")
             ),
             #sidebar links to references for data 
-            ui.layout_sidebar(
-            ui.sidebar(
-                ui.a("Statistics Canada", href="https://www150.statcan.gc.ca/n1/en/type/data?HPA=1"),
-                ui.a("LNS Resource Hub",href="https://resourcehub.literacyns.ca/activity?check_logged_in=1"),
-                ui.a("Education Indicators in Canada",href="https://www150.statcan.gc.ca/n1/en/catalogue/81-582-X"),
-                ui.a("Adult education centres in Nova Scotia",href="https://novascotia.ca/adult-learning/community-learning-organizations.pdf"),
-                ui.a("PIACC report",href="https://piaac.ca/en/"),
-                ui.a("CAMET report",href="https://www.cmec.ca/259/Pan-Canadian_Indicators.html"),
-                ui.a("ASTS final report",href="https://immediac.blob.core.windows.net/camet-camef/pdfs/ASTS%20Final%20Report%20May%202024%20English.pdf"),
-                ui.a("Funding opportunities: IONS",href="https://ions.ca/funding-opportunities/"),
-                ui.a("Office of Literacy and Essential Skills data",href="https://oles.esdc.gc.ca/bace-oles/pr.4j.2cts.2.1rch@-eng.jsp;jsessionid=VYpD4zJ6m5PmW-zeAkt9PLr2IzwQCJqYg9eNkbqp7btsCUugqo2F!-452838142"),
-                ui.a("Public Health Agency of Canada, funding",href="https://www.canada.ca/en/public-health/services/funding-opportunities/grant-contribution-funding-opportunities.html"),
-                ui.a("SRDC reports and pubs",href="https://www.srdc.org/latest-research/"),
-                ui.a("United for Literacy reports",href="https://www.unitedforliteracy.ca/Literacy/Reports"),
-                ui.a("UNESCO data portal",href="https://core.unesco.org/en/home"),
-                ui.a("Environics Institute Social Capital Survey 2022",href="https://www.environicsinstitute.org/docs/default-source/default-document-library/environics-social-capital-2022-10-28a5abb9e91fef47cf981f39462ccbe375.pdf?sfvrsn=8344fe53_0"),
-                ui.a("Vital Signs 2017 report",href="https://communityfoundations.ca/wp-content/uploads/2019/08/2017_CFNS-Colchester-Vital-Signs-FINAL-UPDATED.pdf"),
-                ui.a("Vital Signs 2016 report",href="https://communityfoundations.ca/wp-content/uploads/2019/08/2016_Cumberland-County.pdf"),
-                ui.a("Census Program Dashboard",href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/dv-vd/cpdv-vdpr/index-eng.cfm"),
-
-                position="right",
-                width=300,
-                title="References"),
-
-            ),#close layout_sidebar
-        ),#close layout_columns
+            
+            ),#close layout_columns
+       
         ui.layout_columns(
             ui.card(
                 ui.p("This report is a brief overview of the scoping review conducted in 2024-2025."),
@@ -96,10 +98,24 @@ app_ui = ui.page_navbar(
                 ui.markdown("**The Dashboard Project**"),
                 ui.p("The dashboard project was initiated to visualize the findings of the scoping review and provide an interactive platform for stakeholders to explore the data. The dashboard includes visualizations of funding, locations, literacy types, and key findings from the review."),
                 id="text_card"),
+            ui.card(
+                ui.card_header('to do list:'),
+                ui.p("🥡 Look up NSSAL Report - this might be useful data"),
+                ui.p("🥡 add more resources to Map - see 211 NS Data"),
+                ui.p("🥡 add more summary metrics to biblio-analysis page"),
+                ui.p("🥡 Follow up with 211 NS Nick Jennery"),
+                ui.p("🥡 enrich survey metadata to fill in holes"),
+                ui.p("🥡 Dig in to Engage NS data"),
+                ui.p("🥡 Add network code and functions - add to biblio-analysis page"),
+                ui.p("🥡 Import Q&A code, add query/response interface"),
+                ui.p("🥡 extract abstracts and add to text file"),
+                ui.p("🐍 refine Python code into modules"),
+            ),
             min_height="200px",
             max_height="auto",
-            col_widths=[9],
+            col_widths=[6,6],
             ),#close layout_columns
+             ),#close layout_sidebar
         
     ),#close nav_panel
 
@@ -226,9 +242,9 @@ app_ui = ui.page_navbar(
 
 #Title bar at top
     ui.head_content(ui.include_css("styles.css")),
-    fillable="Main Page info",
+    fillable="Project info",
     id="navbar",
-    title=[ui.h1("Literacy Nova Scotia",style="color:teal")],
+    title=[ui.h1("Literacy Nova Scotia",style="color:teal", style="class:h1-style",)],
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python from posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),

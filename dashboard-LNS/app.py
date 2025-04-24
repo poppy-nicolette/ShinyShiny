@@ -244,7 +244,7 @@ app_ui = ui.page_navbar(
     ui.head_content(ui.include_css("styles.css")),
     fillable="Project info",
     id="navbar",
-    title=[ui.h1("Literacy Nova Scotia",style="color:teal", style="class:h1-style",)],
+    title=[ui.h1("Literacy Nova Scotia",style="color:teal")],
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python from posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),

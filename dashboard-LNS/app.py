@@ -291,7 +291,7 @@ def server(input, output, session):
             name='sun-o',
             marker_color='green',
             icon_color='black',
-            spin=True)  
+            spin=True)
         for index,row in df2.iterrows():
             icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
             marker2 = Marker(name='NSSAL List', icon=icon2, location=(row['lat'],row['lon']), draggable=False, )
@@ -303,16 +303,16 @@ def server(input, output, session):
         # see notebook extract_inst.ipynb for extraction and api calls for lat lng
         df3 = pd.read_csv("www/inst_names.csv",encoding="utf-8")
         icon3 = AwesomeIcon(
-            name='pen',
+            name='bank',
             marker_color='pink',
             icon_color='white',
-            spin=True)
+            spin=False)
         for index,row in df3.iterrows():
             icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
             marker3 = Marker(name='Institutions', icon=icon3, location=(row['lat'],row['lng']), draggable=False, )
             popup_content = f"Author affiliated institution: {row['inst_name']} <br>Reference work: {row['id']}"
             marker3.popup = widgets.HTML(value=popup_content)
-            m.add(marker2)
+            m.add(marker3)
         # Add a layers control to the map
         layer_group = LayerGroup(layers=[marker2,marker3])
         m.add(layer_group)

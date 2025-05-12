@@ -13,7 +13,7 @@ import pandas as pd
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
 from shiny.ui import tags
 # for the map
-from ipyleaflet import Map, Marker,display, LayersControl, Popup, Icon
+from ipyleaflet import Map, Marker,display, LayersControl, Popup, Icon, MarkerCluster,AwesomeIcon,LayerGroup
 import ipywidgets as widgets
 import openpyxl
 import faicons
@@ -288,20 +288,44 @@ def server(input, output, session):
         center = (44.68198660,-63.74431100)
 
         m = Map(center=center, zoom=7)
+
+        # old list from NS gov't list
         df = read_file("www/org_locations_ns.csv")
+        icon1 = AwesomeIcon(name='book',marker_color='lightblue',icon_color='black',spin=False)
         for index,row in df.iterrows():
             icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
-            marker = Marker(location=(row['lat'],row['lng']), draggable=True, )
+            marker1 = Marker(name='Govt NS List',icon=icon1,location=(row['lat'],row['lng']), draggable=False, )
             popup_content = f"Organization: {row['organization']} <br> Address: {row['address']}"
-            marker.popup = widgets.HTML(value=popup_content)
-            m.add(marker)
+            marker1.popup = widgets.HTML(value=popup_content)
+            m.add(marker1)
+            
+        # new list from NSSAL
+        df2 = read_file("www/orgs_list_2.csv")
+        icon2 = AwesomeIcon(
+            name='sun-o',
+            marker_color='green',
+            icon_color='black',
+            spin=True)  
+        for index,row in df2.iterrows():
+            icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
+            marker2 = Marker(name='NSSAL List', icon=icon2, location=(row['lat'],row['lon']), draggable=False, )
+            popup_content = f"Organization: {row['Name:']} <br> Address: {row['full_address_x']}<br>Location type: {row['Location Type:']}<br>Region: {row['Region:']}<br>Contact name: {row['Contact Name:']}<br>Contact email: {row['Contact Email:']}<br>Contact address: {row['Contact Address:']}"
+            marker2.popup = widgets.HTML(value=popup_content)
+            m.add(marker2)
+            
+        # Add a layers control to the map
+        layer_group = LayerGroup(layers=[marker1,marker2])
+        m.add(layer_group)
+        m.add_control(LayersControl(position='topright'))
 
+        #generate map
         return m 
 
     @render.data_frame
     def table():
         return render.DataTable(
-            data=pd.read_csv("www/org_locations_ns.csv"),
+            #data=pd.read_csv("www/org_locations_ns.csv"),
+            data =pd.read_csv("www/orgs_list_2.csv"), # this is the more commplete list from the NSSAL map
             filters=False,
             editable=False,
             #selection_mode=input.selection_mode(),

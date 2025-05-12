@@ -10,6 +10,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from shinywidgets import output_widget, render_widget
 import pandas as pd
+import numpy as np
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
 from shiny.ui import tags
 # for the map
@@ -285,7 +286,7 @@ def server(input, output, session):
         m = Map(center=center, zoom=7)
   
         # new list from NSSAL
-        df2 = read_file("www/orgs_list_2.csv")
+        df2 = pd.read_csv("www/orgs_list_2.csv",encoding="utf-8")
         icon2 = AwesomeIcon(
             name='sun-o',
             marker_color='green',
@@ -300,7 +301,7 @@ def server(input, output, session):
 
         # new list of affiliated institutions from LNS_REV_3_Limited_metadata.xlsx
         # see notebook extract_inst.ipynb for extraction and api calls for lat lng
-        df3 = read_file("www/inst_names.csv")
+        df3 = pd.read_csv("www/inst_names.csv",encoding="utf-8")
         icon3 = AwesomeIcon(
             name='pen',
             marker_color='pink',
@@ -324,7 +325,7 @@ def server(input, output, session):
     def table():
         return render.DataTable(
             #data=pd.read_csv("www/org_locations_ns.csv"),
-            data =pd.read_csv("www/orgs_list_2.csv"), # this is the more commplete list from the NSSAL map
+            data = pd.read_csv("www/orgs_list_2.csv"), # this is the more commplete list from the NSSAL map
             filters=False,
             editable=False,
             #selection_mode=input.selection_mode(),

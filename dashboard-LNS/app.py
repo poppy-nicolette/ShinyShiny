@@ -139,12 +139,7 @@ app_ui = ui.page_navbar(
             min_height="600px",
             max_height="800px"
         ),#close layout_columns
-        ui.layout_columns(
-            
-                col_widths=[-2,8,-2],
-                min_height="600px",
-                max_height="800px"
-        ),#close layout_columns
+
     ),#close nav_panel
 
 # bibliodata nav_panel
@@ -242,9 +237,9 @@ app_ui = ui.page_navbar(
 
 #Title bar at top
     ui.head_content(ui.include_css("styles.css")),
-    fillable="Project info",
+    fillable=True,
     id="navbar",
-    title=[ui.h1("Literacy Nova Scotia",style="color:teal")],
+    title=ui.h1("Literacy Nova Scotia",style="color:teal"),
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python from posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right",mode="light"),
@@ -288,17 +283,7 @@ def server(input, output, session):
         center = (44.68198660,-63.74431100)
 
         m = Map(center=center, zoom=7)
-
-        # old list from NS gov't list
-        df = read_file("www/org_locations_ns.csv")
-        icon1 = AwesomeIcon(name='book',marker_color='lightblue',icon_color='black',spin=False)
-        for index,row in df.iterrows():
-            icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
-            marker1 = Marker(name='Govt NS List',icon=icon1,location=(row['lat'],row['lng']), draggable=False, )
-            popup_content = f"Organization: {row['organization']} <br> Address: {row['address']}"
-            marker1.popup = widgets.HTML(value=popup_content)
-            m.add(marker1)
-            
+  
         # new list from NSSAL
         df2 = read_file("www/orgs_list_2.csv")
         icon2 = AwesomeIcon(
@@ -312,9 +297,23 @@ def server(input, output, session):
             popup_content = f"Organization: {row['Name:']} <br> Address: {row['full_address_x']}<br>Location type: {row['Location Type:']}<br>Region: {row['Region:']}<br>Contact name: {row['Contact Name:']}<br>Contact email: {row['Contact Email:']}<br>Contact address: {row['Contact Address:']}"
             marker2.popup = widgets.HTML(value=popup_content)
             m.add(marker2)
-            
+
+        # new list of affiliated institutions from LNS_REV_3_Limited_metadata.xlsx
+        # see notebook extract_inst.ipynb for extraction and api calls for lat lng
+        df3 = read_file("www/inst_names.csv")
+        icon3 = AwesomeIcon(
+            name='pen',
+            marker_color='pink',
+            icon_color='white',
+            spin=True)
+        for index,row in df3.iterrows():
+            icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
+            marker3 = Marker(name='Institutions', icon=icon3, location=(row['lat'],row['lng']), draggable=False, )
+            popup_content = f"Author affiliated institution: {row['inst_name']} <br>Reference work: {row['id']}"
+            marker3.popup = widgets.HTML(value=popup_content)
+            m.add(marker2)
         # Add a layers control to the map
-        layer_group = LayerGroup(layers=[marker1,marker2])
+        layer_group = LayerGroup(layers=[marker2,marker3])
         m.add(layer_group)
         m.add_control(LayersControl(position='topright'))
 

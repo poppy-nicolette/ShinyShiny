@@ -8,7 +8,7 @@ todo -
 """
 import plotly.express as px
 import plotly.graph_objects as go
-from shinywidgets import output_widget, render_widget
+from shinywidgets import output_widget, render_widget, render_plotly
 import pandas as pd
 import numpy as np
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
@@ -18,12 +18,13 @@ from ipyleaflet import Map, Marker,display, LayersControl, Popup, Icon, MarkerCl
 import ipywidgets as widgets
 import openpyxl
 import faicons
+import functools
 
 df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
 
 # read in file for map locations
 def read_file(filename):
-    df = pd.read_csv(filename)
+    df = pd.read_csv(filename, encoding="utf-8")
     return df
 
 #styling
@@ -126,12 +127,15 @@ app_ui = ui.page_navbar(
         ui.layout_columns(
             ui.card("Below is a map of education centres in Nova Scotia. Hover over a marker to bring up more infomation on the centre. Names and address of each centre can be found in the table below."
                 ,height="100px"),
+                #select for map df input
+                ui.input_select(id="df_select",label="Select datasets:",choices=["df2","df3"],multiple=True),
             col_widths=[12],
-            min_height="120px",
+            min_height="180px",
             max_height="auto"
         ),#close layout_columns
         ui.layout_columns(
             ui.card(
+
                 output_widget("map")),
             ui.card(
                 "Table of education organizations in Nova Scotia",
@@ -146,6 +150,32 @@ app_ui = ui.page_navbar(
 # bibliodata nav_panel
     ui.nav_panel("Biblio-analysis",
         ui.navset_card_tab(
+            ui.nav_panel("Overview",
+                ui.layout_columns(
+                    ui.card(
+                        output_widget("plotly_top_inst")
+                    ),#close ui card
+                    ui.card(output_widget("plotly_authors"),
+                        ui.value_box("Max articles by authors",
+                            ui.output_ui("max_authors"),
+                            showcase=faicons.icon_svg("arrow-up-right-dots", width="50px"),
+                            theme="bg-gradient-cyan-teal",
+                            style="height:150px;",),#close value_box
+                        ui.value_box("Total number of authors",
+                            ui.output_ui('total_authors'),
+                            showcase=faicons.icon_svg("cat",width='50px'),
+                            theme="bg-gradient-cyan-teal",
+                            style="height:150px;",),#close value box
+                    ),#close ui card
+                    col_widths=[6,6],
+                ),#close layout_columns
+                ui.layout_columns(
+                    ui.card("text"),#close ui.card
+                    ui.card("text"),#close ui.card
+                    ui.card("text"),#close ui.card
+                    col_widths=[4,4,4],
+                ),#close layout_columns
+            ),#close overview nav_panel
             ui.nav_panel("Table",
                 ui.layout_columns(
                     ui.layout_sidebar(
@@ -182,7 +212,8 @@ app_ui = ui.page_navbar(
                     col_widths=[2,6,4],
                 ),#close layout_columns
             ),#close nav_panel
-        
+
+# Nav panel Network Maps
         ui.nav_panel("Network Maps",
         ui.layout_columns(
             ui.card("select type of network",
@@ -248,9 +279,10 @@ app_ui = ui.page_navbar(
 
 )#close page_navbar
 
-
-
 def server(input, output, session):
+    
+#load in data that is used several places
+    authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")   
 
 #value in value_box on biblio page
     @render.ui
@@ -269,6 +301,48 @@ def server(input, output, session):
         max_cite = df_lns_full["cited_by_count"].max()
         return f"{max_cite}"
 
+# render plotly_top_inst on biblio page
+    @render_plotly
+    def plotly_top_inst():
+        #import data for app.py
+        inst_df = pd.read_csv("www/affiliation_counts.csv", encoding="utf-8")
+        fig = px.bar(inst_df, x='inst_name', y='count')
+        #update layout
+        fig.update_layout(
+            title="Count of top 20 affiliations on documents",
+            xaxis_title="Institution name",
+            yaxis_title="Count of top 20",
+            height=400,
+            width=800,
+        )
+        return fig
+
+# render plotly_authors on biblio page
+    @render_plotly
+    def plotly_authors():
+        authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
+        authors_df = authors_df[authors_df['count']>4]
+        #set figure
+        fig=px.bar(authors_df,y='authors', x='count',color='authors',orientation='h',)
+        fig.update_layout(
+        title="Count of docs by author",
+        xaxis_title="Author name",
+        yaxis_title="Count of documents by author for those over 4",
+        height=400,
+        width=400,
+        )
+        return fig
+
+# value box for max authors on biblio page
+    @render.ui
+    def max_authors():
+        #authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
+        return f"{authors_df['count'].max()}"
+
+    @render.ui
+    def total_authors():
+        #authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
+        return f"{len(set(authors_df['authors']))}"
 
 #render image for lns logo - NOT WORKING
     @render.image
@@ -285,39 +359,40 @@ def server(input, output, session):
 
         m = Map(center=center, zoom=7)
   
+        # Create a reactive effect for the df_select input
         # new list from NSSAL
-        df2 = pd.read_csv("www/orgs_list_2.csv",encoding="utf-8")
-        icon2 = AwesomeIcon(
-            name='sun-o',
-            marker_color='green',
-            icon_color='black',
-            spin=True)
-        for index,row in df2.iterrows():
-            icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
-            marker2 = Marker(name='NSSAL List', icon=icon2, location=(row['lat'],row['lon']), draggable=False, )
-            popup_content = f"Organization: {row['Name:']} <br> Address: {row['full_address_x']}<br>Location type: {row['Location Type:']}<br>Region: {row['Region:']}<br>Contact name: {row['Contact Name:']}<br>Contact email: {row['Contact Email:']}<br>Contact address: {row['Contact Address:']}"
-            marker2.popup = widgets.HTML(value=popup_content)
-            m.add(marker2)
+        df_select = input.df_select()
+        if 'df2' in df_select:
+            df2 = pd.read_csv("www/orgs_list_2.csv",encoding="utf-8")
+            icon2 = AwesomeIcon(
+                name='sun-o',
+                marker_color='green',
+                icon_color='black',
+                spin=True)
+            for index,row in df2.iterrows():
+                icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
+                marker2 = Marker(name='NSSAL List', icon=icon2, location=(row['lat'],row['lon']), draggable=False, )
+                popup_content = f"Organization: {row['Name:']} <br> Address: {row['full_address_x']}<br>Location type: {row['Location Type:']}<br>Region: {row['Region:']}<br>Contact name: {row['Contact Name:']}<br>Contact email: {row['Contact Email:']}<br>Contact address: {row['Contact Address:']}"
+                marker2.popup = widgets.HTML(value=popup_content)
+                m.add(marker2)
 
         # new list of affiliated institutions from LNS_REV_3_Limited_metadata.xlsx
         # see notebook extract_inst.ipynb for extraction and api calls for lat lng
-        df3 = pd.read_csv("www/inst_names.csv",encoding="utf-8")
-        icon3 = AwesomeIcon(
-            name='bank',
-            marker_color='pink',
-            icon_color='white',
-            spin=False)
-        for index,row in df3.iterrows():
-            icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
-            marker3 = Marker(name='Institutions', icon=icon3, location=(row['lat'],row['lng']), draggable=False, )
-            popup_content = f"Author affiliated institution: {row['inst_name']} <br>Reference work: {row['id']}"
-            marker3.popup = widgets.HTML(value=popup_content)
-            m.add(marker3)
-        # Add a layers control to the map
-        layer_group = LayerGroup(layers=[marker2,marker3])
-        m.add(layer_group)
-        m.add_control(LayersControl(position='topright'))
+        if 'df3' in df_select:
+            df3 = pd.read_csv("www/inst_names.csv",encoding="utf-8")
+            icon3 = AwesomeIcon(
+                name='bank',
+                marker_color='pink',
+                icon_color='white',
+                spin=False)
 
+            for index,row in df3.iterrows():
+                icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
+                marker3 = Marker(name='Institutions', icon=icon3, location=(row['lat'],row['lng']), draggable=False, )
+                popup_content = f"Author affiliated institution: {row['inst_name']} <br>Reference work: {row['id']}"
+                marker3.popup = widgets.HTML(value=popup_content)
+                m.add(marker3)
+        
         #generate map
         return m 
 

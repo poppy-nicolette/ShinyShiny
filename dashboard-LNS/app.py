@@ -385,6 +385,7 @@ def server(input, output, session):
         return img
 #render map of resource centres
     @render_widget  
+    @reactive.event(input.df_select)
     def map():
         """
         See documentation for ipyleaflet here:https://ipyleaflet.readthedocs.io/en/latest/controls/layers_control.html

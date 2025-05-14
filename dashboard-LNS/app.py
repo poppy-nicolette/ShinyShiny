@@ -167,14 +167,19 @@ app_ui = ui.page_navbar(
                             theme="bg-gradient-cyan-teal",
                             style="height:150px;",),#close value box
                     ),#close ui card
-                    col_widths=[6,6],
+                    ui.card(
+                        "some text"
+                    ),#close ui.card
+                    col_widths=[5,5,2],
                 ),#close layout_columns
                 ui.layout_columns(
-                    ui.card("funding organizations",
-                        output_widget("plotly_funders"),
+                    ui.card("funding organizations - this will require manaully reviewing the documents as not all are captured in the metadata",
+                        ui.output_data_frame("table_award_id"),
                         ),#close ui.card
-                    ui.card("text"),#close ui.card
-                    col_widths=[8,4],
+                    ui.card("text",
+                        output_widget("plotly_funders"),
+                    ),#close ui.card
+                    col_widths=[5,7],
                 ),#close layout_columns
             ),#close overview nav_panel
             ui.nav_panel("Table",
@@ -414,6 +419,15 @@ def server(input, output, session):
         
         #generate map
         return m 
+
+# render table for biblio overview award_id
+    @render.data_frame
+    def table_award_id():
+        return render.DataTable(
+            data=read_file("www/award_list.csv"),
+            filters=False,
+            editable=True, # see this for saving edited tables: https://shiny.posit.co/blog/posts/shiny-python-0.9.0/
+        )
 
 # render DataTable for locations
     @render.data_frame

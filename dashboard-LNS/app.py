@@ -128,7 +128,7 @@ app_ui = ui.page_navbar(
             ui.card("Below is a map of education centres in Nova Scotia. Hover over a marker to bring up more infomation on the centre. Names and address of each centre can be found in the table below."
                 ,height="100px"),
                 #select for map df input
-                ui.input_select(id="df_select",label="Select datasets:",choices=["df2","df3"],multiple=True),
+                #ui.input_select(id="df_select",label="Select datasets:",choices=["df2","df3"],multiple=True),
             col_widths=[12],
             min_height="180px",
             max_height="auto"
@@ -384,8 +384,8 @@ def server(input, output, session):
         img = {"src":"lns_icon.png","width":"32px"}
         return img
 #render map of resource centres
+
     @render_widget  
-    @reactive.event(input.df_select)
     def map():
         """
         See documentation for ipyleaflet here:https://ipyleaflet.readthedocs.io/en/latest/controls/layers_control.html
@@ -396,38 +396,36 @@ def server(input, output, session):
   
         # Create a reactive effect for the df_select input
         # new list from NSSAL
-        df_select = input.df_select()
-        if 'df2' in df_select:
-            df2 = pd.read_csv("www/orgs_list_2.csv",encoding="utf-8")
-            icon2 = AwesomeIcon(
-                name='sun-o',
-                marker_color='green',
-                icon_color='black',
-                spin=True)
-            for index,row in df2.iterrows():
-                icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
-                marker2 = Marker(name='NSSAL List', icon=icon2, location=(row['lat'],row['lon']), draggable=False, )
-                popup_content = f"Organization: {row['Name:']} <br> Address: {row['full_address_x']}<br>Location type: {row['Location Type:']}<br>Region: {row['Region:']}<br>Contact name: {row['Contact Name:']}<br>Contact email: {row['Contact Email:']}<br>Contact address: {row['Contact Address:']}"
-                marker2.popup = widgets.HTML(value=popup_content)
-                m.add(marker2)
+        df2 = pd.read_csv("www/orgs_list_2.csv",encoding="utf-8")
+        icon2 = AwesomeIcon(
+            name='sun-o',
+            marker_color='green',
+            icon_color='black',
+            spin=True)
+        for index,row in df2.iterrows():
+            #icon2 = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
+            marker2 = Marker(name='NSSAL List', icon=icon2, location=(row['lat'],row['lon']), draggable=False, )
+            popup_content = f"Organization: {row['Name:']} <br> Address: {row['full_address_x']}<br>Location type: {row['Location Type:']}<br>Region: {row['Region:']}<br>Contact name: {row['Contact Name:']}<br>Contact email: {row['Contact Email:']}<br>Contact address: {row['Contact Address:']}"
+            marker2.popup = widgets.HTML(value=popup_content)
+            m.add(marker2)
 
         # new list of affiliated institutions from LNS_REV_3_Limited_metadata.xlsx
         # see notebook extract_inst.ipynb for extraction and api calls for lat lng
-        if 'df3' in df_select:
-            df3 = pd.read_csv("www/inst_names.csv",encoding="utf-8")
-            icon3 = AwesomeIcon(
-                name='bank',
-                marker_color='pink',
-                icon_color='white',
-                spin=False)
+        df3 = pd.read_csv("www/inst_names.csv",encoding="UTF-8")
+        icon3 = AwesomeIcon(
+            name='bank',
+            marker_color='pink',
+            icon_color='white',
+            spin=False)
 
-            for index,row in df3.iterrows():
-                icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
-                marker3 = Marker(name='Institutions', icon=icon3, location=(row['lat'],row['lng']), draggable=False, )
-                popup_content = f"Author affiliated institution: {row['inst_name']} <br>Reference work: {row['id']}"
-                marker3.popup = widgets.HTML(value=popup_content)
-                m.add(marker3)
-        
+        for index,row in df3.iterrows():
+            #icon = Icon(icon_url='https://leafletjs.com/examples/custom-icons/leaf-green.png', icon_size=[38, 95], icon_anchor=[22,94])
+            marker3 = Marker(name='Institutions', icon=icon3, location=(row['lat'],row['lng']), draggable=False, )
+            popup_content = f"Author affiliated institution: {row['inst_name']} <br>Reference work: {row['id']}"
+            marker3.popup = widgets.HTML(value=popup_content)
+            m.add(marker3)
+        control = LayersControl(position="topright")
+        m.add(control)
         #generate map
         return m 
 

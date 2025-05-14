@@ -170,10 +170,11 @@ app_ui = ui.page_navbar(
                     col_widths=[6,6],
                 ),#close layout_columns
                 ui.layout_columns(
+                    ui.card("funding organizations",
+                        output_widget("plotly_funders"),
+                        ),#close ui.card
                     ui.card("text"),#close ui.card
-                    ui.card("text"),#close ui.card
-                    ui.card("text"),#close ui.card
-                    col_widths=[4,4,4],
+                    col_widths=[8,4],
                 ),#close layout_columns
             ),#close overview nav_panel
             ui.nav_panel("Table",
@@ -333,12 +334,30 @@ def server(input, output, session):
         )
         return fig
 
+#render plotly_funders on biblio page
+    @render_plotly
+    def plotly_funders():
+        #read in data
+        grouped_funders = read_file("www/funder_names.csv")
+
+        #set figure
+        fig=px.bar(grouped_funders,y='funder_name', x='funder_id',color='award_id',orientation='h',)
+        fig.update_layout(
+            title="Count of grants disclosed in documents",
+            xaxis_title="Funder name",
+            yaxis_title="Count of documents declaring this funder\nColor is number of awards.",
+            height=350,
+            width=800,
+            )
+        return fig
+
 # value box for max authors on biblio page
     @render.ui
     def max_authors():
         #authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
         return f"{authors_df['count'].max()}"
 
+# value box for total num authors
     @render.ui
     def total_authors():
         #authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
@@ -396,6 +415,7 @@ def server(input, output, session):
         #generate map
         return m 
 
+# render DataTable for locations
     @render.data_frame
     def table():
         return render.DataTable(
@@ -406,6 +426,7 @@ def server(input, output, session):
             #selection_mode=input.selection_mode(),
         )# close datatable
     
+# render DataTable for metadata
     @render.data_frame
     def lns_metadata():
         return render.DataTable(

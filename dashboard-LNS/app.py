@@ -182,6 +182,7 @@ app_ui = ui.page_navbar(
                     col_widths=[5,7],
                 ),#close layout_columns
             ),#close overview nav_panel
+# Nav Panel biblio page, Table
             ui.nav_panel("Table",
                 ui.layout_columns(
                     ui.layout_sidebar(
@@ -230,7 +231,7 @@ app_ui = ui.page_navbar(
                     ui.output_image("image_output", width='200px',height='200px'),
                     full_screen=True,),
             ui.card(),
-            col_widths=[2,8,2]
+            col_widths=[3,9]
         ),#close layout_columns
         ),#close nav_panel
         ),#close navset_card_tab
@@ -259,7 +260,8 @@ app_ui = ui.page_navbar(
         ui.layout_columns(
             ui.navset_card_tab(  
             ui.nav_panel("A", "Panel A content",
-                ui.card("Table of grants and institutions from the LNS Corpus"),
+                ui.card("Table of grants and institutions from the LNS Corpus",
+                ),#close ui.card
                 ),#close nav_panel
             ui.nav_panel("B", "Panel B content"),
             ui.nav_panel("C", "Panel C content"),
@@ -271,6 +273,14 @@ app_ui = ui.page_navbar(
             ui.card("big map here with funding overlays"),
             col_widths=[12]
         ),#close layout_columns
+    ),#close nav_panel
+
+# documentation nav panel
+    ui.nav_panel("Documentation",
+        ui.layout_columns(
+            ui.output_image("process_diagram"),
+            col_widths=[12]
+        ),#close ui.layout_columns
     ),#close nav_panel
 
 #Title bar at top
@@ -474,6 +484,11 @@ def server(input, output, session):
             img = {"src":"www/graph_bc_cc_dc.png","width":"640px"}
             return img
 
+#documentation page - process_diagram
+    @render.image
+    def process_diagram():
+        img = {"src":"www/Process_Diagram.svg","width":"100%"}
+        return img
 
 
 app = App(app_ui,server)

@@ -1,0 +1,34 @@
+title: International Adult Skills Surveys: Andragogical Issues in Linguistic Minority Communities.
+abstract: I have been working in the literacy field with francophone adults in a minority setting and in a
+variety of capacities for twenty years, and consider myself a reflective and critical practitioner. I
+strive to understand the world of adult education and skills development based on my practical
+experiences and observations from the field. This text is written from that perspective, based on
+principles of andragogy. Using inductive and deductive processes, I propose ideas and reflections
+on the concept of the evaluation of basic skills of adults living in linguistic minority communities
+in Canada. On the theoretical side, I use several key studies, including an analytical background
+paper written for The Centre for Literacy’s 2013 Summer Institute by Jean-Pierre Jeantheau,
+Chargé de mission national of the French Agence nationale de lutte contre l'illettrisme, on the
+subject of linguistic minority groups and international literacy assessments.
+Three personal professional experiences have particularly influenced my point of view. I am
+currently engaged, albeit in a modest way, in the adaptation of an Anglophone assessment system
+called CAMERA (Communication Math Employment Readiness Assessment) in francophone
+contexts across Canada. I have also participated in creating the Ontario Adult Literacy
+Curriculum Framework (OALCF) in 2010-2011, and I led, in 2007-2008, a project that
+experimented with and evaluated Test of Workplace Essential Skills (TOWES) and Prose,
+Document and Quantitative (PDQ) profile tests with francophone adults with lower literacy skills
+(levels 1 and 2) in vocational training. The conceptual frameworks of all these tools (OALCF,
+CAMERA, TOWES and PDQ) use, to various degrees, the same task-based methodology and
+levels of complexity as the Essential Skills framework developed by the Department of Human
+Resources and Skills Development Canada (HRSDC) and as international literacy surveys - the
+1994 International Adult Literacy Survey (IALS), the 2003 International Adult Literacy and
+Skills Survey (IALSS), and the current Programme for the International Assessment of Adult
+Competencies (PIAAC).
+In this report I propose that in order to grasp the limitations of such frameworks for official
+language minority communities, we must look closely at the complex multilingual contexts in
+which these communities live. I conclude by offering recommendations for conducting
+international assessments and interpreting results in a way that takes into account the specific
+context of these communities. I also outline some topics for future research in this area.
+id: https://openalex.org/W2263683116
+doi: nan
+url: https://files.eric.ed.gov/fulltext/ED547400.pdf
+keyword: Andragogy

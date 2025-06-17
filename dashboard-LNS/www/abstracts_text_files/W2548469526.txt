@@ -1,0 +1,6 @@
+title: NOTIONS OF LITERACY IN THE K–12 SCHOOL SYSTEM IN BRITISH COLUMBIA EDUCATION SINCE 2002: A CONTESTED TERRAIN
+abstract: Developing literacy competencies has become a central component of educational policy in British Columbia (BC), with policies calling for province-wide assessment and school accountability. Based on the critical policy analysis (Blaikie & Soussan, 2000) of provincial and school district documents, complemented by semi-structured interviews of senior government officials, district-based administrators, and literacy coordinators, this article discusses how the synergistic effect of the policy discourses of accountability and assessment framed the ways of thinking, conceptually and practically, about literacy mainly in terms of its instrumental value in holding public schools accountable to performance indicators. The article concludes by discussing the necessity of redefining literacy to challenge the view of literacy as a mere set of technical and human skills for economic growth to shift the dialogue toward policy alternatives that view literacy as set of capabilities for sociocultural and political change.
+id: https://openalex.org/W2548469526
+doi: nan
+url: https://files.eric.ed.gov/fulltext/EJ1111582.pdf
+keyword: None

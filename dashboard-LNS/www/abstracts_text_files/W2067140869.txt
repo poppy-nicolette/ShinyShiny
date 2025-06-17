@@ -1,0 +1,17 @@
+title: Patient-appropriate health literacy educational materials in ophthalmology
+abstract: Objective
+To evaluate the literacy level of patients with glaucoma in a tertiary care teaching centre compared with a rural community centre and to assess comprehension of and preference for educational material written at different reading levels.
+Design
+Prospective, randomized, double-blinded study.
+Participants
+Patients with glaucoma presenting for routine examination or referral at a tertiary care academic centre in southwestern Ontario and a single general ophthalmology clinic located in a moderately sized suburban community in Ontario, Canada, were invited to participate in this study. Patients aged 19 to 90 with sufficient visual acuity to read the pamphlets were recruited.
+Methods
+Eligible and consenting participants underwent a validated literacy study, and their literacy levels were classified as adequate, barely adequate, marginal, or inadequate. They were then randomized to receive educational pamphlets written at either a grade 5 (intervention group) or grade 10 (control group) reading level. Comprehension of and preference for the material were determined by analysis of cloze testing and a feedback questionnaire.
+Results
+Of 199 participants, 179 were included in the analysis. The literacy testing found that 35% of patients in the community practice and 30% in the tertiary care academic centre had “marginal” or “inadequate” literacy skills, but there was no significant difference between sites (p = 0.77). Comprehension of the educational material was higher in the intervention group versus the control group (p = 0.0057), with a mean cloze score of 57.9% in the intervention group and 48.3% in the control group. The intervention group spent significantly less time reading the pamphlets (p < 0.0001), with an average of 2.52 minutes compared with 4.51 minutes. The feedback survey indicated that patients found the pamphlet with the lower reading level easier to read (p = 0.02), which was reflected in their comments as well.
+Conclusions
+In both academic and community practice settings, about 30% of patients with glaucoma have marginal or inadequate literacy skills. However, regardless of practice, all patients better comprehend, and were more receptive to, educational material written at grade 5 reading level with illustrations, regardless of initial literacy level.
+id: https://openalex.org/W2067140869
+doi: https://doi.org/10.1016/j.jcjo.2014.08.002
+url: https://doi.org/10.1016/j.jcjo.2014.08.002
+keyword: Health Literacy

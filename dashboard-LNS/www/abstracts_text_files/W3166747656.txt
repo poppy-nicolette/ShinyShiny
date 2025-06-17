@@ -1,0 +1,6 @@
+title: Evaluating Ocean Perceptions and Ocean Values: The Canadian Ocean Literacy Survey
+abstract: This paper describes the development, validation, and key findings of the Canadian Ocean Literacy Survey. Led by the Canadian Ocean Literacy Coalition (COLC) and its research partners, this survey was developed as part of a Canada-wide, mixed methods research initiative examining how ocean literacy is understood and practised across different regions and sectors. The survey included items linked to ocean perceptions, values, and actions as reported by two categories of Canadian respondents: “ocean-engaged” (n=1,359) and “general public” (n=1,010). The survey objectives were as follows: to determine if Canadians would identify Canada as an “ocean nation”; to uncover meaningful patterns in ocean awareness, perceptions, and values by region and subgroups; and to better understand Canadians’ emotional connections to, and relationship with, the ocean, as well as their behavioural intentions and actions.
+id: https://openalex.org/W3166747656
+doi: nan
+url: https://cjee.lakeheadu.ca/article/download/1775/1012
+keyword: Marine research

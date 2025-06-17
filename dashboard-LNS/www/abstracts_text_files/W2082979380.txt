@@ -1,0 +1,15 @@
+title: Health literacy and its association with perception of teratogenic risks and health behavior during pregnancy
+abstract: Objective
+Investigate the association between health literacy and perception of medication risk, beliefs about medications, use and non-adherence to prescribed pharmacotherapy during pregnancy, and whether risk perception and beliefs may mediate an association between health literacy and non-adherence.
+Methods
+This multinational, cross-sectional, internet-based study recruited pregnant woman between 1 October 2011 and 29 February 2012. Data on maternal socio-demographics, medication use, risk perception, beliefs, and non-adherence were collected via an on-line questionnaire. Health literacy was measured via a self-assessment scale. Mann–Whitney U test, Spearman's rank correlation, Generalized Estimating Equations and mediation analysis were utilized.
+Results
+4999 pregnant women were included. Low-health literacy women reported higher risk perception for medications, especially penicillins (Rho: −0.216) and swine flu vaccine (Rho: −0.204) and more negative beliefs about medication. Non-adherence ranged from 19.2% (high-health literacy) to 25.0% (low-health literacy). Low-health literacy women were more likely to be non-adherent to pharmacotherapy than their high-level counterparts (adjusted OR: 1.30; 95% CI: 1.02–1.66). Risk perception and beliefs appeared to mediate the association between health literacy and non-adherence.
+Conclusion
+Health literacy was significantly associated with maternal health behaviors regarding medication non-adherence.
+Practice implications
+Clinicians should take time to inquire into their patients’ ability to understand health information, perception and beliefs, in order to promote adherence during pregnancy.
+id: https://openalex.org/W2082979380
+doi: https://doi.org/10.1016/j.pec.2014.04.014
+url: https://doi.org/10.1016/j.pec.2014.04.014
+keyword: Health Literacy

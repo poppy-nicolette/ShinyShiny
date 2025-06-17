@@ -1,0 +1,18 @@
+title: Multiple Perspectives on Digital Literacies Research Methods in Canada.
+abstract: Abstract: In this article, we call for Canadian digital literacies researchers to
+invest in designs and research methods that centralise in-the-moment insights,
+embrace complexity, and that are informed by a deep commitment to authentic,
+ethical reciprocity that serves the communities in which our work is placed. We
+present three cases that offer multiple perspectives for how we might
+operationalise these principles, and we consider implications for the use of data
+collected with new approaches to digital literacies assessment, with virtual
+retrospective think alouds, eye-tracking, and spy glasses video. As the first co-
+authored article by The Digital Literacies Collective, this article contributes our
+shared position on the methodological priorities that will enable Canadian
+digital literacies researchers to construct new, contextually-situated frameworks
+that inform digital literacies policies and practices in Canadian systems of
+schooling.
+id: https://openalex.org/W3177421727
+doi: nan
+url: https://files.eric.ed.gov/fulltext/EJ1278419.pdf
+keyword: None

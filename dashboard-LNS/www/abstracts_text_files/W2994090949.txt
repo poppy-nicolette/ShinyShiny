@@ -1,0 +1,6 @@
+title: Measurement Comparability of Reading in the English and French Canadian Populations: Special Case of the 2011 Progress in International Reading Literacy Study
+abstract: The purpose of this study is to examine item equivalence and score comparability of the Progress in International Reading Literacy Study (PIRLS) 2011for the Canadian French and English language groups. Two methods of differential item functioning were conducted to examine item equivalence across thirteen test booklets designed to assess reading literacy in early years of schooling. Four bilingual reviewers with expertise in reading literacy conducted independent, linguistic and cultural reviews to identify both the degree of item equivalence and potential sources of differences between language versions of released items. Results indicate that an average of 25% of items per booklet function differently at the item level. Reviews by experts indicate differences between the two language versions on some items flagged as displaying differential item function (DIF). Some of these were identified to have linguistic differences pointing to differential difficulty levels in the two language versions.
+id: https://openalex.org/W2994090949
+doi: https://doi.org/10.3389/feduc.2019.00120
+url: https://doi.org/10.3389/feduc.2019.00120
+keyword: Comparability

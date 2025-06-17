@@ -1,0 +1,6 @@
+title: The Development and Application of a Public Energy Literacy Instrument
+abstract: Few and fairly limited measures of public energy literacy exist, especially in the Canadian context. We argue that more needs to be known about the public with respect to their energy-related literacy, given their increasing involvement as informants to and participants in energy systems and sustainability transitions. In this article, we describe the development and application of a public energy literacy instrument measuring three recognized domains of energy literacy (cognition, attitudes, and behaviours) in an urban setting. Existing surveys, frameworks, and models from academic and grey literature were used to guide development. Mixed methods included pretesting, cognitive interviews, and quantitative and qualitative analysis. The resulting instrument is a 15-item, 5-item, and 9-item measure of energy-related knowledge, attitudes, and behaviours, respectively. The instrument was administered to 204 Torontonians, who demonstrated low knowledge but high attitude and behaviour scores. Results support a reliable instrument that can be used in further research as well as in the field.
+id: https://openalex.org/W4221050125
+doi: https://doi.org/10.1007/s42330-022-00196-4
+url: https://doi.org/10.1007/s42330-022-00196-4
+keyword: None

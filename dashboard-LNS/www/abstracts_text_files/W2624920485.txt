@@ -1,0 +1,13 @@
+title: Barriers to technology use among older heart failure individuals in managing their symptoms after hospital discharge
+abstract: Background
+In North America, heart failure (HF) is the leading cause for hospital readmission. Supportive technology, such as computers and tablets, could potentially assist patients with self-care to manage their condition after hospital discharge; however, older individuals have difficulties in adopting technology to manage their condition.
+Method
+This study used a mixed methods design to identify barriers to technology use in HF self-care. In the qualitative phase, semi-structured interviews were conducted with 18 HF patients and 10 informal caregivers or care partners (CP). In the quantitative phase, five questionnaires were administered to 15 patients and 8 CP: Montreal Cognitive Assessment; Short Literacy Survey and Subjective Numeracy Scale; Self-Care of HF Index; Knowledge Assessment Questionnaire; and Patient Activation Measure.
+Results
+In the qualitative phase, five themes emerged regarding engagement in self care and technology use: knowledge level of HF; level of willingness to ask questions related to HF; confidence level in making health-related decisions individually; level of technology usage in daily activities; and self-recording of health measurements. Quantitative analysis found that most HF patients had mild cognitive impairment (MCI), adequate health numeracy levels to understand and manage their health condition, high confidence levels in managing their condition and willingness to engage in self-care. There was variation in willingness to adopt technology.
+Conclusion
+Patients were willing to engage in HF self-care however they relied on CPs who were more willing to ask questions about HF. Technology tools may assist in HF self-care, but they must be tailored for use among older individuals.
+id: https://openalex.org/W2624920485
+doi: https://doi.org/10.1016/j.ijmedinf.2017.06.001
+url: https://doi.org/10.1016/j.ijmedinf.2017.06.001
+keyword: Numeracy

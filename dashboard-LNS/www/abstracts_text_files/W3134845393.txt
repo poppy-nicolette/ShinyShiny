@@ -1,0 +1,13 @@
+title: Musculoskeletal Health Literacy is Associated With Outcome and Satisfaction of Total Knee Arthroplasty
+abstract: Background
+The purpose of this study was to investigate if there is an association between musculoskeletal health literacy with outcome and satisfaction after total knee arthroplasty (TKA).
+Methods
+A cross-sectional study was performed at our tertiary center to include patients between one and six years postoperatively after primary TKA. Patients were provided a survey including basic demographics, validated musculoskeletal health literacy scale (Literacy in Musculoskeletal Problems), Western Ontario and McMaster Universities Osteoarthritis Index (WOMAC), and TKA satisfaction (whether they would choose to undergo the same operation again). Patients were categorized as either low or normal health literacy based on number of questions (cutoff 6 out of 9) answered correctly on the Literacy in Musculoskeletal Problems. Statistical analysis included multivariate regression with significance at P < .05.
+Results
+Four hundred fifty-three individuals fully completed the survey of eligible participants. Two hundred ninety-six individuals (65.3%) had normal health literacy, and one hundred fifty-seven individuals (34.7%) had low health literacy. Average WOMAC (/96) was 18.0 ± 19.7 in the low and 12.1 ± 15.4 in the normal health literacy groups. Patients with low health literacy had significantly higher WOMAC (worse function) than those with normal health literacy (P = .001). Patients with normal musculoskeletal health literacy were significantly more likely to undergo the same operation again (P = .01, odds ratio 2.163).
+Conclusion
+This study shows that patients with low musculoskeletal health literacy have worse outcome scores and are less likely to be satisfied with their TKA. By identifying these patients preoperatively, emphasis can be placed on enhancing procedure expectations and understanding to improve outcome measures and overall satisfaction.
+id: https://openalex.org/W3134845393
+doi: https://doi.org/10.1016/j.arth.2021.02.075
+url: https://doi.org/10.1016/j.arth.2021.02.075
+keyword: Health Literacy

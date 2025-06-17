@@ -1,0 +1,19 @@
+title: Measuring skill-based health literacy in chronic airway disease patients: the development and psychometric evaluation of the Vancouver airways health literacy tool (VAHLT)
+abstract: Purpose
+
+This article describes the development of the Vancouver airways health literacy tool (VAHLT), a novel measure of skill-based health literacy specific to chronic airway diseases (CADs). Across several phases, psychometric characteristics of the VAHLT were examined and used to guide its development.
+Methods
+
+An initial pool of 46 items was developed using input from patients, clinicians, researchers, and policy-makers. An initial patient sample (N = 532) was evaluated and used to inform item revisions. A revised 44-item pool was then evaluated using a second sample, the results of which aided in the selection of a final set of 30 items. The finalized 30-item VAHLT was then psychometrically evaluated using the second sample (N = 318).
+
+An item response theory approach was utilized to evaluate the VAHLT by assessing model fit, item parameter estimates, test and item information curves, and item characteristic curves. Reliability was assessed using ordinal coefficient alpha. We additionally assessed differential item functioning between asthma and COPD diagnoses.
+Results
+
+The VAHLT demonstrated a unidimensional structure and reasonably discriminated patients in the lower range of health literacy estimates. The tool demonstrated strong reliability (α = .920). Two of the 30 items were found to exhibit non-negligible differential item functioning.
+Conclusions
+
+This study presents compelling evidence of validity in several areas for the VAHLT, including content and structural validity. Further external validation studies are needed and forthcoming. Overall, this work represents a strong first step towards a novel, skill-based, and disease-specific measure of CAD-related health literacy.
+id: https://openalex.org/W4383710507
+doi: https://doi.org/10.1007/s11136-023-03447-5
+url: https://doi.org/10.1007/s11136-023-03447-5
+keyword: Health Literacy

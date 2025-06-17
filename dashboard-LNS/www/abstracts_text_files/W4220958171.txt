@@ -1,0 +1,6 @@
+title: Field Testing A Campus Preparation Mental Health Resource
+abstract: This research investigated whether a mental health literacy resource could increase Grade 12 students’ mental health literacy. Bachelor of Education students (N = 8) from a university in rural Atlantic Canada created a board game and mental health seminar based on the resource. They applied the resource through the board game and seminar to Grade 12 students at two local high schools. There were positive albeit modest outcomes across a number of measures related to mental health literacy and post-secondary schooling preparation. Participants regarded the resource as helpful, and they were likely to recommend it to their peers. This resource holds promise for supporting students as they transition from high school to post-secondary settings.
+id: https://openalex.org/W4220958171
+doi: https://doi.org/10.7202/1087050ar
+url: https://doi.org/10.7202/1087050ar
+keyword: Bachelor

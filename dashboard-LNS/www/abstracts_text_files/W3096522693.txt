@@ -1,0 +1,6 @@
+title: Increasing physical literacy in youth: A two-week Sport for Development program for children aged 6-10
+abstract: Abstract Regular physical activity significantly improves health outcomes, yet rates of childhood physical activity remain alarmingly low. Physical literacy has been identified as the foundation for quality physical education, suggesting that sport, education, and public health interventions should seek to increase physical literacy to promote physical activity. A two-week day camp program for children aged 6–10 facing barriers to positive development, was developed and delivered by a Sport for Development facility in Toronto, Canada. Utilizing fundamental movement skills (FMS) as a teaching tool and a pre- and post-assessment, the camp aimed to increase physical literacy and promote engagement in physical activity. Results indicate a significant increase in FMS (t (44) = 4.37, p &lt; .001) as well as improved self-perceptions of physical literacy (t (40) = 14.96, p &lt; .001). The largest FMS increases were found in running and balance and the most significant impacts were among low baseline performers.
+id: https://openalex.org/W3096522693
+doi: https://doi.org/10.1007/s11125-020-09519-5
+url: https://doi.org/10.1007/s11125-020-09519-5
+keyword: Physical Education

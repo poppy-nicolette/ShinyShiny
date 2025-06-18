@@ -19,6 +19,7 @@ import ipywidgets as widgets
 import openpyxl
 import faicons
 import functools
+import bm25s_func
 
 df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
 
@@ -185,14 +186,17 @@ app_ui = ui.page_navbar(
 # Nav Panel biblio page, Table
             ui.nav_panel("Table",
                 ui.layout_columns(
-                    ui.layout_sidebar(
-                        ui.sidebar(
-                            "bm25s search",
-                            ui.card("filters here",
-                                ui.input_radio_buttons("pub_year","Available filters:", choices=["year","open access","funded","has citations"]),),
-                            ui.card("options here",),
-                        ),#close sidebar
-                    ),#close layout_sidebar
+                    ui.card(ui.h2("Search"),
+                        ui.layout_columns(
+                            ui.input_numeric("k_value", "# results:", value=3, min=1, width="100%"),
+                            ui.input_text("user_query", "Enter your search query here:", width="100%"),
+                            col_widths={"sm":(3, 9)},
+                            max_height="100px",
+                        ),#close layout_columns
+                        ui.input_action_button("search_button", "Search", class_="small-button", width="100%"),
+                        "Search results:",
+                        ui.output_text_verbatim("search_results"),
+                    ),#close ui.card
                     ui.card(ui.h2("Table of scan literature"),
                     ui.output_data_frame("lns_metadata")),
                     ui.card("insert quick stats",
@@ -216,7 +220,7 @@ app_ui = ui.page_navbar(
                             style="height:150px;",
                             ),# close value box
                         ),#close ui.card
-                    col_widths=[2,6,4],
+                    col_widths=[4,6,2],
                 ),#close layout_columns
             ),#close nav_panel
 
@@ -428,6 +432,25 @@ def server(input, output, session):
             filters=False,
             editable=True, # see this for saving edited tables: https://shiny.posit.co/blog/posts/shiny-python-0.9.0/
         )
+
+# render search_results from biblio search
+    query = reactive.Value("")#first it has an empty value
+    k_value = reactive.Value(3)# default value of 3 results
+    #update the reactive values when the search button is clicked
+    @reactive.Effect
+    def update_values():
+        if input.search_button():
+            query.set(input.user_query())
+            k_value.set(input.k_value())
+
+    #render search results        
+    @render.text
+    def search_results():
+        if query.get():
+            return bm25s_func.run_query(query.get(),k_value.get())
+        else:
+            return "Please click the search button to perform a search."
+
 
 # render DataTable for locations
     @render.data_frame

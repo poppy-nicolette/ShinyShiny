@@ -1,6 +1,0 @@
-title: Canadian Assessment of Physical Literacy in grades 7-9 (12-16 years): Preliminary validity and descriptive results
-abstract: Joel Blancharda , Nadine Van Wykb, Emily Ertela, Anastasia Alpousa & Patricia E. Longmuir*aca Healthy Active Living and Obesity Research Group, Children's Hospital of Eastern Ontario Research Institute, Ottawa, Canadab Department of Health and Physical Education, Mount Royal University, Calgary, Canadac Faculty of Medicine, University of Ottawa, Ottawa, Canada
-id: https://openalex.org/W2983457005
-doi: https://doi.org/10.1080/02640414.2019.1689076
-url: https://doi.org/10.1080/02640414.2019.1689076
-keyword: None

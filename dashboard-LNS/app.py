@@ -157,27 +157,30 @@ app_ui = ui.page_navbar(
                         output_widget("plotly_top_inst")
                     ),#close ui card
                     ui.card(output_widget("plotly_authors"),
-                        ui.value_box("Max articles by authors",
-                            ui.output_ui("max_authors"),
-                            showcase=faicons.icon_svg("arrow-up-right-dots", width="50px"),
+                    ),#close ui card
+                    ui.card("",
+                        ui.value_box("# documents:",
+                            ui.output_ui("doc_count"),
                             theme="bg-gradient-cyan-teal",
-                            style="height:150px;",),#close value_box
-                        ui.value_box("Total number of authors",
+                            style="height:150px;",),
+                        
+                        ui.value_box("Max citations:",
+                            ui.output_ui("avg_citation"),
+                            theme="bg-gradient-cyan-teal",
+                            style="height:150px;",
+                            ),# close value box
+                        ui.value_box("Total authors",
                             ui.output_ui('total_authors'),
-                            showcase=faicons.icon_svg("cat",width='50px'),
                             theme="bg-gradient-cyan-teal",
                             style="height:150px;",),#close value box
-                    ),#close ui card
-                    ui.card(
-                        "some text"
                     ),#close ui.card
                     col_widths=[5,5,2],
                 ),#close layout_columns
                 ui.layout_columns(
-                    ui.card("funding organizations - this will require manaully reviewing the documents as not all are captured in the metadata",
+                    ui.card("",
                         ui.output_data_frame("table_award_id"),
                         ),#close ui.card
-                    ui.card("text",
+                    ui.card("",
                         output_widget("plotly_funders"),
                     ),#close ui.card
                     col_widths=[5,7],
@@ -200,18 +203,7 @@ app_ui = ui.page_navbar(
                     ui.card(ui.h2("Table of scan literature"),
                     ui.output_data_frame("lns_metadata")),
                     ui.card("",
-                        ui.value_box("Number of documents:",
-                            ui.output_ui("doc_count"),
-                            showcase=faicons.icon_svg("cat", width="50px"),
-                            theme="bg-gradient-cyan-teal",
-                            style="height:150px;",),
-                        
-                        ui.value_box("Max citations:",
-                            ui.output_ui("avg_citation"),
-                            showcase=faicons.icon_svg("star", width="50px"),
-                            theme="bg-gradient-cyan-teal",
-                            style="height:150px;",
-                            ),# close value box
+
                         ),#close ui.card
                     col_widths=[4,6,2],
                 ),#close layout_columns
@@ -338,7 +330,7 @@ def server(input, output, session):
         xaxis_title="Author name",
         yaxis_title="Count of documents by author for those over 4",
         height=400,
-        width=400,
+        width=600,
         )
         return fig
 
@@ -358,12 +350,6 @@ def server(input, output, session):
             width=800,
             )
         return fig
-
-# value box for max authors on biblio page
-    @render.ui
-    def max_authors():
-        #authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
-        return f"{authors_df['count'].max()}"
 
 # value box for total num authors
     @render.ui

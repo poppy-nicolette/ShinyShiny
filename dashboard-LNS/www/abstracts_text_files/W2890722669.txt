@@ -1,6 +1,0 @@
-title: Improving Mental Health Literacy in Post-Secondary Students: Field Testing the Feasibility and Potential Outcomes of a Peer-Led Approach
-abstract: Transitions (2nd edition) is an evidence-based life-skills resource designed to help post-secondary students transition from high school to college or university. This study was an on-campus evaluation of peer-led seminars of the mental health content from Transitions. A cross-sectional survey was conducted to assess the mental health literacy of three groups of students: master trainers, student trainers, and seminar participants. Post-seminar, there were significant improvements in mental health knowledge and help-seeking, two key components of participants’ mental health literacy. This peer-led approach is a feasible option with the potential to improve student mental health literacy within a short time frame.
-id: https://openalex.org/W2890722669
-doi: https://doi.org/10.7870/cjcmh-2018-002
-url: https://doi.org/10.7870/cjcmh-2018-002
-keyword: Mental health literacy

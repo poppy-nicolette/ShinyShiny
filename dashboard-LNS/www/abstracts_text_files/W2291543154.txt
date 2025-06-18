@@ -1,6 +1,0 @@
-title: Implications of Physical Literacy for Research and Practice: A Commentary
-abstract: Physical literacy is a term that has increasingly gained popularity in recent years. A variety of individuals and organizations have promoted the use of the term internationally, and a variety of claims have been made for the benefits of using the term. A historical overview allows the reader to consider physical literacy as one of many terms that have gained popularity in the field and describes divergent views as well as areas of agreement concerning the term physical literacy. Three North American institutional approaches to physical literacy are discussed. Other issues are also discussed, including assessment and other literacy types (e.g., health, sports). The article is designed to provoke thought among professionals and representatives of institutions concerning physical literacy.
-id: https://openalex.org/W2291543154
-doi: https://doi.org/10.1080/02701367.2016.1124722
-url: https://doi.org/10.1080/02701367.2016.1124722
-keyword: Popularity

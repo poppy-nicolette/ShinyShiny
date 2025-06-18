@@ -1,6 +1,0 @@
-title: Early Literacy Learning for Future Library Paraprofessionals: Authentic Learning in Library Education
-abstract: This article describes the professional learning around early literacy experienced by library paraprofessional students at a post-secondary institution in Canada. Students completed a survey to gauge their conceptions of early literacy at the beginning of a course on library services for children and young adults. These students then experienced hands-on, engaging course elements such as in-class discussions, guest speakers, and authentic assessments. At the conclusion of the course, students were again surveyed and were asked to identify course elements that contributed to their learning. Most students aligned with an emergent literacy approach to early literacy. While a comparison between the two surveys did not reveal a significant difference in terms of students’ conceptions of early literacy, multiple students identified the hands-on elements of the course as beneficial. The researchers conclude that providing authentic professional learning opportunities that include knowledge application reinforces learners’ conceptions about emergent literacy.
-id: https://openalex.org/W4311236699
-doi: https://doi.org/10.21083/partnership.v17i2.6808
-url: https://doi.org/10.21083/partnership.v17i2.6808
-keyword: Institution

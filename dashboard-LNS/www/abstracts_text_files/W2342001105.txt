@@ -1,6 +1,0 @@
-title: The Prediction of Labor Force Status: Implications From International Adult Skill Assessments
-abstract: This report investigates the prediction of labor force status using observed variables, such as gender, age, and immigrant status, and more importantly, measured skill variables, including literacy proficiency and a categorical rating of educational attainment based on the 1994 International Adult Literacy Survey (IALS), the 2003 Adult Literacy and Life Skills Survey (ALL), and the 2011 Programme for the International Assessment of Adult Competencies (PIAAC) projects. We explored the regression relations in the past two decades for six trend countries and subnational regions that provide data for all assessments: the United States, Norway, the Netherlands, Italy, Canada's English-speaking region, and Canada's French-speaking region. Probit regression models with latent predictors were used in this cross-sectional study to investigate how those variables are structurally related to labor market outcomes. Results show the importance of literacy proficiency and education in determining individuals' labor force status across countries/regions, but with key differences among these countries/regions.
-id: https://openalex.org/W2342001105
-doi: https://doi.org/10.1002/ets2.12097
-url: https://doi.org/10.1002/ets2.12097
-keyword: Categorical variable

@@ -1,6 +1,0 @@
-title: A/r/tography and Teacher Education in the 21st Century
-abstract: In this article, we summarize research on Prince Edward Island where a Prince Edward Island teacher, identifying as an a/r/tographer, designed a digital and multiliteracies unit, as part of a directed studies course in her Master of Education program. Small in scope, this single participant case study was designed to give a fuller picture to three difficulties teachers often face when teaching new literacies. These are (1) applying multiliteracies theory, (2) thinking across literacies domains, and (3) assessing literacies holistically. Findings are derived from our six research conversations, and our discussion highlights the necessity of artistic ways of being and thinking for teacher education programs in the 21 st century.
-id: https://openalex.org/W2612367365
-doi: https://doi.org/10.7202/1039633ar
-url: https://doi.org/10.7202/1039633ar
-keyword: Scope (computer science)

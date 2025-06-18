@@ -1,6 +1,0 @@
-title: Perceived eHealth literacy and health literacy among people with spinal cord injury: A cross-sectional study
-abstract: Objectives: This purpose of this research was to (1) to evaluate eHealth and general health literacy levels among individuals with spinal cord injury (SCI) and (2) to identify relationships between eHealth literacy, general health literacy, and various sociodemographic factors.
-id: https://openalex.org/W4221018637
-doi: https://doi.org/10.1080/10790268.2021.1963140
-url: https://doi.org/10.1080/10790268.2021.1963140
-keyword: eHealth

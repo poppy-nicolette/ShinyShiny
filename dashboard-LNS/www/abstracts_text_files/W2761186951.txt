@@ -1,6 +1,0 @@
-title: Making Sense of the Performance (Dis)advantage for Immigrant Students Across Canada
-abstract: International achievement measures such as the Programme for International Student Assessment (PISA) have traditionally reported a significant gap between non-migrant and immigrant student groups—a result that is often referred to as the immigrant performance disadvantage . This article examines first- and second-generation immigrant student achievement results in greater detail across Canada. Overall, Canadian achieve ment results are atypical in relation to the international community in that immigrant student groups significantly outperform non-migrants in some provincial jurisdictions, and also significantly underperform in other provincial jurisdictions, in relation to reading, mathematics, and scientific literacy. This article examines these diverse results in relation to the available literature and offers a conceptual framework that explains the unique case of Canada. The framework highlights the importance of assessing immigrant student achievement by taking into account the level of individual characteristics, provincial policies, as well as sociocultural and demographic contexts across Canada.
-id: https://openalex.org/W2761186951
-doi: nan
-url: http://files.eric.ed.gov/fulltext/EJ1157248.pdf
-keyword: Disadvantage

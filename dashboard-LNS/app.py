@@ -199,14 +199,7 @@ app_ui = ui.page_navbar(
                     ),#close ui.card
                     ui.card(ui.h2("Table of scan literature"),
                     ui.output_data_frame("lns_metadata")),
-                    ui.card("insert quick stats",
-                        ui.value_box(
-                        "Percent change in population in NS from 2016-2021",
-                        ui.output_ui("population"),
-                        showcase=faicons.icon_svg("arrow-up-right-dots", width="50px"),
-                        theme="bg-gradient-cyan-teal",
-                        style="height:150px;",),
-                    
+                    ui.card("",
                         ui.value_box("Number of documents:",
                             ui.output_ui("doc_count"),
                             showcase=faicons.icon_svg("cat", width="50px"),
@@ -305,10 +298,6 @@ def server(input, output, session):
     authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")   
 
 #value in value_box on biblio page
-    @render.ui
-    def population():
-        df=pd.read_csv("www/2021_population_ns.csv")
-        return f"+{df.iloc[0,2]}%"
 
     @render.ui
     def doc_count():
@@ -448,6 +437,7 @@ def server(input, output, session):
     def search_results():
         if query.get():
             return bm25s_func.run_query(query.get(),k_value.get())
+            
         else:
             return "Please click the search button to perform a search."
 

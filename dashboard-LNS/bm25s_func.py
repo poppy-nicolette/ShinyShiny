@@ -67,7 +67,7 @@ def run_query(query:str,k):
         #format results
         for i in range(results.shape[1]):
             doc, score = results[0, i], scores[0, i]
-            results_list.append(f"Rank {i+1} (score: {score:.2f}): {doc}")
+            results_list.append(f"Rank {i+1} (score: {score:.2f}): {doc}\n")
 
         return "\n".join(results_list)
 

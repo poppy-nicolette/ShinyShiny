@@ -22,11 +22,6 @@ Inputs:
 Outputs:
     for a query, returns top-k highest scoring documents. Currently set to 3
 
-Requirements:
-bm25s
-os
-pickle
-
 """
 
 
@@ -34,9 +29,9 @@ import bm25s
 import os
 import pickle
 
-# ...and load them when you need them
+#load the indexed corpus
 retriever = bm25s.BM25.load("www/lns_bm25", load_corpus=True)
-# set load_corpus=False if you don't need the corpus
+#set load_corpus=False if you don't need the corpus
 
 #load the url_list
 with open('www/url.pkl', 'rb') as file:
@@ -52,24 +47,29 @@ def run_query(query:str,k):
     Returns:
         str: A formatted string of the top-k results
     """
-
+    #tokenize query
     #you can also add a stemmer here as an arg: stemmer=stemmer
     query_tokens = bm25s.tokenize(query)
     results, scores = retriever.retrieve(query_tokens, k=k)
 
+    #retrieve results with corpus
     #note: if you pass a new corpus here, it must have the same length as your indexed corpus
     #in this case, I am passing the new list 'url_list'
     results = retriever.retrieve(query_tokens, corpus=url_list, k=k, return_as="documents")
+
+    #initialize results_list
+    results_list = []
+
     #loop through results, check for zero scores
     if all(score ==0.00 for score in scores[0]):
-        print("Nothing found, please try another query.")
+        return "Nothing found, please try another query."
     else:
-        results_list = []
+        #format results
         for i in range(results.shape[1]):
             doc, score = results[0, i], scores[0, i]
             results_list.append(f"Rank {i+1} (score: {score:.2f}): {doc}")
 
-    return "\n".join(results_list)
+        return "\n".join(results_list)
 
 def main():
     print(run_query(input("what is your query:"),k=3))

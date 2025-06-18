@@ -7,3 +7,4 @@ pandas
 ipyleaflet
 ipywidgets
 openpyxl
+bm25s

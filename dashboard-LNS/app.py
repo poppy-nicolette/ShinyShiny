@@ -219,9 +219,15 @@ app_ui = ui.page_navbar(
             ui.card("networks",
                     ui.output_image("image_output", width='200px',height='200px'),
                     full_screen=True,),
-            ui.card(),
             col_widths=[3,9]
         ),#close layout_columns
+        ),#close nav_panel
+        ui.nav_panel("D3 Network",
+            ui.layout_columns(
+                ui.card("Network viz",
+                    ui.div(id="network"),#viz container
+                ),#close ui.card
+            ),#close layout_columns
         ),#close nav_panel
         ),#close navset_card_tab
     ),#close nav_panel
@@ -449,6 +455,8 @@ def server(input, output, session):
             )#close datatable
 
 #biblio-analysis page - Network Maps tab
+
+
     @render.image
     def image_output():
         if input.image_select() =="BC":
@@ -473,11 +481,24 @@ def server(input, output, session):
             img = {"src":"www/graph_bc_cc_dc.png","width":"640px"}
             return img
 
+#biblio-analysis page  - D3 Network tab
+    @render.ui
+    def network():
+        #paths to csv networks files - this will start simple but may need to be expanded like in the networks tabs with radio buttons
+        nodes_path = os.path.join("www/networks","nodes_bc.csv")
+        edges_path = os.path.join("www/networks","net_bc.csv")
+
+        #Javascript to load D3
+        js_code = f"""
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        """
+
 #documentation page - process_diagram
     @render.image
     def process_diagram():
         img = {"src":"www/Process_Diagram.svg","width":"100%"}
         return img
+
 
 
 app = App(app_ui,server)

@@ -244,7 +244,7 @@ app_ui = ui.page_navbar(
         ),#close navset_card_tab
     ),#close nav_panel
     
-#nav_panel for demographics
+#nav_panel for chat interface
     ui.nav_panel(
         "Chat Interface",
         ui.layout_columns(
@@ -303,6 +303,12 @@ app_ui = ui.page_navbar(
             ui.output_image("process_diagram"),
             col_widths=[12]
         ),#close ui.layout_columns
+    ),#close nav_panel
+    ui.nav_panel("Next steps",
+        ui.layout_columns(
+                ui.output_image("next_phase_development"),
+                col_widths=[12]
+            ),#close ui.layout_columns
     ),#close nav_panel
 
 #Title bar at top
@@ -522,7 +528,8 @@ def server(input, output, session):
     @output
     @render_widget
     def graph_plot():
-        return cached_figure.get()
+        if input.nav() == "Biblio-analysis":
+            return cached_figure.get()
 
    
 
@@ -531,6 +538,11 @@ def server(input, output, session):
     @render.image
     def process_diagram():
         img = {"src":"www/Process_Diagram.svg","width":"100%"}
+        return img
+
+    @render.image
+    def next_phase_development():
+        img = {"src":"www/next_phase_development.svg","width":"60%"}
         return img
 
 

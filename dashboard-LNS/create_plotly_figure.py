@@ -1,21 +1,10 @@
-#create_plotly_figure()
+# create_plotly_figure.py
 
 import networkx as nx
 import plotly.graph_objects as go
 
-def create_plotly_figure(G, node_attributes):
-    # Identify the largest connected component
-    largest_cc = max(nx.connected_components(G), key=len)
-    subgraph = G.subgraph(largest_cc).copy()
-
+def create_plotly_figure(G, node_attributes, pos):
     # Create a figure and axis
-    try:
-        pos = nx.forceatlas2_layout(subgraph)
-        print("Layout calculation completed.")
-    except Exception as e:
-        print(f"Error in spring layout calculation: {e}")
-        return go.Figure()  # Return an empty figure if layout calculation fails
-
     edge_trace = go.Scatter(
         x=[],
         y=[],
@@ -23,7 +12,7 @@ def create_plotly_figure(G, node_attributes):
         hoverinfo='none',
         mode='lines')
 
-    for edge in subgraph.edges():
+    for edge in G.edges():
         x0, y0 = pos[edge[0]]
         x1, y1 = pos[edge[1]]
         edge_trace['x'] += (x0, x1, None)
@@ -48,13 +37,12 @@ def create_plotly_figure(G, node_attributes):
             ),
             line_width=2))
 
-    for node in subgraph.nodes():
+    for node in G.nodes():
         x, y = pos[node]
         node_trace['x'] += (x,)
         node_trace['y'] += (y,)
-        node_trace['marker']['color'] += (subgraph.nodes[node].get('cluster_louvain', 0),)  # Default to 0 if attribute is missing
-        node_trace['text'] += (f"Label: {subgraph.nodes[node].get('label', 'N/A')}<br>Cluster: {subgraph.nodes[node].get('cluster_louvain', 0)}<br>Degree: {subgraph.nodes[node].get('degree', 0)}<br>Closeness: {subgraph.nodes[node].get('closeness', 0)}<br>Eigen Centrality: {subgraph.nodes[node].get('eigen_centrality', 0)}",)
-
+        node_trace['marker']['color'] += (G.nodes[node].get('cluster_louvain', 0),)  # Default to 0 if attribute is missing
+        node_trace['text'] += (f"Label: {G.nodes[node].get('label', 'N/A')}<br>Cluster: {G.nodes[node].get('cluster_louvain', 0)}<br>Degree: {G.nodes[node].get('degree', 0)}<br>Closeness: {G.nodes[node].get('closeness', 0)}<br>Eigen Centrality: {G.nodes[node].get('eigen_centrality', 0)}",)
 
     fig = go.Figure(data=[edge_trace, node_trace],
                     layout=go.Layout(

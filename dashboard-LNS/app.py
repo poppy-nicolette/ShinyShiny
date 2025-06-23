@@ -1,3 +1,5 @@
+# app.py
+
 import plotly.express as px
 import plotly.graph_objects as go
 from shinywidgets import output_widget, render_widget, render_plotly
@@ -15,19 +17,18 @@ import networkx as nx
 import graph_utils as gu
 import create_plotly_figure as cpf
 
-#read data
+# Read data
 df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
 
-#read file function
+# Read file function
 def read_file(filename):
     df = pd.read_csv(filename, encoding="utf-8")
     return df
 
-#main application page
+# Main application page
 app_ui = ui.page_navbar(
     ui.nav_spacer(),
     ui.nav_panel(
-#Main Page Info Tab
         "Main Page info",
         ui.layout_sidebar(
             ui.sidebar(
@@ -106,7 +107,6 @@ app_ui = ui.page_navbar(
             ),
         ),
     ),
-#Map of Resources tab
     ui.nav_panel(
         "Map of resources",
         ui.layout_columns(
@@ -126,7 +126,6 @@ app_ui = ui.page_navbar(
             max_height="800px"
         ),
     ),
-#Biblio-analysis tab Overview
     ui.nav_panel(
         "Biblio-analysis",
         ui.navset_card_tab(
@@ -148,7 +147,6 @@ app_ui = ui.page_navbar(
                     col_widths=[5, 7],
                 ),
             ),
-#Biblio-analysis Tab Table
             ui.nav_panel(
                 "Search Interface",
                 ui.layout_columns(
@@ -157,7 +155,7 @@ app_ui = ui.page_navbar(
                         ui.layout_columns(
                             ui.input_numeric("k_value", "# results:", value=3, min=1, width="100%"),
                             ui.input_text("user_query", "Enter your search query here:", width="100%"),
-                            col_widths=(3,9),
+                            col_widths=(3, 9),
                             max_height="100px",
                         ),
                         ui.input_action_button("search_button", "Search", class_="small-button", width="100%"),
@@ -169,10 +167,8 @@ app_ui = ui.page_navbar(
                     col_widths=[4, 6, 2],
                 ),
             ),
-
         ),
     ),
-#Biblio-analysis Tab Network Maps
     ui.nav_panel(
         "Network Maps",
         ui.layout_columns(
@@ -181,7 +177,7 @@ app_ui = ui.page_navbar(
                     "network_type",
                     "Select network type:",
                     choices={
-                         "bc": "Bibiographic Coupling",
+                        "bc": "Bibiographic Coupling",
                         "cc": "Co-citation",
                         "dc": "Direct Citation",
                         "bc-cc": "Hybrid BC-CC",
@@ -194,9 +190,8 @@ app_ui = ui.page_navbar(
             ),
             ui.card(output_widget("graph_plot"), max_height='800px', min_height='600px'),
             col_widths=(2, 8),
-        ),#close layout_columns
-    ),#close nav_panel
-#Chat interface tab
+        ),
+    ),
     ui.nav_panel(
         "Chat Interface",
         ui.layout_columns(
@@ -222,7 +217,6 @@ app_ui = ui.page_navbar(
             col_widths=[2, 8, 2]
         ),
     ),
-#Funding Tab
     ui.nav_panel(
         "Funding",
         ui.layout_columns(
@@ -239,7 +233,6 @@ app_ui = ui.page_navbar(
             col_widths=[12]
         ),
     ),
-#Documentation Tab
     ui.nav_panel(
         "Documentation",
         ui.layout_columns(
@@ -247,7 +240,6 @@ app_ui = ui.page_navbar(
             col_widths=[12]
         ),
     ),
-#Next Steps Tab
     ui.nav_panel(
         "Next steps",
         ui.layout_columns(
@@ -263,22 +255,21 @@ app_ui = ui.page_navbar(
     footer="Authored by Poppy Riddle using Shiny Python from posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right", mode="light"),
 )
-#Server function
+
 def server(input, output, session):
     authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
-#Document count - value in value_box on biblio page
+
     @render.ui
     def doc_count():
         df_doc_count = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
         count = len(df_doc_count)
         return f"{count}"
-#Avg citation
+
     @render.ui
     def avg_citation():
         max_cite = df_lns_full["cited_by_count"].max()
         return f"{max_cite}"
 
-#render plotly_top_inst on biblio page
     @render_plotly
     def plotly_top_inst():
         inst_df = pd.read_csv("www/affiliation_counts.csv", encoding="utf-8")
@@ -292,7 +283,6 @@ def server(input, output, session):
         )
         return fig
 
-# render plotly_authors on biblio page
     @render_plotly
     def plotly_authors():
         authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
@@ -307,7 +297,6 @@ def server(input, output, session):
         )
         return fig
 
-#render plotly_funders on biblio page
     @render_plotly
     def plotly_funders():
         grouped_funders = read_file("www/funder_names.csv")
@@ -321,18 +310,15 @@ def server(input, output, session):
         )
         return fig
 
-# value box for total num authors
     @render.ui
     def total_authors():
         return f"{len(set(authors_df['authors']))}"
 
-#render image for lns logo - NOT WORKING
     @render.image
     def icon():
         img = {"src": "lns_icon.png", "width": "32px"}
         return img
 
-#render map of resource centres
     @render_widget
     def map():
         center = (44.68198660, -63.74431100)
@@ -358,16 +344,14 @@ def server(input, output, session):
         m.add(control)
         return m
 
-# render table for biblio overview award_id
     @render.data_frame
     def table_award_id():
         return render.DataTable(
             data=read_file("www/award_list.csv"),
             filters=False,
-            editable=True, # see this for saving edited tables: https://shiny.posit.co/blog/posts/shiny-python-0.9.0/
+            editable=True,
         )
 
-# render search_results from biblio search
     query = reactive.Value("")
     k_value = reactive.Value(3)
 
@@ -377,7 +361,6 @@ def server(input, output, session):
             query.set(input.user_query())
             k_value.set(input.k_value())
 
-    #render search results 
     @render.text
     def search_results():
         if query.get():
@@ -385,7 +368,6 @@ def server(input, output, session):
         else:
             return "Please click the search button to perform a search."
 
-# render DataTable for locations
     @render.data_frame
     def table():
         return render.DataTable(
@@ -394,7 +376,6 @@ def server(input, output, session):
             editable=False,
         )
 
-# render DataTable for metadata
     @render.data_frame
     def lns_metadata():
         return render.DataTable(
@@ -403,11 +384,8 @@ def server(input, output, session):
             editable=False,
         )
 
-#biblio-analysis page - Network Maps tab
-    # Reactive value to store the cached figure
     cached_figure = reactive.Value(None)
 
-    #function for selecting network data sources
     @reactive.Calc
     def get_file_paths():
         network_type = input.network_type()
@@ -436,10 +414,12 @@ def server(input, output, session):
 
     @reactive.Effect
     def update_cached_figure():
-        nodes_file_path, edges_file_path = get_file_paths()
-        G, node_attributes = gu.create_network_graph(nodes_file_path, edges_file_path)
-        fig = cpf.create_plotly_figure(G, node_attributes)
-        cached_figure.set(fig)
+        if input.nav() == "Network Maps":
+            nodes_file_path, edges_file_path = get_file_paths()
+            G, node_attributes = gu.create_network_graph(nodes_file_path, edges_file_path)
+            pos = nx.forceatlas2_layout(G)  # Perform layout calculation here
+            fig = cpf.create_plotly_figure(G, node_attributes, pos)
+            cached_figure.set(fig)
 
     @output
     @render_widget
@@ -447,7 +427,6 @@ def server(input, output, session):
         if input.nav() == "Network Maps":
             return cached_figure.get()
 
-#documentation page - process_diagram
     @render.image
     def process_diagram():
         img = {"src": "www/Process_Diagram.svg", "width": "100%"}

@@ -20,6 +20,10 @@ import openpyxl
 import faicons
 import functools
 import bm25s_func
+#for the network
+import networkx as nx
+from shinywidgets import output_widget,render_plotly,render_widget
+import graph_utils as gu
 
 df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
 
@@ -212,40 +216,63 @@ app_ui = ui.page_navbar(
 # Nav panel Network Maps
         ui.nav_panel("Network Maps",
         ui.layout_columns(
-            ui.card("select type of network",
-                ui.input_radio_buttons("image_select", "Select an network",
-                {"BC":"Bibliographic coupling","CC":"Cocitation","DC":"Direct citation","BC-CC":"BC-CC","BC-DC":"BC-DC","CC-DC":"CC-DC","BC-CC-DC":"BC-CC-DC"}),
-                    ),
-            ui.card("networks",
-                    ui.output_image("image_output", width='200px',height='200px'),
-                    full_screen=True,),
-            col_widths=[3,9]
+            ui.card(
+                ui.input_radio_buttons(
+                    "network_type",
+                    "Select network type:",
+                    choices={
+                        "bc":"Bibiographic Coupling",
+                        "cc":"Co-citation",
+                        "dc":"Direct Citation",
+                        "bc-cc":"Hybrid BC-CC",
+                        "bc-dc":"Hybrid BC-DC",
+                        "bc-dc-cc":"Hybrid BC-DC-CC",
+                        "cc-dc":"Hybrid CC-DC"
+                    },
+                    selected="bc",
+                ),#close radio buttons
+
+            ),#close card
+            ui.card(
+                output_widget("graph_plot"),
+                max_height='800px',
+                min_height='600px',
+                ),#close card
+        col_widths=(2,8),
         ),#close layout_columns
-        ),#close nav_panel
-        ui.nav_panel("D3 Network",
-            ui.layout_columns(
-                ui.card("Network viz",
-                    ui.div(id="network"),#viz container
-                ),#close ui.card
-            ),#close layout_columns
         ),#close nav_panel
         ),#close navset_card_tab
     ),#close nav_panel
     
 #nav_panel for demographics
     ui.nav_panel(
-        "Demographics",
+        "Chat Interface",
         ui.layout_columns(
-            ui.card("population - census subdivisions in NS data: 98-401-X2021018_eng_CSV"),
-            ui.card("income - census subdivisions in NS data: 98-401-X2021018_eng_CSV"),
-            ui.card("education"),
-            col_widths=[6,3,3]
-        ),#close layout_columns
-        ui.layout_columns(
-            ui.card("health"),
-            ui.card("industry"),
-            ui.card("transportation"),
-            col_widths=[6,3,3]
+            ui.card("documents"),
+            ui.card("Chat interface",
+                ui.panel_absolute(
+                    ui.panel_well(
+                        "Query: ", ui.input_text("chat_input", "", width='800px', placeholder="")
+                        ),
+                draggable=True,
+                width="800px",
+                left="10%",
+                top="10%",
+                ),#close panel_absolute
+                ui.panel_absolute(
+                    ui.panel_well("Response: ",
+                        ui.output_text("chat_output")
+                    ),
+                width="800px",
+                bottom="10%",
+                left="10%",
+                height="400px",
+                ),#close panel_absolute
+
+                
+            ),#close ui.card
+            ui.card("Results list"),
+            col_widths=[2,8,2]
         ),#close layout_columns
     ),#close nav_panel
 
@@ -455,43 +482,50 @@ def server(input, output, session):
             )#close datatable
 
 #biblio-analysis page - Network Maps tab
+    # Reactive value to store the cached figure
+    cached_figure = reactive.Value(None)
 
+    #function for selecting network data sources
+    @reactive.Calc
+    def get_file_paths():
+        network_type = input.network_type()
+        if network_type == "bc":
+            nodes_file_path = "www/nodes_bc.csv"
+            edges_file_path = "www/net_bc.csv"
+        elif network_type == "cc":
+            nodes_file_path = "www/nodes_cc.csv"
+            edges_file_path = "www/net_cc.csv"
+        elif network_type == "dc":
+            nodes_file_path = "www/nodes_dc.csv"
+            edges_file_path = "www/net_dc.csv"
+        elif network_type == "bc-cc":
+            nodes_file_path = "www/nodes_bc_cc.csv"
+            edges_file_path = "www/net_bc_cc.csv"
+        elif network_type == "bc-dc":
+            nodes_file_path = "www/nodes_bc_dc.csv"
+            edges_file_path = "www/net_bc_dc.csv"
+        elif network_type == "bc-dc-cc":
+            nodes_file_path = "www/nodes_bc_cc_dc.csv"
+            edges_file_path = "www/net_bc_cc_dc.csv"
+        elif network_type == "cc-dc":
+            nodes_file_path = "www/nodes_cc_dc.csv"
+            edges_file_path = "www/net_cc_dc.csv"
+        return nodes_file_path, edges_file_path
 
-    @render.image
-    def image_output():
-        if input.image_select() =="BC":
-            img = {"src":"www/graph_bc.png","width":"640px"}
-            return img
-        if input.image_select() == "CC":
-            img = {"src":"www/graph_cc.png","width":"640px"}
-            return img
-        if input.image_select() == "DC":
-            img = {"src":"www/graph_dc.png","width":"640px"}
-            return img
-        if input.image_select() == "BC-CC":
-            img = {"src":"www/graph_bc_cc.png","width":"640px"}
-            return img
-        if input.image_select() == "BC-DC":
-            img = {"src":"www/graph_bc_dc.png","width":"640px"}
-            return img
-        if input.image_select() == "CC-DC":
-            img = {"src":"www/graph_cc_dc.png","width":"640px"}
-            return img
-        if input.image_select() == "BC-CC-DC":
-            img = {"src":"www/graph_bc_cc_dc.png","width":"640px"}
-            return img
+    @reactive.Effect
+    def update_cached_figure():
+        nodes_file_path, edges_file_path = get_file_paths()
+        G, node_attributes = gu.create_network_graph(nodes_file_path, edges_file_path)
+        fig = gu.create_plotly_figure(G, node_attributes)
+        cached_figure.set(fig)
 
-#biblio-analysis page  - D3 Network tab
-    @render.ui
-    def network():
-        #paths to csv networks files - this will start simple but may need to be expanded like in the networks tabs with radio buttons
-        nodes_path = os.path.join("www/networks","nodes_bc.csv")
-        edges_path = os.path.join("www/networks","net_bc.csv")
+    @output
+    @render_widget
+    def graph_plot():
+        return cached_figure.get()
 
-        #Javascript to load D3
-        js_code = f"""
-        <script src="https://d3js.org/d3.v6.min.js"></script>
-        """
+   
+
 
 #documentation page - process_diagram
     @render.image

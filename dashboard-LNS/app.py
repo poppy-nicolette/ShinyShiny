@@ -425,8 +425,13 @@ def server(input, output, session):
     @output
     @render_widget
     def graph_plot():
+        print("graph_plot called")
         if input.nav() == "Network Maps":
+            print("Network Maps tab is active")
             return cached_figure.get()
+        else:
+            print("Network Maps tab is not active")
+            return go.Figure()  # Return an empty figure if the tab is not active
 
     @render.image
     def process_diagram():

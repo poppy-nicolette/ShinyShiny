@@ -13,6 +13,7 @@ import functools
 import bm25s_func
 import networkx as nx
 import graph_utils as gu
+import create_plotly_figure as cpf
 
 #read data
 df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
@@ -437,7 +438,7 @@ def server(input, output, session):
     def update_cached_figure():
         nodes_file_path, edges_file_path = get_file_paths()
         G, node_attributes = gu.create_network_graph(nodes_file_path, edges_file_path)
-        fig = gu.create_plotly_figure(G, node_attributes)
+        fig = cpf.create_plotly_figure(G, node_attributes)
         cached_figure.set(fig)
 
     @output

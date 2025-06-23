@@ -25,3 +25,7 @@
   height: 30px; /*adjust as needed*/
   font-size: 12px; /*adjust as needed
 }
+  /*card header*/
+  .card-header {
+    color:white; background:#746e6e !important;
+  }

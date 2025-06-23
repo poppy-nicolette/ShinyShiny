@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
 from shiny.ui import tags
+from pathlib import Path
 # for the map
 from ipyleaflet import Map, Marker,display, LayersControl, Popup, Icon, MarkerCluster,AwesomeIcon,LayerGroup
 import ipywidgets as widgets
@@ -22,7 +23,6 @@ import functools
 import bm25s_func
 #for the network
 import networkx as nx
-from shinywidgets import output_widget,render_plotly,render_widget
 import graph_utils as gu
 
 df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
@@ -33,10 +33,7 @@ def read_file(filename):
     return df
 
 #styling
-ui.tags.style(
-    ".card-header { color:white; background:#746e6e !important; }"
-)
-
+css_file = Path(__file__).parent / "styles.css"
 
 app_ui = ui.page_navbar(
     ui.nav_spacer(),
@@ -528,7 +525,7 @@ def server(input, output, session):
     @output
     @render_widget
     def graph_plot():
-        if input.nav() == "Biblio-analysis":
+        if input.nav() == "Network Maps":
             return cached_figure.get()
 
    

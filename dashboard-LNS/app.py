@@ -163,8 +163,7 @@ app_ui = ui.page_navbar(
                         ui.output_text_verbatim("search_results"),
                     ),
                     ui.card(ui.h2("Table of scan literature"), ui.output_data_frame("lns_metadata")),
-                    ui.card(""),
-                    col_widths=[4, 6, 2],
+                    col_widths=[4, 8],
                 ),
             ),
         ),
@@ -420,6 +419,8 @@ def server(input, output, session):
             pos = nx.forceatlas2_layout(G)  # Perform layout calculation here
             fig = cpf.create_plotly_figure(G, node_attributes, pos)
             cached_figure.set(fig)
+        else:
+            print('aint running')
 
     @output
     @render_widget

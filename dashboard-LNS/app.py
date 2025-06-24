@@ -17,18 +17,19 @@ import networkx as nx
 import graph_utils as gu
 import create_plotly_figure as cpf
 
-# Read data
+#read data
 df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
 
-# Read file function
+#read file function
 def read_file(filename):
     df = pd.read_csv(filename, encoding="utf-8")
     return df
 
-# Main application page
+#main application page
 app_ui = ui.page_navbar(
     ui.nav_spacer(),
     ui.nav_panel(
+#Main page info - needs to change to reflect new project scope
         "Main Page info",
         ui.layout_sidebar(
             ui.sidebar(
@@ -107,6 +108,7 @@ app_ui = ui.page_navbar(
             ),
         ),
     ),
+#Map of Resources Tab
     ui.nav_panel(
         "Map of resources",
         ui.layout_columns(
@@ -126,6 +128,7 @@ app_ui = ui.page_navbar(
             max_height="800px"
         ),
     ),
+#Biblio-analysis Tab
     ui.nav_panel(
         "Biblio-analysis",
         ui.navset_card_tab(
@@ -147,6 +150,7 @@ app_ui = ui.page_navbar(
                     col_widths=[5, 7],
                 ),
             ),
+#Search Interface Tab
             ui.nav_panel(
                 "Search Interface",
                 ui.layout_columns(
@@ -167,7 +171,8 @@ app_ui = ui.page_navbar(
                 ),
             ),
         ),
-    ),
+    ),#close nav_panel
+#Network Maps Tab
     ui.nav_panel(
         "Network Maps",
         ui.layout_columns(
@@ -191,6 +196,7 @@ app_ui = ui.page_navbar(
             col_widths=(2, 8),
         ),
     ),
+#Chat Interface Tab
     ui.nav_panel(
         "Chat Interface",
         ui.layout_columns(
@@ -216,6 +222,7 @@ app_ui = ui.page_navbar(
             col_widths=[2, 8, 2]
         ),
     ),
+#Funding Tab
     ui.nav_panel(
         "Funding",
         ui.layout_columns(
@@ -232,6 +239,7 @@ app_ui = ui.page_navbar(
             col_widths=[12]
         ),
     ),
+#Documentation Tab
     ui.nav_panel(
         "Documentation",
         ui.layout_columns(
@@ -239,6 +247,7 @@ app_ui = ui.page_navbar(
             col_widths=[12]
         ),
     ),
+#Next Steps Tab
     ui.nav_panel(
         "Next steps",
         ui.layout_columns(
@@ -253,11 +262,13 @@ app_ui = ui.page_navbar(
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python from posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right", mode="light"),
-)
+)#close page_navbar
 
+#Server function
 def server(input, output, session):
     authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
 
+#value in value_box on biblio page
     @render.ui
     def doc_count():
         df_doc_count = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
@@ -269,6 +280,7 @@ def server(input, output, session):
         max_cite = df_lns_full["cited_by_count"].max()
         return f"{max_cite}"
 
+# render plotly_top_inst on biblio page
     @render_plotly
     def plotly_top_inst():
         inst_df = pd.read_csv("www/affiliation_counts.csv", encoding="utf-8")
@@ -282,6 +294,7 @@ def server(input, output, session):
         )
         return fig
 
+# render plotly_authors on biblio page
     @render_plotly
     def plotly_authors():
         authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
@@ -296,6 +309,7 @@ def server(input, output, session):
         )
         return fig
 
+#render plotly_funders on biblio page
     @render_plotly
     def plotly_funders():
         grouped_funders = read_file("www/funder_names.csv")
@@ -309,15 +323,18 @@ def server(input, output, session):
         )
         return fig
 
+# value box for total num authors
     @render.ui
     def total_authors():
         return f"{len(set(authors_df['authors']))}"
 
+#render image for lns logo - NOT WORKING
     @render.image
     def icon():
         img = {"src": "lns_icon.png", "width": "32px"}
         return img
 
+#render map of resource centres
     @render_widget
     def map():
         center = (44.68198660, -63.74431100)
@@ -331,6 +348,8 @@ def server(input, output, session):
             marker2.popup = widgets.HTML(value=popup_content)
             m.add(marker2)
 
+        # new list of affiliated institutions from LNS_REV_3_Limited_metadata.xlsx
+        # see notebook extract_inst.ipynb for extraction and api calls for lat lng
         df3 = pd.read_csv("www/inst_names.csv", encoding="UTF-8")
         for index, row in df3.iterrows():
             icon3 = AwesomeIcon(name='bank', marker_color='pink', icon_color='white', spin=False)
@@ -343,6 +362,7 @@ def server(input, output, session):
         m.add(control)
         return m
 
+# render table for biblio overview award_id
     @render.data_frame
     def table_award_id():
         return render.DataTable(
@@ -351,6 +371,8 @@ def server(input, output, session):
             editable=True,
         )
 
+
+# render search_results from biblio search
     query = reactive.Value("")
     k_value = reactive.Value(3)
 
@@ -360,6 +382,7 @@ def server(input, output, session):
             query.set(input.user_query())
             k_value.set(input.k_value())
 
+    #render search results 
     @render.text
     def search_results():
         if query.get():
@@ -367,6 +390,7 @@ def server(input, output, session):
         else:
             return "Please click the search button to perform a search."
 
+# render DataTable for locations
     @render.data_frame
     def table():
         return render.DataTable(
@@ -375,6 +399,7 @@ def server(input, output, session):
             editable=False,
         )
 
+# render DataTable for metadata
     @render.data_frame
     def lns_metadata():
         return render.DataTable(
@@ -383,8 +408,11 @@ def server(input, output, session):
             editable=False,
         )
 
+#biblio-analysis page - Network Maps tab
+    # Reactive value to store the cached figure
     cached_figure = reactive.Value(None)
 
+    #function for selecting network data sources
     @reactive.Calc
     def get_file_paths():
         network_type = input.network_type()
@@ -411,6 +439,8 @@ def server(input, output, session):
             edges_file_path = "www/net_cc_dc.csv"
         return nodes_file_path, edges_file_path
 
+    #calculates network using graph_utils.py
+    #creates figure using create_plotly_figure.py
     @reactive.Effect
     def update_cached_figure():
         if input.nav() == "Network Maps":
@@ -422,6 +452,7 @@ def server(input, output, session):
         else:
             print('aint running')
 
+    # plots figure if Network Maps tab is active - currently not working
     @output
     @render_widget
     def graph_plot():

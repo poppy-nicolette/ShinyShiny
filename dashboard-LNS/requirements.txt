@@ -8,3 +8,4 @@ ipyleaflet
 ipywidgets
 openpyxl
 bm25s
+networkx

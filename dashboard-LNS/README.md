@@ -5,6 +5,7 @@ Author: Poppy Riddle
 Date: April 2025
 
 ## todo:
-- [ ] add all tabs
-- [ ] outline contents for each tab
-- [ ] main page - itemize design goals
+- [x] add all tabs
+- [x] outline contents for each tab
+- [x] main page - itemize design goals
+- [ ] rewrite main page to reflect current design goals

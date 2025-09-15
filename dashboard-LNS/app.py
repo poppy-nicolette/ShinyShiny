@@ -33,48 +33,11 @@ app_ui = ui.page_navbar(
         "Main Page info",
         ui.layout_sidebar(
             ui.sidebar(
-                ui.a("Statistics Canada", href="https://www150.statcan.gc.ca/n1/en/type/data?HPA=1"),
-                ui.a("LNS Resource Hub", href="https://resourcehub.literacyns.ca/activity?check_logged_in=1"),
-                ui.a("Education Indicators in Canada", href="https://www150.statcan.gc.ca/n1/en/catalogue/81-582-X"),
-                ui.a("Adult education centres in Nova Scotia", href="https://novascotia.ca/adult-learning/community-learning-organizations.pdf"),
-                ui.a("211 Nova Scotia", href="https://ns.211.ca/needs-data-dashboard/"),
-                ui.a("PIACC report", href="https://piaac.ca/en/"),
-                ui.a("CAMET report", href="https://www.cmec.ca/259/Pan-Canadian_Indicators.html"),
-                ui.a("ASTS final report", href="https://immediac.blob.core.windows.net/camet-camef/pdfs/ASTS%20Final%20Report%20May%202024%20English.pdf"),
-                ui.a("Funding opportunities: IONS", href="https://ions.ca/funding-opportunities/"),
-                ui.a("Office of Literacy and Essential Skills data", href="https://oles.esdc.gc.ca/bace-oles/pr.4j.2cts.2.1rch@-eng.jsp;jsessionid=VYpD4zJ6m5PmW-zeAkt9PLr2IzwQCJqYg9eNkbqp7btsCUugqo2F!-452838142"),
-                ui.a("Public Health Agency of Canada, funding", href="https://www.canada.ca/en/public-health/services/funding-opportunities/grant-contribution-funding-opportunities.html"),
-                ui.a("SRDC reports and pubs", href="https://www.srdc.org/latest-research/"),
-                ui.a("United for Literacy reports", href="https://www.unitedforliteracy.ca/Literacy/Reports"),
-                ui.a("UNESCO data portal", href="https://core.unesco.org/en/home"),
-                ui.a("Environics Institute Social Capital Survey 2022", href="https://www.environicsinstitute.org/docs/default-source/default-document-library/environics-social-capital-2022-10-28a5abb9e91fef47cf981f39462ccbe375.pdf?sfvrsn=8344fe53_0"),
-                ui.a("Vital Signs 2017 report", href="https://communityfoundations.ca/wp-content/uploads/2019/08/2017_CFNS-Colchester-Vital-Signs-FINAL-UPDATED.pdf"),
-                ui.a("Vital Signs 2016 report", href="https://communityfoundations.ca/wp-content/uploads/2019/08/2016_Cumberland-County.pdf"),
-                ui.a("Census Program Dashboard", href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/dv-vd/cpdv-vdpr/index-eng.cfm"),
+                ui.p("Some text here if we need it."),
                 position="right",
                 width=300,
-                title="References"
-            ),
-            ui.layout_columns(
-                ui.card(
-                    ui.card_header("Informative"),
-                    ui.p("- provide access to survey reports and documents"),
-                    ui.p("- provide summarization of data in visual, tabular, and narrative form"),
-                    ui.p("- provide results from a query or search"),
-                    ui.p("- provide means to upload current data"),
-                ),
-                ui.card(
-                    ui.card_header("Usability"),
-                    ui.p("- accessible for all users"),
-                    ui.p("- easy to navigate for executive level users"),
-                    ui.p("- fast, responsive, and easy to navigate"),
-                ),
-                ui.card(
-                    ui.card_header("Scalable"),
-                    ui.p("- can handle increased traffic and usage"),
-                    ui.p("- can easily be updated by uploading new data"),
-                    ui.p("- can be easily maintained and hosted")
-                ),
+                title="References",
+                open='closed',
             ),
             ui.layout_columns(
                 ui.card(
@@ -89,26 +52,13 @@ app_ui = ui.page_navbar(
                     ui.p("The dashboard project was initiated to visualize the findings of the scoping review and provide an interactive platform for stakeholders to explore the data. The dashboard includes visualizations of funding, locations, literacy types, and key findings from the review."),
                     id="text_card"
                 ),
-                ui.card(
-                    ui.card_header('to do list:'),
-                    ui.p("🥡 Look up NSSAL Report - this might be useful data"),
-                    ui.p("🥡 add more resources to Map - see 211 NS Data"),
-                    ui.p("🥡 add more summary metrics to biblio-analysis page"),
-                    ui.p("🥡 Follow up with 211 NS Nick Jennery"),
-                    ui.p("🥡 enrich survey metadata to fill in holes"),
-                    ui.p("🥡 Dig in to Engage NS data"),
-                    ui.p("🥡 Add network code and functions - add to biblio-analysis page"),
-                    ui.p("🥡 Import Q&A code, add query/response interface"),
-                    ui.p("🥡 extract abstracts and add to text file"),
-                    ui.p("🐍 refine Python code into modules"),
-                ),
                 min_height="200px",
                 max_height="auto",
-                col_widths=[6, 6],
+                col_widths=[12],
             ),
         ),
     ),
-#Map of Resources Tab
+#Map of Resources Tab - KEEP THIS
     ui.nav_panel(
         "Map of resources",
         ui.layout_columns(
@@ -130,10 +80,10 @@ app_ui = ui.page_navbar(
     ),
 #Biblio-analysis Tab
     ui.nav_panel(
-        "Biblio-analysis",
+        "Data dashboard",
         ui.navset_card_tab(
             ui.nav_panel(
-                "Overview",
+                "Data about the scoping review",
                 ui.layout_columns(
                     ui.card(output_widget("plotly_top_inst")),
                     ui.card(output_widget("plotly_authors")),
@@ -150,9 +100,20 @@ app_ui = ui.page_navbar(
                     col_widths=[5, 7],
                 ),
             ),
-#Search Interface Tab
             ui.nav_panel(
-                "Search Interface",
+                "Data about Nova Scotia"
+            ),
+
+        ),
+    ),#close nav_panel
+
+#Chat Interface Tab
+    ui.nav_panel(
+        "Chat Interface",
+        ui.layout_columns(
+            ui.card("documents",
+            #Search Interface Tab
+
                 ui.layout_columns(
                     ui.card(
                         ui.h2("Search"),
@@ -166,41 +127,9 @@ app_ui = ui.page_navbar(
                         "Search results:",
                         ui.output_text_verbatim("search_results"),
                     ),
-                    ui.card(ui.h2("Table of scan literature"), ui.output_data_frame("lns_metadata")),
-                    col_widths=[4, 8],
+                    col_widths=[12],
                 ),
             ),
-        ),
-    ),#close nav_panel
-#Network Maps Tab
-    ui.nav_panel(
-        "Network Maps",
-        ui.layout_columns(
-            ui.card(
-                ui.input_radio_buttons(
-                    "network_type",
-                    "Select network type:",
-                    choices={
-                        "bc": "Bibiographic Coupling",
-                        "cc": "Co-citation",
-                        "dc": "Direct Citation",
-                        "bc-cc": "Hybrid BC-CC",
-                        "bc-dc": "Hybrid BC-DC",
-                        "bc-dc-cc": "Hybrid BC-DC-CC",
-                        "cc-dc": "Hybrid CC-DC"
-                    },
-                    selected="bc",
-                ),
-            ),
-            ui.card(output_widget("graph_plot"), max_height='800px', min_height='600px'),
-            col_widths=(2, 8),
-        ),
-    ),
-#Chat Interface Tab
-    ui.nav_panel(
-        "Chat Interface",
-        ui.layout_columns(
-            ui.card("documents"),
             ui.card(
                 "Chat interface",
                 ui.panel_absolute(
@@ -218,27 +147,10 @@ app_ui = ui.page_navbar(
                     height="400px",
                 ),
             ),
-            ui.card("Results list"),
-            col_widths=[2, 8, 2]
+            col_widths=[5, 7]
         ),
     ),
-#Funding Tab
-    ui.nav_panel(
-        "Funding",
-        ui.layout_columns(
-            ui.navset_card_tab(
-                ui.nav_panel("A", "Panel A content", ui.card("Table of grants and institutions from the LNS Corpus")),
-                ui.nav_panel("B", "Panel B content"),
-                ui.nav_panel("C", "Panel C content"),
-                id="tab",
-            ),
-            col_widths=[12]
-        ),
-        ui.layout_columns(
-            ui.card("big map here with funding overlays"),
-            col_widths=[12]
-        ),
-    ),
+
 #Documentation Tab
     ui.nav_panel(
         "Documentation",
@@ -247,14 +159,7 @@ app_ui = ui.page_navbar(
             col_widths=[12]
         ),
     ),
-#Next Steps Tab
-    ui.nav_panel(
-        "Next steps",
-        ui.layout_columns(
-            ui.output_image("next_phase_development"),
-            col_widths=[12]
-        ),
-    ),
+
     ui.head_content(ui.include_css("styles.css")),
     fillable=True,
     id="navbar",

@@ -58,7 +58,7 @@ app_ui = ui.page_navbar(
             ),
         ),
     ),
-#Map of Resources Tab - KEEP THIS
+# Map of Resources Tab - KEEP THIS
     ui.nav_panel(
         "Map of resources",
         ui.layout_columns(

@@ -78,7 +78,7 @@ app_ui = ui.page_navbar(
             max_height="800px"
         ),
     ),
-#Biblio-analysis Tab
+#Data dashboard Main Tab
     ui.nav_panel(
         "Data dashboard",
         ui.navset_card_tab(
@@ -101,8 +101,12 @@ app_ui = ui.page_navbar(
                 ),
             ),
             ui.nav_panel(
+                "Data about Canada"
+            ),
+            ui.nav_panel(
                 "Data about Nova Scotia"
             ),
+            ui.nav_panel("Data about a something specific in NS"),
 
         ),
     ),#close nav_panel
@@ -112,8 +116,7 @@ app_ui = ui.page_navbar(
         "Chat Interface",
         ui.layout_columns(
             ui.card("documents",
-            #Search Interface Tab
-
+            #Search Interface sidebar
                 ui.layout_columns(
                     ui.card(
                         ui.h2("Search"),
@@ -173,7 +176,7 @@ app_ui = ui.page_navbar(
 def server(input, output, session):
     authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
 
-#value in value_box on biblio page
+#value in value_box on scoping data page
     @render.ui
     def doc_count():
         df_doc_count = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
@@ -185,7 +188,7 @@ def server(input, output, session):
         max_cite = df_lns_full["cited_by_count"].max()
         return f"{max_cite}"
 
-# render plotly_top_inst on biblio page
+# render plotly_top_inst on scoping data page
     @render_plotly
     def plotly_top_inst():
         inst_df = pd.read_csv("www/affiliation_counts.csv", encoding="utf-8")
@@ -199,7 +202,7 @@ def server(input, output, session):
         )
         return fig
 
-# render plotly_authors on biblio page
+# render plotly_authors on scoping data page
     @render_plotly
     def plotly_authors():
         authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
@@ -214,7 +217,7 @@ def server(input, output, session):
         )
         return fig
 
-#render plotly_funders on biblio page
+#render plotly_funders on scoping data page
     @render_plotly
     def plotly_funders():
         grouped_funders = read_file("www/funder_names.csv")
@@ -228,18 +231,13 @@ def server(input, output, session):
         )
         return fig
 
-# value box for total num authors
+# value box for total num authors - scoping data
     @render.ui
     def total_authors():
         return f"{len(set(authors_df['authors']))}"
 
-#render image for lns logo - NOT WORKING
-    @render.image
-    def icon():
-        img = {"src": "lns_icon.png", "width": "32px"}
-        return img
 
-#render map of resource centres
+#render map of resource centres - Map of resources page
     @render_widget
     def map():
         center = (44.68198660, -63.74431100)
@@ -267,7 +265,7 @@ def server(input, output, session):
         m.add(control)
         return m
 
-# render table for biblio overview award_id
+# render table for scoping data overview award_id
     @render.data_frame
     def table_award_id():
         return render.DataTable(
@@ -277,7 +275,7 @@ def server(input, output, session):
         )
 
 
-# render search_results from biblio search
+# render search_results from search sidebar on Chat Interface page
     query = reactive.Value("")
     k_value = reactive.Value(3)
 
@@ -287,7 +285,7 @@ def server(input, output, session):
             query.set(input.user_query())
             k_value.set(input.k_value())
 
-    #render search results 
+    #render search results on Chat Interface page
     @render.text
     def search_results():
         if query.get():
@@ -295,7 +293,7 @@ def server(input, output, session):
         else:
             return "Please click the search button to perform a search."
 
-# render DataTable for locations
+# render DataTable for locations on Map of Resources page
     @render.data_frame
     def table():
         return render.DataTable(
@@ -304,71 +302,8 @@ def server(input, output, session):
             editable=False,
         )
 
-# render DataTable for metadata
-    @render.data_frame
-    def lns_metadata():
-        return render.DataTable(
-            data=pd.read_excel("www/LNS_REV_3_limited_metadata.xlsx", sheet_name="Sheet1"),
-            filters=True,
-            editable=False,
-        )
 
-#biblio-analysis page - Network Maps tab
-    # Reactive value to store the cached figure
-    cached_figure = reactive.Value(None)
-
-    #function for selecting network data sources
-    @reactive.Calc
-    def get_file_paths():
-        network_type = input.network_type()
-        if network_type == "bc":
-            nodes_file_path = "www/nodes_bc.csv"
-            edges_file_path = "www/net_bc.csv"
-        elif network_type == "cc":
-            nodes_file_path = "www/nodes_cc.csv"
-            edges_file_path = "www/net_cc.csv"
-        elif network_type == "dc":
-            nodes_file_path = "www/nodes_dc.csv"
-            edges_file_path = "www/net_dc.csv"
-        elif network_type == "bc-cc":
-            nodes_file_path = "www/nodes_bc_cc.csv"
-            edges_file_path = "www/net_bc_cc.csv"
-        elif network_type == "bc-dc":
-            nodes_file_path = "www/nodes_bc_dc.csv"
-            edges_file_path = "www/net_bc_dc.csv"
-        elif network_type == "bc-dc-cc":
-            nodes_file_path = "www/nodes_bc_cc_dc.csv"
-            edges_file_path = "www/net_bc_cc_dc.csv"
-        elif network_type == "cc-dc":
-            nodes_file_path = "www/nodes_cc_dc.csv"
-            edges_file_path = "www/net_cc_dc.csv"
-        return nodes_file_path, edges_file_path
-
-    #calculates network using graph_utils.py
-    #creates figure using create_plotly_figure.py
-    @reactive.Effect
-    def update_cached_figure():
-        if input.nav() == "Network Maps":
-            nodes_file_path, edges_file_path = get_file_paths()
-            G, node_attributes = gu.create_network_graph(nodes_file_path, edges_file_path)
-            pos = nx.forceatlas2_layout(G)  # Perform layout calculation here
-            fig = cpf.create_plotly_figure(G, node_attributes, pos)
-            cached_figure.set(fig)
-        else:
-            print('aint running')
-
-    # plots figure if Network Maps tab is active - currently not working
-    @output
-    @render_widget
-    def graph_plot():
-        print("graph_plot called")
-        if input.nav() == "Network Maps":
-            print("Network Maps tab is active")
-            return cached_figure.get()
-        else:
-            print("Network Maps tab is not active")
-            return go.Figure()  # Return an empty figure if the tab is not active
-
+# DOCUMENTATION PAGE
     @render.image
     def process_diagram():
         img = {"src": "www/Process_Diagram.svg", "width": "100%"}

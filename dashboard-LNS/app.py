@@ -86,7 +86,7 @@ app_ui = ui.page_navbar(
                 "Data about the scoping review",
                 ui.layout_columns(
                     ui.card(output_widget("plotly_top_inst")),
-                    ui.card(output_widget("plotly_authors")),
+                    ui.card(output_widget("plotly_pop_size_instrument")),
                     ui.card(
                         ui.value_box("# documents:", ui.output_ui("doc_count"), theme="bg-gradient-cyan-teal", style="height:150px;"),
                         ui.value_box("Max citations:", ui.output_ui("avg_citation"), theme="bg-gradient-cyan-teal", style="height:150px;"),
@@ -204,17 +204,26 @@ def server(input, output, session):
 
 # render plotly_authors on scoping data page
     @render_plotly
-    def plotly_authors():
-        authors_df = pd.read_csv("www/author_list.csv", encoding="UTF-8")
-        authors_df = authors_df[authors_df['count'] > 4]
-        fig = px.bar(authors_df, y='authors', x='count', color='authors', orientation='h')
+    def plotly_pop_size_instrument():
+        pop_size_instrument_df = pd.read_csv("/Users/poppyriddle/Documents/Github/ShinyShiny/dashboard-LNS/www/pop_size_instrument.csv", encoding="UTF-8")
+
+        fig = px.bar(pop_size_instrument_df,
+                y='Count of instrument_classified',
+                x=['Interview/focus group',
+                        'Other',
+                        'Self-reported data',
+                        'Standardized assessment/tool',
+                        'Survey/questionnaire',
+                        'Test/task'],
+                color_discrete_sequence= px.colors.sequential.Plasma_r,
+                orientation='h')
         fig.update_layout(
-            title="Count of docs by author",
-            xaxis_title="Author name",
-            yaxis_title="Count of documents by author for those over 4",
-            height=400,
-            width=600,
-        )
+                title="Population size by instrument",
+                xaxis_title="Instrument",
+                yaxis_title="Population size (participants)",
+                height=400,
+                width=600,
+                )
         return fig
 
 #render plotly_funders on scoping data page

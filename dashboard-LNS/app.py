@@ -85,7 +85,7 @@ app_ui = ui.page_navbar(
             ui.nav_panel(
                 "Data about the scoping review",
                 ui.layout_columns(
-                    ui.card(output_widget("plotly_top_inst")),
+                    ui.card(output_widget("plotly_a_time")),
                     ui.card(output_widget("plotly_pop_size_instrument")),
                     ui.card(
                         ui.value_box("# documents:", ui.output_ui("doc_count"), theme="bg-gradient-cyan-teal", style="height:150px;"),
@@ -95,8 +95,8 @@ app_ui = ui.page_navbar(
                     col_widths=[5, 5, 2],
                 ),
                 ui.layout_columns(
-                    ui.card(ui.output_data_frame("table_award_id")),
-                    ui.card(output_widget("plotly_funders")),
+                    ui.card(output_widget("plotly_a_funder_type")),
+                    ui.card(output_widget("plotly_a_funder_concept")),
                     col_widths=[5, 7],
                 ),
             ),
@@ -188,21 +188,20 @@ def server(input, output, session):
         max_cite = df_lns_full["cited_by_count"].max()
         return f"{max_cite}"
 
-# render plotly_top_inst on scoping data page
+# render plotly_a_time on scoping data page
     @render_plotly
-    def plotly_top_inst():
-        inst_df = pd.read_csv("www/affiliation_counts.csv", encoding="utf-8")
-        fig = px.bar(inst_df, x='inst_name', y='count')
+    def plotly_a_time():
+        #a_time
+        a_time_df = pd.read_csv("www/a_time.csv", encoding="utf-8")
+        fig = px.bar(a_time_df, x='year', y='Counts',color='year',color_continuous_scale=px.colors.sequential.Plotly3)
         fig.update_layout(
-            title="Count of top 20 affiliations on documents",
-            xaxis_title="Institution name",
-            yaxis_title="Count of top 20",
-            height=400,
-            width=800,
+            title="Literature published over time",
+            xaxis_title="Year",
+            yaxis_title="Counts",
         )
         return fig
 
-# render plotly_authors on scoping data page
+# render plotly_pop_size_instrument on scoping data page
     @render_plotly
     def plotly_pop_size_instrument():
         pop_size_instrument_df = pd.read_csv("/Users/poppyriddle/Documents/Github/ShinyShiny/dashboard-LNS/www/pop_size_instrument.csv", encoding="UTF-8")
@@ -215,7 +214,7 @@ def server(input, output, session):
                         'Standardized assessment/tool',
                         'Survey/questionnaire',
                         'Test/task'],
-                color_discrete_sequence= px.colors.sequential.Plasma_r,
+                color_discrete_sequence= px.colors.sequential.Plotly3,
                 orientation='h')
         fig.update_layout(
                 title="Population size by instrument",
@@ -226,18 +225,26 @@ def server(input, output, session):
                 )
         return fig
 
-#render plotly_funders on scoping data page
+#render plotly_a_funder_concept on scoping data page
     @render_plotly
-    def plotly_funders():
-        grouped_funders = read_file("www/funder_names.csv")
-        fig = px.bar(grouped_funders, y='funder_name', x='funder_id', color='award_id', orientation='h')
+    def plotly_a_funder_concept():
+        a_funder_concept_df = pd.read_csv("www/a_funder_concept.csv",encoding="UTF-8")
+        fig = px.bar(a_funder_concept_df,
+            x='Concepts',
+            y=['Academic institution/centre',
+                'Corporation',
+                'Government',
+                'International organization',
+                'No funding received or specified',
+                'Nonprofit'],
+            color_discrete_sequence=px.colors.sequential.Plotly3,
+            )
         fig.update_layout(
-            title="Count of grants disclosed in documents",
-            xaxis_title="Funder name",
-            yaxis_title="Count of documents declaring this funder\nColor is number of awards.",
-            height=350,
-            width=800,
-        )
+            title="Literature published over time",
+            xaxis_title="Year",
+            yaxis_title="Counts",
+            
+            )
         return fig
 
 # value box for total num authors - scoping data
@@ -275,13 +282,25 @@ def server(input, output, session):
         return m
 
 # render table for scoping data overview award_id
-    @render.data_frame
-    def table_award_id():
-        return render.DataTable(
-            data=read_file("www/award_list.csv"),
-            filters=False,
-            editable=True,
-        )
+    @render_plotly
+    def plotly_a_funder_type():
+        a_funder_type_df = pd.read_csv("www/a_funder_type.csv", encoding="UTF-8")
+        fig = px.bar(a_funder_type_df,
+        y='Literacy',
+        x=['Academic institution/centre',
+                'Corporation',
+                'Government',
+                'International organization',
+                'No funding received or specified',
+                'Nonprofit'],
+        color_discrete_sequence= px.colors.sequential.Plotly3,
+        orientation='h')
+        fig.update_layout(
+                title="Funder by literacy type",
+                xaxis_title="Literacy type",
+                yaxis_title="Count of works",
+                )
+        return fig
 
 
 # render search_results from search sidebar on Chat Interface page

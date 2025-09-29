@@ -13,9 +13,11 @@ import openpyxl
 import faicons
 import functools
 import bm25s_func
-import networkx as nx
-import graph_utils as gu
 import create_plotly_figure as cpf
+from pathlib import Path
+
+# set css
+ui.include_css(Path(__file__).parent / "styles.css")
 
 #read data
 df_lns_full = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
@@ -81,25 +83,43 @@ app_ui = ui.page_navbar(
 #Data dashboard Main Tab
     ui.nav_panel(
         "Data dashboard",
-        ui.navset_card_tab(
+        ui.navset_pill(
             ui.nav_panel(
                 "Data about the scoping review",
                 ui.layout_columns(
-                    ui.card(output_widget("plotly_a_time")),
-                    ui.card(output_widget("plotly_pop_size_instrument")),
+                    ui.card(output_widget("plotly_a_time"),full_screen=True,),
+                    ui.card(output_widget("plotly_pop_size_instrument"),full_screen=True,),
                     ui.card(
-                        ui.value_box("# documents:", ui.output_ui("doc_count"), theme="bg-gradient-cyan-teal", style="height:150px;"),
-                        ui.value_box("Max citations:", ui.output_ui("avg_citation"), theme="bg-gradient-cyan-teal", style="height:150px;"),
-                        ui.value_box("Total authors", ui.output_ui('total_authors'), theme="bg-gradient-cyan-teal", style="height:150px;"),
+                        ui.value_box("# documents:", ui.output_ui("doc_count"), theme="bg-gradient-purple-red", style="height:250px;"),
+                        ui.value_box("Max citations:", ui.output_ui("avg_citation"), theme="bg-gradient-purple-red", style="height:120px;"),
+                        ui.value_box("Total authors", ui.output_ui('total_authors'), theme="bg-gradient-purple-red", style="height:120px;"),
                     ),
-                    col_widths=[5, 5, 2],
+                    col_widths=[4, 5, 3],
                 ),
                 ui.layout_columns(
-                    ui.card(output_widget("plotly_a_funder_type")),
-                    ui.card(output_widget("plotly_a_funder_concept")),
+                    ui.card(output_widget("plotly_a_funder_type"),full_screen=True,),
+                    ui.card(output_widget("plotly_a_funder_concept"),full_screen=True,),
                     col_widths=[5, 7],
                 ),
-            ),
+                ui.layout_columns(
+                    ui.card(output_widget("plotly_a_doc_type"),full_screen=True,),
+                    ui.card(output_widget("plotly_indicator_concept"),full_screen=True,),
+                    col_widths=[7,5],
+                    fillable=True,
+                ),
+                ui.layout_columns(
+                    ui.card(output_widget("plotly_a_instrument_type"),full_screen=True,),
+                    ui.card(output_widget("plotly_a_instrument_concept"),full_screen=True,),
+                    col_widths=[5,7],
+                    fillable=True,
+                    ),
+                ui.layout_columns(
+                    ui.card(output_widget("plotly_a_type_setting"),full_screen=True,),
+                    ui.card(output_widget("plotly_blank"),full_screen=True,),
+                    col_widths=[7,5],
+                    fillable=True,
+                    ),
+                ),#close nav_panel
             ui.nav_panel(
                 "Data about Canada"
             ),
@@ -107,7 +127,7 @@ app_ui = ui.page_navbar(
                 "Data about Nova Scotia"
             ),
             ui.nav_panel("Data about a something specific in NS"),
-
+        
         ),
     ),#close nav_panel
 
@@ -166,7 +186,7 @@ app_ui = ui.page_navbar(
     ui.head_content(ui.include_css("styles.css")),
     fillable=True,
     id="navbar",
-    title=ui.h1("Literacy Nova Scotia", style="color:teal"),
+    title=ui.h1("Literacy Nova Scotia",style=" background: linear-gradient(to right, #3f02d9, #b308f1);-webkit-background-clip: text;background-clip: text;color: transparent;"),
     window_title="Literacy Nova Scotia",
     footer="Authored by Poppy Riddle using Shiny Python from posit.co - copyright 2025",
     header=ui.input_dark_mode(style="align:right", mode="light"),
@@ -179,9 +199,10 @@ def server(input, output, session):
 #value in value_box on scoping data page
     @render.ui
     def doc_count():
-        df_doc_count = pd.read_excel("www/LNS_openalex_full_metadata.xlsx", sheet_name="Sheet2")
-        count = len(df_doc_count)
-        return f"{count}"
+        raw_data_stats_df = pd.read_csv("www/raw_data_stats.csv",encoding="UTF-8")
+        count = raw_data_stats_df.iloc[3,1]
+        articles = raw_data_stats_df.iloc[0,1]
+        return f"{count} Total\n{articles} Articles"
 
     @render.ui
     def avg_citation():
@@ -193,7 +214,7 @@ def server(input, output, session):
     def plotly_a_time():
         #a_time
         a_time_df = pd.read_csv("www/a_time.csv", encoding="utf-8")
-        fig = px.bar(a_time_df, x='year', y='Counts',color='year',color_continuous_scale=px.colors.sequential.Plotly3)
+        fig = px.bar(a_time_df, x='year', y='Counts',color='year',color_continuous_scale=px.colors.sequential.Plotly3_r)
         fig.update_layout(
             title="Literature published over time",
             xaxis_title="Year",
@@ -205,7 +226,7 @@ def server(input, output, session):
     @render_plotly
     def plotly_pop_size_instrument():
         pop_size_instrument_df = pd.read_csv("/Users/poppyriddle/Documents/Github/ShinyShiny/dashboard-LNS/www/pop_size_instrument.csv", encoding="UTF-8")
-
+        pop_size_instrument_df.fillna(inplace=True,value=0)
         fig = px.bar(pop_size_instrument_df,
                 y='Count of instrument_classified',
                 x=['Interview/focus group',
@@ -229,6 +250,7 @@ def server(input, output, session):
     @render_plotly
     def plotly_a_funder_concept():
         a_funder_concept_df = pd.read_csv("www/a_funder_concept.csv",encoding="UTF-8")
+        a_funder_concept_df.fillna(inplace=True,value=0)
         fig = px.bar(a_funder_concept_df,
             x='Concepts',
             y=['Academic institution/centre',
@@ -245,6 +267,117 @@ def server(input, output, session):
             yaxis_title="Counts",
             
             )
+        return fig
+
+# render plotly plotly_a_doc_type on scoping data page
+    @render_plotly
+    def plotly_a_doc_type():
+        a_doc_type_df = pd.read_csv("www/a_doc_type.csv", encoding="UTF-8")
+        fig = px.pie(a_doc_type_df, values='Count',
+            names='Document type',
+            color_discrete_sequence=px.colors.sequential.Plotly3,
+            hole=.4,
+            facet_col='Location',
+            title='Document types by geographic location')
+        return fig
+
+# render plotly plotly_indicator_concept on scoping data page
+    @render_plotly
+    def plotly_indicator_concept():
+        indicator_concept_df = pd.read_csv("www/indicator_concept.csv",encoding="UTF-8")
+        fig = px.bar(indicator_concept_df,
+            x='indicator',
+            y='count',
+            color='concept',
+            color_discrete_sequence=px.colors.sequential.Plotly3_r)
+        fig.update_layout(
+            title="Indicators and concepts",
+            xaxis_title="Indicator",
+            yaxis_title="Counts",
+        )
+        return fig
+
+# render ploty for plotly_a_instrument_type on scoping data page
+    @render_plotly
+    def plotly_a_instrument_type():
+        a_instrument_type_df = pd.read_csv("www/a_instrument_type.csv", encoding="UTF-8")
+        a_instrument_type_df.fillna(inplace=True,value=0)
+        fig = px.bar(a_instrument_type_df,
+            y='instrument',
+            x=['Interview/focus group',
+                    'Other',
+                    'Self-reported data',
+                    'Standardized assessment/tool',
+                    'Survey/questionnaire',
+                    'Test/task'],
+            color_discrete_sequence= px.colors.sequential.Plotly3_r,
+            orientation='h')
+        fig.update_layout(
+                        title="Count of instruments used by literacy type",
+                        xaxis_title="Count",
+                        yaxis_title="Literacy type",
+                        )
+        return fig
+
+# render plotly for plotly_a_instrument_concept on scoping data page
+    @render_plotly
+    def plotly_a_instrument_concept():
+        a_instrument_concept_df = pd.read_csv("www/a_instrument_concept.csv", encoding="UTF-8")
+        a_instrument_concept_df.fillna(inplace=True,value=0)
+        fig = px.bar(a_instrument_concept_df,
+                y='concept',
+                x=['Interview/focus group',
+                        'Other',
+                        'Self-reported data',
+                        'Standardized assessment/tool',
+                        'Survey/questionnaire',
+                        'Test/task'],
+                color_discrete_sequence= px.colors.sequential.Plotly3,
+                orientation='h')
+        fig.update_layout(
+                        title="Count of concepts and instruments",
+                        xaxis_title="Count",
+                        yaxis_title="Conceptualization",
+                        )
+        return fig
+
+# render plotly_a_type_setting on scoping data page
+    @render_plotly
+    def plotly_a_type_setting():
+        a_type_setting_df = pd.read_csv("www/a_type_setting.csv", encoding="UTF-8")
+        a_type_setting_df.fillna(inplace=True,value=0)
+        fig = px.bar(a_type_setting_df,
+                y='setting',
+                x=['Assessment', 'Cultural', 'Digital', 'Essential skills','Financial', 'Health', 'Ideological', 'Information', 'Language', 'Math','Media', 'Multiliteracy ', 'Physical', 'Scientific', 'Traditional'],
+                color_discrete_sequence= px.colors.sequential.Plotly3,
+                orientation='h')
+        fig.update_layout(
+                title="Data collection setting by literacy type",
+                xaxis_title="Count",
+                yaxis_title="Setting",
+                )
+        return fig
+
+# render plotly_a_funder_type() on scoping data page
+    @render_plotly
+    def plotly_a_funder_type():
+        a_funder_type_df = pd.read_csv("www/a_funder_type.csv", encoding="UTF-8")
+        a_funder_type_df.fillna(inplace=True,value=0)
+        fig = px.bar(a_funder_type_df,
+        y='Literacy',
+        x=['Academic institution/centre',
+                'Corporation',
+                'Government',
+                'International organization',
+                'No funding received or specified',
+                'Nonprofit'],
+        color_discrete_sequence= px.colors.sequential.Plotly3,
+        orientation='h')
+        fig.update_layout(
+                title="Funder by literacy type",
+                xaxis_title="Literacy type",
+                yaxis_title="Count of works",
+                )
         return fig
 
 # value box for total num authors - scoping data
@@ -281,26 +414,6 @@ def server(input, output, session):
         m.add(control)
         return m
 
-# render table for scoping data overview award_id
-    @render_plotly
-    def plotly_a_funder_type():
-        a_funder_type_df = pd.read_csv("www/a_funder_type.csv", encoding="UTF-8")
-        fig = px.bar(a_funder_type_df,
-        y='Literacy',
-        x=['Academic institution/centre',
-                'Corporation',
-                'Government',
-                'International organization',
-                'No funding received or specified',
-                'Nonprofit'],
-        color_discrete_sequence= px.colors.sequential.Plotly3,
-        orientation='h')
-        fig.update_layout(
-                title="Funder by literacy type",
-                xaxis_title="Literacy type",
-                yaxis_title="Count of works",
-                )
-        return fig
 
 
 # render search_results from search sidebar on Chat Interface page

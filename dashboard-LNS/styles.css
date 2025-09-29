@@ -12,13 +12,21 @@
 }
 
 /* new gradient style for h1 */
-.h1-style {
-  background: linear-gradient(to right, #0093E9, #90D0C7);
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
+.h1 {
+  background: linear-gradient(to right, #3f02d9, #b308f1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 
 }
+
+/* value box */
+.value-box {
+  background-color: #b308f1;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 /*search button*/
 .small-button {
   width: 100px; /*adjust as needed*/

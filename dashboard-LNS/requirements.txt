@@ -9,3 +9,6 @@ ipywidgets
 openpyxl
 bm25s
 networkx
+pywaffle
+seaborn
+matplotlib

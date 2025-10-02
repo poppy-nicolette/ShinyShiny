@@ -15,6 +15,10 @@ import functools
 import bm25s_func
 import create_plotly_figure as cpf
 from pathlib import Path
+import matplotlib
+import matplotlib.pyplot as plt
+from pywaffle import Waffle #https://pywaffle.readthedocs.io/en/latest/index.html
+
 
 # set css
 ui.include_css(Path(__file__).parent / "styles.css")
@@ -115,7 +119,7 @@ app_ui = ui.page_navbar(
                     ),
                 ui.layout_columns(
                     ui.card(output_widget("plotly_a_type_setting"),full_screen=True,),
-                    ui.card(output_widget("plotly_blank"),full_screen=True,),
+                    ui.card(output_widget("plotly_geo_distribution"),full_screen=True,),
                     col_widths=[7,5],
                     fillable=True,
                     ),
@@ -379,6 +383,19 @@ def server(input, output, session):
                 yaxis_title="Count of works",
                 )
         return fig
+
+# render plotly_geo_distribution on scoping data page
+    @render_widget
+    def plotly_geo_distribution():
+        geo_distribution_df = pd.read_csv("www/geo_distribution.csv", encoding="UTF-8")
+        fig = px.pie(geo_distribution_df, values='count',
+                    names='location',
+                    color_discrete_sequence=px.colors.sequential.Plotly3,
+                    hole=.4,
+                    #facet_col='location',
+                    title='Canadian works by location')
+        return fig
+        
 
 # value box for total num authors - scoping data
     @render.ui

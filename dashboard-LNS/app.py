@@ -129,6 +129,12 @@ app_ui = ui.page_navbar(
                     col_widths=[5,7],
                     fillable=True,
                 ),
+                ui.layout_columns(
+                    ui.card(output_widget("plotly_a_higher_level_type"),full_screen=True),
+                    ui.card(output_widget("blank"),full_screen=True),
+                    col_widths=[7,5],
+                    fillable=True,
+                ),
                 ),#close nav_panel
             ui.nav_panel(
                 "Data about Canada"
@@ -430,6 +436,24 @@ def server(input, output, session):
             title='Conceptualization of literacy in Canada vs globally')
         fig.update_xaxes(title="Percentage")
         fig.update_yaxes(title="Location")
+        return fig
+
+# render plotly_a_higher_level_type on scoping data page
+    @render_plotly
+    def plotly_a_higher_level_type():
+        a_higher_level_type_df = pd.read_csv("www/a_higher_level_type.csv", encoding="UTF-8")
+        fig = px.bar(a_higher_level_type_df,
+            x='literacy',
+            y='count',
+            color='literacy',
+            color_discrete_sequence=px.colors.sequential.Plotly3,
+            )
+        fig.update_layout(
+                    title="Count of higher level literacies",
+                    xaxis_title="Literacy type",
+                    yaxis_title="Count",
+                )
+        fig.update_layout(showlegend=False)
         return fig
 
 # value box for total num authors - scoping data

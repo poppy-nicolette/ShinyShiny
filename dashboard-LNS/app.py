@@ -123,6 +123,12 @@ app_ui = ui.page_navbar(
                     col_widths=[7,5],
                     fillable=True,
                     ),
+                ui.layout_columns(
+                    ui.card(output_widget("plotly_geo_concept"),full_screen=True),
+                    ui.card(output_widget("blank"),full_screen=True),
+                    col_widths=[5,7],
+                    fillable=True,
+                ),
                 ),#close nav_panel
             ui.nav_panel(
                 "Data about Canada"
@@ -229,7 +235,7 @@ def server(input, output, session):
 # render plotly_pop_size_instrument on scoping data page
     @render_plotly
     def plotly_pop_size_instrument():
-        pop_size_instrument_df = pd.read_csv("/Users/poppyriddle/Documents/Github/ShinyShiny/dashboard-LNS/www/pop_size_instrument.csv", encoding="UTF-8")
+        pop_size_instrument_df = pd.read_csv("www/pop_size_instrument.csv", encoding="UTF-8")
         pop_size_instrument_df.fillna(inplace=True,value=0)
         fig = px.bar(pop_size_instrument_df,
                 y='Count of instrument_classified',
@@ -385,7 +391,7 @@ def server(input, output, session):
         return fig
 
 # render plotly_geo_distribution on scoping data page
-    @render_widget
+    @render_plotly
     def plotly_geo_distribution():
         geo_distribution_df = pd.read_csv("www/geo_distribution.csv", encoding="UTF-8")
         fig = px.pie(geo_distribution_df, values='count',
@@ -396,6 +402,20 @@ def server(input, output, session):
                     title='Canadian works by location')
         return fig
         
+# render plotly_geo_concept on scoping data page
+    @render_plotly
+    def plotly_geo_concept():
+        geo_concept_df = pd.read_csv("www/geo_concept.csv", encoding="UTF-8")
+        geo_concept_df.fillna(inplace=True,value=0)
+        fig = px.bar(geo_concept_df,
+            x=["Mixed%","Practices%","Skills%"], y="location",
+            orientation='h',
+             #height=400,
+            color_discrete_sequence=px.colors.sequential.Agsunset,
+            title='Conceptualization of literacy by geographic context')
+        fig.update_xaxes(title="Percentage")
+        fig.update_yaxes(title="Location")
+        return fig
 
 # value box for total num authors - scoping data
     @render.ui

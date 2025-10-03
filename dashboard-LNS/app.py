@@ -2,6 +2,7 @@
 
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from shinywidgets import output_widget, render_widget, render_plotly
 import pandas as pd
 import numpy as np
@@ -15,9 +16,6 @@ import functools
 import bm25s_func
 import create_plotly_figure as cpf
 from pathlib import Path
-import matplotlib
-import matplotlib.pyplot as plt
-from pywaffle import Waffle #https://pywaffle.readthedocs.io/en/latest/index.html
 
 
 # set css
@@ -126,13 +124,13 @@ app_ui = ui.page_navbar(
                 ui.layout_columns(
                     ui.card(output_widget("plotly_geo_concept"),full_screen=True),
                     ui.card(output_widget("plotly_geo_concept_global"),full_screen=True),
-                    col_widths=[5,7],
+                    col_widths=[7,5],
                     fillable=True,
                 ),
                 ui.layout_columns(
                     ui.card(output_widget("plotly_a_higher_level_type"),full_screen=True),
-                    ui.card(output_widget("blank"),full_screen=True),
-                    col_widths=[7,5],
+                    ui.card(output_widget("plotly_a_definitions_concepts"),full_screen=True),
+                    col_widths=[5,7],
                     fillable=True,
                 ),
                 ),#close nav_panel
@@ -455,6 +453,41 @@ def server(input, output, session):
                 )
         fig.update_layout(showlegend=False)
         return fig
+
+# render plotly_a_definitions_concepts on scoping data page
+    @render_plotly
+    def plotly_a_definitions_concepts():
+        a_definitions_concepts_df = pd.read_csv("www/a_definitions_concepts.csv", encoding="UTF-8")
+        a_definitions_concepts_df.fillna(inplace=True,value=0)
+        labels = a_definitions_concepts_df['literacy types']
+        values1 = a_definitions_concepts_df['Skills (n=156)']
+        values2 = a_definitions_concepts_df['Practices (n=9)']
+        values3 = a_definitions_concepts_df['Mixed (n=66)']
+        colors = ['gold', 'mediumturquoise', 'darkorange', 'lightgreen', 'aqua', 'chartreuse', 'coral', 'cornflower','darkmagenta','deeppink','deepskyblue','fuchsia','darkviolet','goldenrod','lawngreen']
+        #create figures
+        fig = make_subplots(rows=1, cols=3, specs=[[{'type':'domain'}, {'type':'domain'}, {'type':'domain'}]])
+        fig.add_trace(go.Pie(labels=labels, values=values1, name="Skills",marker_colors=colors),1, 1)
+        fig.add_trace(go.Pie(labels=labels, values=values2, name="Practices",marker_colors=colors),1, 2)
+        fig.add_trace(go.Pie(labels=labels, values=values3, name="Mixed",marker_colors=colors),1, 3)
+
+        # Use `hole` to create a donut-like pie chart
+        fig.update_traces(hole=.4, hoverinfo="label+percent+name")
+
+        fig.update_layout(
+            title_text="Conceptualizations by literacy type",
+            # Add annotations in the center of the donut pies.
+            annotations=[dict(text='Skills', x=sum(fig.get_subplot(1, 1).x) / 2, y=0.5,
+                            font_size=12, showarrow=False, xanchor="center"),
+                        dict(text='Practices', x=sum(fig.get_subplot(1, 2).x) / 2, y=0.5,
+                            font_size=12, showarrow=False, xanchor="center"),
+                        dict(text='Mixed', x=sum(fig.get_subplot(1, 3).x) / 2, y=0.5,
+                            font_size=12, showarrow=False, xanchor="center"),
+                            ])
+        fig.update_traces(textposition='inside')
+        fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
+
+        return fig
+
 
 # value box for total num authors - scoping data
     @render.ui

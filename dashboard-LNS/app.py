@@ -125,7 +125,7 @@ app_ui = ui.page_navbar(
                     ),
                 ui.layout_columns(
                     ui.card(output_widget("plotly_geo_concept"),full_screen=True),
-                    ui.card(output_widget("blank"),full_screen=True),
+                    ui.card(output_widget("plotly_geo_concept_global"),full_screen=True),
                     col_widths=[5,7],
                     fillable=True,
                 ),
@@ -413,6 +413,21 @@ def server(input, output, session):
              #height=400,
             color_discrete_sequence=px.colors.sequential.Agsunset,
             title='Conceptualization of literacy by geographic context')
+        fig.update_xaxes(title="Percentage")
+        fig.update_yaxes(title="Location")
+        return fig
+
+# render plotly_geo_concept_global on scoping data page
+    @render_plotly
+    def plotly_geo_concept_global():
+        geo_concept_global_df = pd.read_csv("www/geo_concept_global.csv", encoding="UTF-8")
+        geo_concept_global_df.fillna(inplace=True,value=0)
+        fig = px.bar(geo_concept_global_df,
+            x=["Mixed%","Practices%","Skills%"], y="location",
+            orientation='h',
+             #height=400,
+            color_discrete_sequence=px.colors.sequential.Agsunset_r,
+            title='Conceptualization of literacy in Canada vs globally')
         fig.update_xaxes(title="Percentage")
         fig.update_yaxes(title="Location")
         return fig

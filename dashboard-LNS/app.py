@@ -134,13 +134,21 @@ app_ui = ui.page_navbar(
                     fillable=True,
                 ),
                 ),#close nav_panel
-            ui.nav_panel(
-                "Data about Canada"
+            ui.nav_panel("Textual data",
+                    ui.layout_columns(
+                    ui.card(output_widget("textual_1"),full_screen=True),
+                    ui.card(output_widget("textual_2"),full_screen=True),
+                    col_widths=[5,7],
+                    fillable=True,
+                ),
             ),
             ui.nav_panel(
-                "Data about Nova Scotia"
+                "Data about Canada",
             ),
-            ui.nav_panel("Data about a something specific in NS"),
+            ui.nav_panel(
+                "Data about Nova Scotia",
+            ),
+
         
         ),
     ),#close nav_panel
@@ -185,15 +193,6 @@ app_ui = ui.page_navbar(
                 ),
             ),
             col_widths=[5, 7]
-        ),
-    ),
-
-#Documentation Tab
-    ui.nav_panel(
-        "Documentation",
-        ui.layout_columns(
-            ui.output_image("process_diagram"),
-            col_widths=[12]
         ),
     ),
 
@@ -553,15 +552,5 @@ def server(input, output, session):
         )
 
 
-# DOCUMENTATION PAGE
-    @render.image
-    def process_diagram():
-        img = {"src": "www/Process_Diagram.svg", "width": "100%"}
-        return img
-
-    @render.image
-    def next_phase_development():
-        img = {"src": "www/next_phase_development.svg", "width": "60%"}
-        return img
 
 app = App(app_ui, server)

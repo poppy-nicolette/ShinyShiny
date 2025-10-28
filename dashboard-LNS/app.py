@@ -104,7 +104,7 @@ app_ui = ui.page_navbar(
                     col_widths=[5, 7],
                 ),
                 ui.layout_columns(
-                    ui.card(output_widget("plotly_a_doc_type"),full_screen=True,),
+                    ui.card(output_widget("plotly_a_type_setting"),full_screen=True,),
                     ui.card(output_widget("plotly_indicator_concept"),full_screen=True,),
                     col_widths=[7,5],
                     fillable=True,
@@ -116,7 +116,7 @@ app_ui = ui.page_navbar(
                     fillable=True,
                     ),
                 ui.layout_columns(
-                    ui.card(output_widget("plotly_a_type_setting"),full_screen=True,),
+                    ui.card(output_widget("plotly_a_doc_type"),full_screen=True,),
                     ui.card(output_widget("plotly_geo_distribution"),full_screen=True,),
                     col_widths=[7,5],
                     fillable=True,
@@ -136,9 +136,11 @@ app_ui = ui.page_navbar(
                 ),#close nav_panel
             ui.nav_panel("Textual data",
                     ui.layout_columns(
-                    ui.card(output_widget("textual_1"),full_screen=True),
-                    ui.card(output_widget("textual_2"),full_screen=True),
-                    col_widths=[5,7],
+                    ui.card(
+                        ui.p("This table shows the key findings from the scoping review. Use the search bar at the top of each column to refine contents."),
+                        ui.output_data_frame("key_findings_table"),
+                        full_screen=True,fill=True),
+                    col_widths=[12],
                     fillable=True,
                 ),
             ),
@@ -275,8 +277,8 @@ def server(input, output, session):
             color_discrete_sequence=px.colors.sequential.Plotly3,
             )
         fig.update_layout(
-            title="Literature published over time",
-            xaxis_title="Year",
+            title="Counts of funding by concept",
+            xaxis_title="Concept",
             yaxis_title="Counts",
             
             )
@@ -521,6 +523,22 @@ def server(input, output, session):
         control = LayersControl(position="topright")
         m.add(control)
         return m
+
+# render table for textual data: number: rows and table:key_findings_table
+    @render.data_frame
+    def key_findings_table():
+        key_findings_df = pd.read_csv("www/key_findings.csv", encoding="utf-8")
+        return render.DataTable(key_findings_df,
+                selection_mode="rows",
+                width="100%",
+                filters=True,
+                styles=[
+                    {
+                        "cols":[2],
+                        "style":{"width":"70%"},
+                    },
+                ]
+                )
 
 
 
